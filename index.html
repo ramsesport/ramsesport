@@ -1,0 +1,1759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Ramsesport Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#0a0c10;--surface:#111318;--surface2:#181c24;--border:#1e2330;
+    --gold:#c9a84c;--gold-dim:#7d6630;--gold-glow:rgba(201,168,76,0.12);
+    --green:#4ade80;--green-dim:#166534;--red:#f87171;--red-dim:#7f1d1d;
+    --blue:#60a5fa;--blue-dim:#1e3a5f;--purple:#c084fc;
+    --muted:#4a5568;--text:#e2e8f0;--text-dim:#718096;--text-bright:#f7fafc;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;max-width:420px;margin:0 auto;padding-bottom:40px;font-size:16px}
+
+  /* HEADER */
+  .header{background:linear-gradient(160deg,#0f1219,#131720);border-bottom:1px solid var(--border);padding:16px 16px 12px;position:sticky;top:0;z-index:100}
+  .header-top{display:flex;justify-content:space-between;align-items:flex-start}
+  .logo{font-family:'DM Serif Display',serif;font-size:30px;color:var(--gold);letter-spacing:-.5px}
+  .logo span{color:var(--text-dim);font-size:13px;font-family:'DM Mono',monospace;display:block;margin-top:2px}
+  .updated{font-family:'DM Mono',monospace;font-size:12px;color:var(--text-dim);text-align:right;line-height:1.7}
+  .updated b{color:var(--gold);display:block;font-size:14px}
+
+  /* HERO */
+  .hero{background:linear-gradient(135deg,#0f1420,#121824,#0e1318);border-bottom:1px solid var(--border);padding:22px 16px 18px;position:relative;overflow:hidden}
+  .hero::before{content:'';position:absolute;top:-60px;right:-60px;width:180px;height:180px;background:radial-gradient(circle,rgba(201,168,76,.08),transparent 70%);border-radius:50%}
+  .hero-label{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px}
+  .hero-value{font-family:'DM Serif Display',serif;font-size:48px;color:var(--text-bright);letter-spacing:-1px;line-height:1;margin-bottom:5px}
+  .hero-value span{color:var(--gold);font-size:26px;vertical-align:top;margin-top:10px;display:inline-block}
+  .hero-sub{font-size:13px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:18px}
+  .hero-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+  .hero-pill{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 6px;text-align:center}
+  .hero-pill .val{font-family:'DM Mono',monospace;font-size:16px;font-weight:500;color:var(--text-bright);display:block}
+  .hero-pill .lbl{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.8px;margin-top:3px;display:block}
+
+  /* TABS */
+  .tab-bar{display:flex;gap:5px;padding:10px 16px 0;overflow-x:auto;scrollbar-width:none;background:var(--bg)}
+  .tab-bar::-webkit-scrollbar{display:none}
+  .tab{flex-shrink:0;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;padding:7px 11px;border-radius:7px;border:1px solid var(--border);color:var(--text-dim);background:var(--surface);cursor:pointer;transition:all .15s}
+  .tab.active{border-color:var(--gold-dim);color:var(--gold);background:var(--gold-glow)}
+  .tab-content{display:none}
+  .tab-content.active{display:block}
+
+  /* SECTION */
+  .section{padding:16px 16px;border-bottom:1px solid var(--border)}
+  .section-title{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold-dim);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+
+  /* CARD */
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:15px;margin-bottom:9px}
+  .card:last-child{margin-bottom:0}
+
+  /* INCOME */
+  .progress-track{width:100%;height:7px;background:var(--surface2);border-radius:99px;overflow:hidden;margin:6px 0 4px}
+  .progress-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold-dim),var(--gold))}
+  .income-source-row{display:flex;justify-content:space-between;align-items:center;padding:11px 13px;background:var(--surface2);border-radius:9px;margin-bottom:6px}
+  .income-source-row:last-child{margin-bottom:0}
+  .source-name{font-size:15px;color:var(--text)}
+  .source-type{font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-top:2px}
+  .source-income{font-family:'DM Mono',monospace;font-size:15px;color:var(--green);flex-shrink:0;margin-left:8px}
+
+  /* HOLDINGS */
+  .acct-header{background:var(--surface2);border-radius:9px;padding:11px 13px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+  .acct-name{font-family:'DM Mono',monospace;font-size:12px;color:var(--gold);letter-spacing:1px}
+  .acct-total{font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright)}
+  .acct-yield{font-size:11px;color:var(--green);font-family:'DM Mono',monospace}
+  .holdings-header{display:grid;grid-template-columns:2.2fr .9fr 1fr .9fr;gap:3px;padding:0 3px 7px;border-bottom:1px solid var(--border);margin-bottom:5px}
+  .holdings-header span{font-family:'DM Mono',monospace;font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.8px}
+  .holdings-header span:not(:first-child){text-align:right}
+  .holding-row{display:grid;grid-template-columns:2.2fr .9fr 1fr .9fr;gap:3px;padding:9px 3px;border-bottom:1px solid rgba(30,35,48,.5);align-items:center}
+  .holding-row:last-child{border-bottom:none}
+  .h-ticker{font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);font-weight:500}
+  .h-name{font-size:10px;color:var(--text-dim);margin-top:1px;line-height:1.2}
+  .h-val{font-family:'DM Mono',monospace;font-size:12px;color:var(--text);text-align:right}
+  .h-yield{font-family:'DM Mono',monospace;font-size:12px;color:var(--green);text-align:right}
+  .h-income{font-family:'DM Mono',monospace;font-size:12px;color:var(--gold);text-align:right}
+  .h-tag{display:inline-block;font-size:9px;padding:2px 5px;border-radius:3px;font-family:'DM Mono',monospace;margin-top:2px}
+  .tag-ucits{background:rgba(96,165,250,.15);color:var(--blue)}
+  .tag-sg{background:rgba(74,222,128,.12);color:var(--green)}
+  .tag-us{background:rgba(201,168,76,.12);color:var(--gold)}
+  .tag-reit{background:rgba(192,132,252,.12);color:var(--purple)}
+  .tag-gbp{background:rgba(248,113,113,.12);color:var(--red)}
+  .tag-warn{background:rgba(248,113,113,.15);color:var(--red)}
+
+  /* CPF */
+  .cpf-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .cpf-item{background:var(--surface2);border:1px solid var(--border);border-radius:11px;padding:15px}
+  .cpf-item.full{grid-column:1/-1;background:linear-gradient(135deg,#141a20,#111520);border-color:var(--gold-dim)}
+  .cpf-label{font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+  .cpf-value{font-family:'DM Mono',monospace;font-size:20px;color:var(--text-bright);font-weight:500}
+  .cpf-item.full .cpf-value{font-size:26px;color:var(--gold)}
+  .cpf-note{font-size:11px;color:var(--text-dim);margin-top:3px}
+
+  /* INSURANCE */
+  .ins-row{display:flex;justify-content:space-between;align-items:flex-start;padding:11px 0;border-bottom:1px solid rgba(30,35,48,.6)}
+  .ins-row:last-child{border-bottom:none}
+  .ins-name{font-size:14px;color:var(--text);margin-bottom:2px}
+  .ins-meta{font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace}
+  .ins-val{font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);text-align:right;flex-shrink:0;margin-left:8px}
+  .ins-val span{display:block;font-size:11px;color:var(--text-dim)}
+
+  /* DEPLOY */
+  .dp-item{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-radius:11px;border:1px solid var(--border);margin-bottom:8px}
+  .dp-item.deployable{background:rgba(201,168,76,.06);border-color:var(--gold-dim)}
+  .dp-item.reserve{background:rgba(248,113,113,.05);border-color:var(--red-dim)}
+  .dp-label{font-size:15px;color:var(--text-dim)}
+  .dp-label b{display:block;font-size:11px;color:var(--text-dim);font-weight:normal;margin-top:2px;font-family:'DM Mono',monospace}
+  .dp-amount{font-family:'DM Mono',monospace;font-size:20px;font-weight:500}
+  .dp-item.deployable .dp-amount{color:var(--gold)}
+  .dp-item.reserve .dp-amount{color:var(--red)}
+  .tranche{padding:9px 10px;background:var(--surface2);border-radius:10px;margin-bottom:6px;border:1px solid var(--border)}
+  .tranche-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+  .tranche-title{font-family:'DM Mono',monospace;font-size:10px;color:var(--text-bright)}
+  .tranche-status{font-size:8px;padding:2px 6px;border-radius:4px;font-family:'DM Mono',monospace}
+  .status-active{background:rgba(74,222,128,.15);color:var(--green)}
+  .status-waiting{background:rgba(201,168,76,.12);color:var(--gold)}
+  .status-standby{background:rgba(74,85,104,.3);color:var(--text-dim)}
+  .tranche-items{font-size:14px;color:var(--text-dim);line-height:2}
+  .tranche-items span{color:var(--text)}
+
+  /* SHARE CARD */
+  .share-section{padding:14px 16px}
+  .share-card{background:linear-gradient(135deg,#0f1520,#141c2a);border:1px solid var(--gold-dim);border-radius:14px;padding:18px;text-align:center;position:relative;overflow:hidden}
+  .share-card::before{content:'';position:absolute;top:-40px;left:-40px;width:120px;height:120px;background:radial-gradient(circle,rgba(201,168,76,.1),transparent 70%)}
+  .share-title{font-family:'DM Serif Display',serif;font-size:15px;color:var(--gold);letter-spacing:1px;margin-bottom:14px;text-transform:uppercase}
+  .share-metrics{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
+  .share-metric .val{font-family:'DM Mono',monospace;font-size:19px;color:var(--text-bright);font-weight:500}
+  .share-metric .lbl{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+  .share-btn{background:linear-gradient(135deg,var(--gold-dim),var(--gold));color:#0a0c10;border:none;border-radius:9px;padding:13px 20px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;width:100%;position:relative;z-index:1}
+
+  /* SNAPSHOT */
+  #snapshot-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.87);z-index:200;align-items:center;justify-content:center;padding:20px}
+  #snapshot-overlay.show{display:flex}
+  #snapshot-card{background:#fff;border-radius:18px;padding:24px 20px;width:100%;max-width:340px;text-align:center;color:#1a202c}
+  .snap-logo{font-family:'DM Serif Display',serif;font-size:20px;color:#b7893f;margin-bottom:3px}
+  .snap-date{font-family:'DM Mono',monospace;font-size:11px;color:#718096;margin-bottom:18px}
+  .snap-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+  .snap-box{background:#f7f8fa;border-radius:11px;padding:13px 8px}
+  .snap-box .sv{font-family:'DM Mono',monospace;font-size:17px;font-weight:600;color:#1a202c}
+  .snap-box .sl{font-size:10px;color:#718096;text-transform:uppercase;letter-spacing:1px;margin-top:3px}
+  .snap-footer{font-family:'DM Mono',monospace;font-size:10px;color:#a0aec0;margin-top:10px}
+  .snap-close{margin-top:16px;padding:10px 20px;background:#1a202c;color:#fff;border:none;border-radius:9px;font-size:14px;cursor:pointer;font-family:'DM Sans',sans-serif}
+
+  /* misc */
+  .mono{font-family:'DM Mono',monospace}
+  .row-kv{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(30,35,48,.5)}
+  .row-kv:last-child{border-bottom:none}
+  .row-kv .k{font-size:14px;color:var(--text-dim)}
+  .row-kv .v{font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright)}
+  .row-kv .v.green{color:var(--green)}
+  .row-kv .v.gold{color:var(--gold)}
+  .row-kv .v.red{color:var(--red)}
+  .badge{display:inline-block;font-size:10px;padding:3px 7px;border-radius:4px;font-family:'DM Mono',monospace;margin-left:5px;vertical-align:middle}
+  .badge-green{background:rgba(74,222,128,.12);color:var(--green)}
+  .badge-red{background:rgba(248,113,113,.15);color:var(--red)}
+  .badge-gold{background:rgba(201,168,76,.12);color:var(--gold)}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .section,.hero{animation:fadeUp .35s ease both}
+</style>
+</head>
+<body>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PIN LOCK — change CORRECT_PIN in the <script> below
+     ═══════════════════════════════════════════════════════════════ -->
+<div id="pin-overlay" style="
+  position:fixed;inset:0;z-index:9999;
+  background:#0a0c10;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:'DM Sans',sans-serif;">
+
+  <div style="text-align:center;margin-bottom:32px">
+    <div style="font-family:'DM Serif Display',serif;font-size:28px;color:#c9a84c;letter-spacing:-0.5px">Ramsesport</div>
+    <div style="font-family:'DM Mono',monospace;font-size:11px;color:#4a5568;letter-spacing:2px;text-transform:uppercase;margin-top:4px"></div>
+  </div>
+
+  <!-- PIN dots -->
+  <div id="pin-dots" style="display:flex;gap:14px;margin-bottom:28px">
+    <div class="pdot" style="width:14px;height:14px;border-radius:50%;border:2px solid #4a5568;background:transparent;transition:background .15s"></div>
+    <div class="pdot" style="width:14px;height:14px;border-radius:50%;border:2px solid #4a5568;background:transparent;transition:background .15s"></div>
+    <div class="pdot" style="width:14px;height:14px;border-radius:50%;border:2px solid #4a5568;background:transparent;transition:background .15s"></div>
+    <div class="pdot" style="width:14px;height:14px;border-radius:50%;border:2px solid #4a5568;background:transparent;transition:background .15s"></div>
+    <div class="pdot" style="width:14px;height:14px;border-radius:50%;border:2px solid #4a5568;background:transparent;transition:background .15s"></div>
+    <div class="pdot" style="width:14px;height:14px;border-radius:50%;border:2px solid #4a5568;background:transparent;transition:background .15s"></div>
+  </div>
+
+  <!-- Error message -->
+  <div id="pin-error" style="height:18px;font-family:'DM Mono',monospace;font-size:11px;color:#f87171;margin-bottom:24px;letter-spacing:1px"></div>
+
+  <!-- Keypad -->
+  <div style="display:grid;grid-template-columns:repeat(3,72px);gap:12px">
+    <button class="pkey" onclick="pinPress('1')">1</button>
+    <button class="pkey" onclick="pinPress('2')">2</button>
+    <button class="pkey" onclick="pinPress('3')">3</button>
+    <button class="pkey" onclick="pinPress('4')">4</button>
+    <button class="pkey" onclick="pinPress('5')">5</button>
+    <button class="pkey" onclick="pinPress('6')">6</button>
+    <button class="pkey" onclick="pinPress('7')">7</button>
+    <button class="pkey" onclick="pinPress('8')">8</button>
+    <button class="pkey" onclick="pinPress('9')">9</button>
+    <div></div>
+    <button class="pkey" onclick="pinPress('0')">0</button>
+    <button class="pkey pkey-del" onclick="pinDel()">⌫</button>
+  </div>
+
+  <div style="margin-top:36px;font-family:'DM Mono',monospace;font-size:9px;color:#2d3748;letter-spacing:1px">PRIVATE · SECURED</div>
+</div>
+
+<style>
+  .pkey {
+    width:72px;height:72px;border-radius:50%;border:1px solid #1e2330;
+    background:#111318;color:#e2e8f0;font-size:22px;font-family:'DM Mono',monospace;
+    cursor:pointer;-webkit-tap-highlight-color:transparent;
+    transition:background .1s,transform .1s;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .pkey:active { background:#1e2330;transform:scale(.93); }
+  .pkey-del { font-size:18px;color:#718096; }
+  @keyframes pinShake {
+    0%,100%{transform:translateX(0)}
+    20%{transform:translateX(-10px)}
+    40%{transform:translateX(10px)}
+    60%{transform:translateX(-8px)}
+    80%{transform:translateX(8px)}
+  }
+  .pin-shake { animation:pinShake .4s ease; }
+</style>
+
+<script>
+// ════════════════════════════════════════════════
+//  CHANGE YOUR PIN HERE (must be 6 digits)
+const CORRECT_PIN = '010667';
+// ════════════════════════════════════════════════
+
+let pinEntered = '';
+
+// Skip PIN if already unlocked this session
+if (sessionStorage.getItem('yh_unlocked') === '1') {
+  document.getElementById('pin-overlay').style.display = 'none';
+}
+
+function updateDots() {
+  const dots = document.querySelectorAll('.pdot');
+  dots.forEach((d,i) => {
+    d.style.background = i < pinEntered.length ? '#c9a84c' : 'transparent';
+    d.style.borderColor = i < pinEntered.length ? '#c9a84c' : '#4a5568';
+  });
+}
+
+function pinPress(digit) {
+  if (pinEntered.length >= 6) return;
+  pinEntered += digit;
+  updateDots();
+  document.getElementById('pin-error').textContent = '';
+  if (pinEntered.length === 6) setTimeout(checkPin, 120);
+}
+
+function pinDel() {
+  pinEntered = pinEntered.slice(0,-1);
+  updateDots();
+}
+
+function checkPin() {
+  if (pinEntered === CORRECT_PIN) {
+    sessionStorage.setItem('yh_unlocked','1');
+    const ov = document.getElementById('pin-overlay');
+    ov.style.transition = 'opacity .3s';
+    ov.style.opacity = '0';
+    setTimeout(()=>{ ov.style.display='none'; },300);
+  } else {
+    const dots = document.getElementById('pin-dots');
+    dots.classList.add('pin-shake');
+    setTimeout(()=>dots.classList.remove('pin-shake'),400);
+    document.getElementById('pin-error').textContent = 'INCORRECT PIN';
+    pinEntered = '';
+    updateDots();
+  }
+}
+</script>
+
+<div class="header">
+  <div class="header-top">
+    <div class="logo">Ramsesport<span></span></div>
+    <div class="updated"><b id="live-date">--</b><span id="live-time" style="font-size:11px;color:var(--text-dim)"></span></div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">Investment Portfolio — Total Value</div>
+  <div class="hero-value"><span>SGD </span><span id="hero-portfolio-val">1,568,967</span></div>
+  <div class="hero-sub">Invested SGD 1,223,775 · Profit +SGD 490,835 (+40.1%) · IRR 22.03%</div>
+  <div class="hero-grid">
+    <div class="hero-pill"><span class="val" id="hero-passive">7,833</span><span class="lbl">Passive Inc/mo</span></div>
+    <div class="hero-pill"><span class="val">6.0%</span><span class="lbl">Yield (cost)</span></div>
+    <div class="hero-pill"><span class="val" id="hero-updated">--</span><span class="lbl">Prices updated</span></div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tab-bar" id="tabs">
+  <div class="tab active" onclick="showTab('income',this)">Total Income</div>
+  <div class="tab" onclick="showTab('cdp1',this)">Cash SGD</div>
+  <div class="tab" onclick="showTab('gbp',this)">Cash GBP</div>
+  <div class="tab" onclick="showTab('cdp2',this)">SRS</div>
+  <div class="tab" onclick="showTab('srs',this)">CPFIS</div>
+  <div class="tab" onclick="showTab('fsm',this)">Cash FSM</div>
+  <div class="tab" onclick="showTab('growth',this)">Growth</div>
+  <div class="tab" onclick="showTab('trends',this)">Trends</div>
+  <div class="tab" onclick="showTab('buylines',this)">Buy Lines</div>
+  <div class="tab" onclick="showTab('cpf',this)">CPF</div>
+  <div class="tab" onclick="showTab('insurance',this)">Insurance</div>
+  <div class="tab" onclick="showTab('deploy',this)">Deploy</div>
+</div>
+
+<!-- TAB: INCOME -->
+<div id="tab-income" class="tab-content active">
+  <div class="section">
+    <div class="section-title">Passive Investment Income</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+      <span style="font-size:12px;color:var(--text-dim)">Monthly Passive Income</span>
+      <span class="mono" style="font-size:16px;color:var(--text-bright)">SGD <span id="inc-monthly">7,833</span></span>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+      <span style="font-size:11px;color:var(--text-dim)">Annual Passive Income</span>
+      <span class="mono" style="font-size:12px;color:var(--gold)">SGD <span id="inc-annual">93,995</span></span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" style="width:39.2%"></div></div>
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <span style="font-size:9px;color:var(--text-dim);font-family:'DM Mono',monospace">TARGET: SGD 20,000/mo passive</span>
+      <span class="mono" style="font-size:10px;color:var(--gold)">39.2%</span>
+    </div>
+    <div class="card" style="margin-top:10px;background:rgba(201,168,76,.05);border-color:var(--gold-dim)">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-bottom:6px;letter-spacing:1px">SNOWBALL ANALYTICS — Total Net Worth (Income &amp; Growth)</div>
+      <div class="row-kv"><span class="k">Portfolio value</span><span class="v">SGD 1,568,967</span></div>
+      <div class="row-kv"><span class="k">Amount invested</span><span class="v">SGD 1,223,775</span></div>
+      <div class="row-kv"><span class="k">Total profit</span><span class="v green">+SGD 490,835 (+40.1%)</span></div>
+      <div class="row-kv"><span class="k">IRR (all-time)</span><span class="v green">22.03% (prior snapshot)</span></div>
+      <div class="row-kv"><span class="k">IRR (current holdings)</span><span class="v green">18.38%</span></div>
+      <div class="row-kv"><span class="k">Passive income yield</span><span class="v green">6.0%</span></div>
+      <div class="row-kv"><span class="k">Annual passive income</span><span class="v gold">SGD 93,995</span></div>
+    </div>
+  </div>
+
+  <!-- LIVE PRICES — ALL HOLDINGS -->
+  <div class="section">
+    <div class="section-title">Live Prices — All Holdings <span id="price-status" style="font-size:9px;color:var(--text-dim);margin-left:4px;font-family:'DM Mono',monospace;letter-spacing:0">fetching…</span></div>
+    <div id="live-prices-grid"></div>
+    <div style="margin-top:8px;font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);text-align:right">
+      Yahoo Finance (exchange) · Morningstar (funds) · auto-refresh 5 min · <span id="price-time">--</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Passive Income by Account</div>
+    <div class="income-source-row">
+      <div><div class="source-name">Cash SGD</div><div class="source-type">14 holdings · DBS, OCBC, NetLink, FCT…</div></div>
+      <div class="source-income">~6,979</div>
+    </div>
+    <div class="income-source-row">
+      <div><div class="source-name">Cash GBP</div><div class="source-type">TFIF, HSBA, ICG, HFEL, MNG, LGEN</div></div>
+      <div class="source-income">~3,052</div>
+    </div>
+    <div class="income-source-row">
+      <div><div class="source-name">SRS</div><div class="source-type">18 holdings · Singtel, NetLink, DBS, OCBC…</div></div>
+      <div class="source-income">~7,259</div>
+    </div>
+    <div class="income-source-row">
+      <div><div class="source-name">CPFIS</div><div class="source-type">11 holdings · Keppel DC, DBS, OCBC…</div></div>
+      <div class="source-income">~7,368</div>
+    </div>
+    <div class="income-source-row">
+      <div><div class="source-name">Cash FSM</div><div class="source-type">PHP, JEPG, PIMCO, ADX, JEPQ, WINC</div></div>
+      <div class="source-income">~2,695</div>
+    </div>
+    <div class="income-source-row">
+      <div><div class="source-name">Growth</div><div class="source-type">NVDA · MSFT — capital appreciation</div></div>
+      <div class="source-income">~33</div>
+    </div>
+    <div style="text-align:right;font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);margin-top:6px">
+      * Per-account figures from Snowball next-payment fields · Snowball total = SGD 93,995/yr
+    </div>
+  </div>
+</div>
+
+<!-- TAB: INC SGD -->
+<div id="tab-cdp1" class="tab-content">
+  <div class="section">
+    <div class="acct-header">
+      <div><div class="acct-name">Cash SGD — CDP</div><div class="acct-yield">Yield 6.86% (cost) · 5.31% (mkt)</div></div>
+      <div class="acct-total">376,630</div>
+    </div>
+    <div class="holdings-header"><span>Holding</span><span>Value</span><span>Yield</span><span>Next Div</span></div>
+
+    <div class="holding-row">
+      <div><div class="h-ticker">OXMU</div><div class="h-name">Prime US REIT</div><div><span class="h-tag tag-reit">REIT</span><span class="h-tag tag-warn" style="margin-left:2px">⚠ DO NOT ADD</span></div></div>
+      <div class="h-val">15</div><div class="h-yield" style="color:var(--red)">0.56%</div><div class="h-income">0.09</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">OV8</div><div class="h-name">Sheng Siong Group</div><div><span class="h-tag tag-sg">SGX</span></div></div>
+      <div class="h-val">7,320</div><div class="h-yield">2.3%</div><div class="h-income">91.20</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">ME8U</div><div class="h-name">Mapletree Industrial</div><div><span class="h-tag tag-reit">REIT</span></div></div>
+      <div class="h-val">9,700</div><div class="h-yield">6.55%</div><div class="h-income">154.50</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">P8Z</div><div class="h-name">Bumitama Agri</div><div><span class="h-tag tag-sg">SGX</span></div></div>
+      <div class="h-val">15,500</div><div class="h-yield">4.15%</div><div class="h-income">322</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">C2PU</div><div class="h-name">ParkwayLife REIT</div><div><span class="h-tag tag-reit">REIT</span></div></div>
+      <div class="h-val">18,045</div><div class="h-yield">3.81%</div><div class="h-income">343.80</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">DCRU</div><div class="h-name">Digital Core REIT</div><div><span class="h-tag tag-reit">REIT</span></div></div>
+      <div class="h-val">9,382</div><div class="h-yield">7.35%</div><div class="h-income">344.63</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">C52</div><div class="h-name">ComfortDelGro</div><div><span class="h-tag tag-sg">SGX</span></div></div>
+      <div class="h-val">14,061</div><div class="h-yield">6.07%</div><div class="h-income">500.31</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">MXNU</div><div class="h-name">Elite Commercial REIT</div><div><span class="h-tag tag-reit">REIT</span></div></div>
+      <div class="h-val">11,675</div><div class="h-yield">8.88%</div><div class="h-income">487.62</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">9A4U</div><div class="h-name">ESR-REIT</div><div><span class="h-tag tag-reit">REIT</span></div></div>
+      <div class="h-val">12,424</div><div class="h-yield">9.21%</div><div class="h-income">586.68</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">J69U</div><div class="h-name">Frasers Centrepoint Trust</div><div><span class="h-tag tag-reit">REIT</span></div></div>
+      <div class="h-val">27,792</div><div class="h-yield">5.33%</div><div class="h-income">751.23</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">CJLU</div><div class="h-name">NetLink NBN Trust</div><div><span class="h-tag tag-sg">SGX</span></div></div>
+      <div class="h-val">29,850</div><div class="h-yield">5.45%</div><div class="h-income">813</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">O39</div><div class="h-name">OCBC</div><div><span class="h-tag tag-sg">SGX</span></div></div>
+      <div class="h-val">46,800</div><div class="h-yield">4.23%</div><div class="h-income">840</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">D05</div><div class="h-name">DBS Group Holdings</div><div><span class="h-tag tag-sg">SGX</span></div></div>
+      <div class="h-val">174,067</div><div class="h-yield">5.16%</div><div class="h-income">2,243.70</div>
+    </div>
+    <div class="card" style="margin-top:8px">
+      <div class="row-kv"><span class="k">Cost basis</span><span class="v">291,541</span></div>
+      <div class="row-kv"><span class="k">Current value</span><span class="v">376,630</span></div>
+      <div class="row-kv"><span class="k">Capital gain</span><span class="v green">+85,089 (+29.2%)</span></div>
+      <div class="row-kv"><span class="k">Div received (total)</span><span class="v gold">38,021</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB: INC FSM -->
+<div id="tab-fsm" class="tab-content">
+  <div class="section">
+    <div class="acct-header">
+      <div><div class="acct-name">Cash FSM — USD</div><div class="acct-yield">Yield 9.48% (cost) · 9.28% (mkt)</div></div>
+      <div class="acct-total">251,260</div>
+    </div>
+    <div class="holdings-header"><span>Holding</span><span>Value</span><span>Yield</span><span>Next Div</span></div>
+    <div class="holding-row">
+      <div><div class="h-ticker">PHP</div><div class="h-name">Primary Health Properties</div><div><span class="h-tag tag-gbp">LSE</span></div></div>
+      <div class="h-val">9,668</div><div class="h-yield">7.67%</div><div class="h-income">188.01</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">JEPG</div><div class="h-name">JPM Global Equity Premium</div><div><span class="h-tag tag-ucits">UCITS</span></div></div>
+      <div class="h-val">19,563</div><div class="h-yield">8.82%</div><div class="h-income">147.35</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">IE000Y</div><div class="h-name">PIMCO GIS Balanced Income</div><div><span class="h-tag tag-ucits">UCITS</span></div></div>
+      <div class="h-val">31,179</div><div class="h-yield">6.54%</div><div class="h-income">162.16</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">ADX</div><div class="h-name">Adams Diversified Equity</div><div><span class="h-tag tag-us">NYSE CEF</span></div></div>
+      <div class="h-val">34,371</div><div class="h-yield">7.53%</div><div class="h-income">646.98</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">JEPQ</div><div class="h-name">JPM Nasdaq Equity Premium</div><div><span class="h-tag tag-ucits">UCITS</span></div></div>
+      <div class="h-val">29,277</div><div class="h-yield">13.12%</div><div class="h-income">320.05</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">WINC</div><div class="h-name">iShares World HI Active</div><div><span class="h-tag tag-ucits">UCITS</span></div></div>
+      <div class="h-val">127,686</div><div class="h-yield">9.68%</div><div class="h-income">3,689/qtr</div>
+    </div>
+    <div class="card" style="margin-top:8px">
+      <div class="row-kv"><span class="k">Cost basis</span><span class="v">245,730</span></div>
+      <div class="row-kv"><span class="k">Current value</span><span class="v">251,744</span></div>
+      <div class="row-kv"><span class="k">Capital gain</span><span class="v green">+6,014 (+2.45%)</span></div>
+      <div class="row-kv"><span class="k">Div received (total)</span><span class="v gold">3,745</span></div>
+    </div>
+    <div class="card" style="background:rgba(96,165,250,.04);border-color:var(--blue-dim)">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--blue);margin-bottom:4px">WINC.L NOTE</div>
+      <div style="font-size:10px;color:var(--text-dim);line-height:1.6">17,000 shares · Cost SGD 124,907 · Current SGD 128,010 · Quarterly distribution SGD 3,690/quarter (~1,230/mo). TER 0.35%, Irish-domiciled UCITS.</div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB: INC CPF -->
+<div id="tab-srs" class="tab-content">
+  <div class="section">
+    <div class="acct-header">
+      <div><div class="acct-name">CPFIS — SGD DBS</div><div class="acct-yield">Yield 7.03% (cost) · 5.37% (mkt)</div></div>
+      <div class="acct-total">439,550</div>
+    </div>
+    <div class="holdings-header"><span>Holding</span><span>Value</span><span>Yield</span><span>Next Div</span></div>
+    <div class="holding-row">
+      <div><div class="h-ticker">9A4U</div><div class="h-name">ESR-REIT</div><div><span class="h-tag tag-reit">REIT</span></div></div>
+      <div class="h-val">1,904</div><div class="h-yield">9.21%</div><div class="h-income">89.91</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">P9D</div><div class="h-name">Civmec Limited</div><div><span class="h-tag tag-sg">SGX</span></div></div>
+      <div class="h-val">7,650</div><div class="h-yield">2.74%</div><div class="h-income">104.84</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">C38U</div><div class="h-name">CICT</div><div><span class="h-tag tag-reit">REIT</span></div></div>
+      <div class="h-val">9,534</div><div class="h-yield">6.85%</div><div class="h-income">167.16</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">CFA</div><div class="h-name">NikkoAM-StraitsTrading Asia ex-JP</div><div><span class="h-tag tag-sg">ETF</span></div></div>
+      <div class="h-val">18,308</div><div class="h-yield">5.29%</div><div class="h-income">236.90</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">AJBU</div><div class="h-name">Keppel DC REIT</div><div><span class="h-tag tag-reit">REIT</span></div></div>
+      <div class="h-val">23,100</div><div class="h-yield">4.49%</div><div class="h-income">513.30</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">P40U</div><div class="h-name">Starhill Global REIT</div><div><span class="h-tag tag-reit">REIT</span></div></div>
+      <div class="h-val">19,116</div><div class="h-yield">6.7%</div><div class="h-income">648.91</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">BUOU</div><div class="h-name">Frasers L&C Trust</div><div><span class="h-tag tag-reit">REIT</span></div></div>
+      <div class="h-val">24,900</div><div class="h-yield">5.9%</div><div class="h-income">734.55</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">C52</div><div class="h-name">ComfortDelGro</div><div><span class="h-tag tag-sg">SGX</span></div></div>
+      <div class="h-val">30,960</div><div class="h-yield">6.59%</div><div class="h-income">1,101.60</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">O39</div><div class="h-name">OCBC</div><div><span class="h-tag tag-sg">SGX</span></div></div>
+      <div class="h-val">77,220</div><div class="h-yield">4.23%</div><div class="h-income">1,386</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">0P00Z1XG</div><div class="h-name">Nikko AM Japan Div Eq Fund</div><div><span class="h-tag tag-sg">UT</span></div></div>
+      <div class="h-val">75,727</div><div class="h-yield">6.2%</div><div class="h-income">436.65</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">D05</div><div class="h-name">DBS Group Holdings</div><div><span class="h-tag tag-sg">SGX</span></div></div>
+      <div class="h-val">151,130</div><div class="h-yield">5.16%</div><div class="h-income">1,948.05</div>
+    </div>
+    <div class="card" style="margin-top:8px">
+      <div class="row-kv"><span class="k">Cost basis</span><span class="v">335,500</span></div>
+      <div class="row-kv"><span class="k">Current value</span><span class="v">439,550</span></div>
+      <div class="row-kv"><span class="k">Capital gain</span><span class="v green">+104,049 (+31.0%)</span></div>
+      <div class="row-kv"><span class="k">Div received (total)</span><span class="v gold">47,911</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB: INC SRS -->
+<div id="tab-cdp2" class="tab-content">
+  <div class="section">
+    <div class="acct-header">
+      <div><div class="acct-name">SRS — SGD DBS</div><div class="acct-yield">Yield 7.74% (cost) · 5.39% (mkt)</div></div>
+      <div class="acct-total">370,705</div>
+    </div>
+    <div class="holdings-header"><span>Holding</span><span>Value</span><span>Yield</span><span>Next Div</span></div>
+    <div class="holding-row">
+      <div><div class="h-ticker">Z74</div><div class="h-name">Singtel</div><div><span class="h-tag tag-sg">SGX</span></div></div>
+      <div class="h-val">456</div><div class="h-yield">3.78%</div><div class="h-income">8.61</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">C2PU</div><div class="h-name">ParkwayLife REIT</div><div><span class="h-tag tag-reit">REIT</span></div></div>
+      <div class="h-val">2,406</div><div class="h-yield">3.81%</div><div class="h-income">45.84</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">Y92</div><div class="h-name">Thai Beverage</div><div><span class="h-tag tag-sg">SGX</span></div></div>
+      <div class="h-val">2,700</div><div class="h-yield">4.3%</div><div class="h-income">35.27</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">DCRU</div><div class="h-name">Digital Core REIT</div><div><span class="h-tag tag-reit">REIT</span></div></div>
+      <div class="h-val">2,814</div><div class="h-yield">7.35%</div><div class="h-income">103.39</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">J69U</div><div class="h-name">Frasers Centrepoint Trust</div><div><span class="h-tag tag-reit">REIT</span></div></div>
+      <div class="h-val">7,116</div><div class="h-yield">5.33%</div><div class="h-income">192.36</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">AU8U</div><div class="h-name">CapitaLand China Trust</div><div><span class="h-tag tag-reit">REIT</span><span class="h-tag tag-warn" style="margin-left:2px">⚠ DO NOT ADD</span></div></div>
+      <div class="h-val">6,450</div><div class="h-yield">7.22%</div><div class="h-income">233</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">AGS</div><div class="h-name">The Hour Glass</div><div><span class="h-tag tag-sg">SGX</span></div></div>
+      <div class="h-val">20,560</div><div class="h-yield">2.33%</div><div class="h-income">320</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">HMN</div><div class="h-name">CapitaLand Ascott Trust</div><div><span class="h-tag tag-reit">REIT</span></div></div>
+      <div class="h-val">8,950</div><div class="h-yield">6.82%</div><div class="h-income">252.60</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">DHLU</div><div class="h-name">Daiwa House Logistics Trust</div><div><span class="h-tag tag-reit">REIT</span></div></div>
+      <div class="h-val">7,425</div><div class="h-yield">8.44%</div><div class="h-income">313.50</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">CJLU</div><div class="h-name">NetLink NBN Trust</div><div><span class="h-tag tag-sg">SGX</span></div></div>
+      <div class="h-val">13,930</div><div class="h-yield">5.45%</div><div class="h-income">379.40</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">9A4U</div><div class="h-name">ESR-REIT</div><div><span class="h-tag tag-reit">REIT</span></div></div>
+      <div class="h-val">8,735</div><div class="h-yield">9.21%</div><div class="h-income">412.47</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">QL3</div><div class="h-name">iShares SE Asia (QL3)</div><div><span class="h-tag tag-ucits">ETF</span></div></div>
+      <div class="h-val">17,240</div><div class="h-yield">7.26%</div><div class="h-income">306.34</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">A7RU</div><div class="h-name">Keppel Infrastructure Trust</div><div><span class="h-tag tag-sg">SGX</span></div></div>
+      <div class="h-val">18,709</div><div class="h-yield">7.43%</div><div class="h-income">695.41</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">C38U</div><div class="h-name">CICT</div><div><span class="h-tag tag-reit">REIT</span></div></div>
+      <div class="h-val">37,873</div><div class="h-yield">6.85%</div><div class="h-income">664.02</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">O39</div><div class="h-name">OCBC</div><div><span class="h-tag tag-sg">SGX</span></div></div>
+      <div class="h-val">102,983</div><div class="h-yield">4.23%</div><div class="h-income">1,848.42</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">D05</div><div class="h-name">DBS Group Holdings</div><div><span class="h-tag tag-sg">SGX</span></div></div>
+      <div class="h-val">112,358</div><div class="h-yield">5.16%</div><div class="h-income">1,448.28</div>
+    </div>
+    <div class="card" style="margin-top:8px">
+      <div class="row-kv"><span class="k">Cost basis</span><span class="v">258,047</span></div>
+      <div class="row-kv"><span class="k">Current value</span><span class="v">370,705</span></div>
+      <div class="row-kv"><span class="k">Capital gain</span><span class="v green">+112,658 (+43.7%)</span></div>
+      <div class="row-kv"><span class="k">Div received (total)</span><span class="v gold">47,395</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB: GBP -->
+<div id="tab-gbp" class="tab-content">
+  <div class="section">
+    <div class="acct-header">
+      <div><div class="acct-name">Cash GBP — DBS</div><div class="acct-yield">Yield 9.0% (cost) · 6.43% (mkt) · ~SGD 107,775</div></div>
+      <div class="acct-total">£63,397</div>
+    </div>
+    <div class="holdings-header"><span>Holding</span><span>Value</span><span>Yield</span><span>Next Div</span></div>
+    <div class="holding-row">
+      <div><div class="h-ticker">TFIF</div><div class="h-name">TwentyFour Income Fund</div><div><span class="h-tag tag-gbp">LSE</span></div></div>
+      <div class="h-val">£5,430</div><div class="h-yield">9.95%</div><div class="h-income">£240.50</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">HSBA</div><div class="h-name">HSBC Holdings plc</div><div><span class="h-tag tag-gbp">LSE</span></div></div>
+      <div class="h-val">£14,201</div><div class="h-yield">4.03%</div><div class="h-income">£76.04</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">ICG</div><div class="h-name">Intermediate Capital Group</div><div><span class="h-tag tag-gbp">LSE</span></div></div>
+      <div class="h-val">£13,069</div><div class="h-yield">4.66%</div><div class="h-income">£415.10</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">HFEL</div><div class="h-name">Henderson Far East Income</div><div><span class="h-tag tag-gbp">LSE</span></div></div>
+      <div class="h-val">£7,033</div><div class="h-yield">9.24%</div><div class="h-income">£162.50</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">MNG</div><div class="h-name">M&amp;G Plc</div><div><span class="h-tag tag-gbp">LSE</span></div></div>
+      <div class="h-val">£12,735</div><div class="h-yield">6.49%</div><div class="h-income">£270.01</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">LGEN</div><div class="h-name">Legal &amp; General Group</div><div><span class="h-tag tag-gbp">LSE</span></div></div>
+      <div class="h-val">£10,929</div><div class="h-yield">8.03%</div><div class="h-income">£631.03</div>
+    </div>
+    <div class="card" style="margin-top:8px">
+      <div class="row-kv"><span class="k">Cost basis</span><span class="v">£45,268</span></div>
+      <div class="row-kv"><span class="k">Current value</span><span class="v">£63,397 (~SGD 107,775)</span></div>
+      <div class="row-kv"><span class="k">Capital gain</span><span class="v green">+£18,129 (+40.1%)</span></div>
+      <div class="row-kv"><span class="k">Div received (total)</span><span class="v gold">£5,040</span></div>
+    </div>
+    <div class="card" style="background:rgba(248,113,113,.04);border-color:var(--red-dim)">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim)">FX NOTE: GBP/SGD ~1.70 used. Recheck rate when updating.</div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB: GROWTH -->
+<div id="tab-growth" class="tab-content">
+  <div class="section">
+    <div class="acct-header">
+      <div><div class="acct-name">Growth — NVDA &amp; MSFT</div><div class="acct-yield">Capital appreciation focus · low yield</div></div>
+      <div class="acct-total">SGD 22,563</div>
+    </div>
+    <div class="holdings-header"><span>Holding</span><span>Value</span><span>Yield</span><span>Next Div</span></div>
+    <div class="holding-row">
+      <div><div class="h-ticker">MSFT</div><div class="h-name">Microsoft Corp · 13 shares</div><div><span class="h-tag tag-us">NASDAQ</span></div></div>
+      <div class="h-val">7,471</div><div class="h-yield">0.81%</div><div class="h-income">15.10</div>
+    </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">NVDA</div><div class="h-name">NVIDIA Corp · 56 shares</div><div><span class="h-tag tag-us">NASDAQ</span></div></div>
+      <div class="h-val">15,092</div><div class="h-yield">0.47%</div><div class="h-income">17.87</div>
+    </div>
+    <div class="card" style="margin-top:8px">
+      <div class="row-kv"><span class="k">Cost basis</span><span class="v">16,002</span></div>
+      <div class="row-kv"><span class="k">Current value (SGD)</span><span class="v">22,563</span></div>
+      <div class="row-kv"><span class="k">Current value (USD est.)</span><span class="v">~16,620</span></div>
+      <div class="row-kv"><span class="k">Capital gain</span><span class="v green">+6,561 (+41.0%)</span></div>
+    </div>
+    <div class="card" style="background:rgba(248,113,113,.04);border-color:var(--red-dim)">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--red);margin-bottom:5px">US ESTATE TAX MONITOR</div>
+      <div style="font-size:10px;color:var(--text-dim);line-height:1.6">Not a formal sub-portfolio — used to monitor US situs exposure against USD 60K estate tax exemption. MSTY/YMAX/BTCI all exited May 2026.</div>
+      <div style="margin-top:8px">
+        <div class="row-kv"><span class="k">Current US situs (USD est.)</span><span class="v green">~16,620</span></div>
+        <div class="row-kv"><span class="k">Estate tax threshold</span><span class="v">USD 60,000</span></div>
+        <div class="row-kv"><span class="k">Headroom remaining</span><span class="v green">~USD 43,380</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB: CPF -->
+<div id="tab-cpf" class="tab-content">
+  <div class="section">
+    <div class="section-title">CPF Balances — 27 May 2026</div>
+    <div class="cpf-grid">
+      <div class="cpf-item">
+        <div class="cpf-label">Ordinary (OA)</div>
+        <div class="cpf-value">710,004</div>
+        <div class="cpf-note">Bond sleeve · undisturbed</div>
+      </div>
+      <div class="cpf-item">
+        <div class="cpf-label">MediSave (MA)</div>
+        <div class="cpf-value">79,000</div>
+        <div class="cpf-note">Healthcare coverage</div>
+      </div>
+      <div class="cpf-item">
+        <div class="cpf-label">Retirement (RA)</div>
+        <div class="cpf-value">345,570</div>
+        <div class="cpf-note">CPF Life ~2031 (age 65)</div>
+      </div>
+      <div class="cpf-item">
+        <div class="cpf-label">Special (SA)</div>
+        <div class="cpf-value" style="color:var(--text-dim)">Closed</div>
+        <div class="cpf-note">Closed at age 55</div>
+      </div>
+      <div class="cpf-item full">
+        <div class="cpf-label">Total CPF</div>
+        <div class="cpf-value">SGD 1,134,574</div>
+        <div class="cpf-note">As at 27 May 2026 · OA 710K · MA 79K · RA 345.6K</div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:14px">2025 Interest Earned</div>
+    <div class="card" style="background:rgba(74,222,128,.04);border-color:var(--green-dim)">
+      <div class="row-kv"><span class="k">OA interest (31 Dec 2025)</span><span class="v green">$16,667.65</span></div>
+      <div class="row-kv"><span class="k">MA interest (31 Dec 2025)</span><span class="v green">$2,964.88</span></div>
+      <div class="row-kv"><span class="k">RA interest (31 Dec 2025)</span><span class="v green">$14,156.52</span></div>
+      <div class="row-kv" style="border-top:1px solid var(--green-dim);padding-top:8px;margin-top:4px">
+        <span class="k" style="color:var(--green)">Total CPF interest 2025</span>
+        <span class="v green">$33,789.05</span>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:14px">Monthly Contribution (Employer: SACH)</div>
+    <div class="card">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);margin-bottom:6px;letter-spacing:1px">ST ANDREW'S MISSION / COMMUNITY HOSPITAL</div>
+      <div class="row-kv"><span class="k">OA contribution (Apr 2026)</span><span class="v">$4,172.57</span></div>
+      <div class="row-kv"><span class="k">MA contribution (Apr 2026)</span><span class="v">$587.43</span></div>
+      <div class="row-kv" style="border-top:1px solid var(--border);padding-top:6px;margin-top:4px">
+        <span class="k">Total monthly CPF contribution</span>
+        <span class="v gold">$4,760.00</span>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:14px">CPF Investment (OA Investible)</div>
+    <div class="card">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);margin-bottom:6px;letter-spacing:1px">AMOUNTS AVAILABLE FOR CPFIS INVESTMENT</div>
+      <div class="row-kv"><span class="k">Professionally Managed Products</span><span class="v">$690,056</span></div>
+      <div class="row-kv"><span class="k">Stocks (direct)</span><span class="v">$100,590</span></div>
+      <div class="row-kv"><span class="k">Gold</span><span class="v">$97,066</span></div>
+      <div class="row-kv" style="border-top:1px solid var(--border);padding-top:6px;margin-top:4px">
+        <span class="k">SA investible</span><span class="v" style="color:var(--text-dim)">N/A (SA closed)</span>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:14px">CPF Housing Withdrawal</div>
+    <div class="card" style="background:rgba(201,168,76,.04);border-color:var(--gold-dim)">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);margin-bottom:6px;letter-spacing:1px">125 WHITLEY ROAD — TOTAL DRAWN DOWN</div>
+      <div class="row-kv"><span class="k">Principal withdrawn</span><span class="v">$355,569</span></div>
+      <div class="row-kv"><span class="k">Accrued interest (to date)</span><span class="v gold">$49,461</span></div>
+      <div class="row-kv" style="border-top:1px solid var(--gold-dim);padding-top:6px;margin-top:4px">
+        <span class="k">Total CPF to refund on sale</span>
+        <span class="v gold">$405,030</span>
+      </div>
+      <div style="font-size:9px;color:var(--text-dim);margin-top:6px;line-height:1.6;font-family:'DM Mono',monospace">Note: accrued interest continues to grow at OA rate (2.5%). Must be refunded to CPF upon property sale.</div>
+    </div>
+
+    <div class="section-title" style="margin-top:14px">CPF Life Projections</div>
+    <div class="card">
+      <div class="row-kv"><span class="k">YH CPF Life commences</span><span class="v gold">~2031 (age 65)</span></div>
+      <div class="row-kv"><span class="k">Sik San CPF Life</span><span class="v">~2033 (age 65)</span></div>
+      <div class="row-kv"><span class="k">RA balance (27 May 2026)</span><span class="v">$345,570</span></div>
+    </div>
+
+    <div class="section-title" style="margin-top:14px">Opening Balance (01 Jun 2025)</div>
+    <div class="card" style="background:var(--surface2)">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);margin-bottom:6px;letter-spacing:1px">FOR REFERENCE — YEAR-START POSITION</div>
+      <div class="row-kv"><span class="k">OA (01 Jun 2025)</span><span class="v">$662,123</span></div>
+      <div class="row-kv"><span class="k">MA (01 Jun 2025)</span><span class="v">$75,500</span></div>
+      <div class="row-kv"><span class="k">RA (01 Jun 2025)</span><span class="v">$331,414</span></div>
+      <div class="row-kv"><span class="k">OA growth in ~12 months</span><span class="v green">+$47,881</span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- TAB: INSURANCE -->
+<div id="tab-insurance" class="tab-content">
+  <div class="section">
+
+    <!-- ALERTS -->
+    <div class="card" style="background:rgba(248,113,113,.07);border-color:var(--red-dim);margin-bottom:10px">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--red);margin-bottom:6px;letter-spacing:1px">⚠ OUTSTANDING PREMIUMS</div>
+      <div class="row-kv"><span class="k">Sik San SupremeHealth A Plus</span><span class="v red">$786.98 due 01 Jun 2026</span></div>
+      <div class="row-kv"><span class="k">Living Assur Pol Plus (YH)</span><span class="v red">$269.20 due 19 Jun 2026</span></div>
+      <div class="row-kv"><span class="k">SAN Classic (YH)</span><span class="v red">Outstanding — make payment</span></div>
+    </div>
+
+    <!-- ──  POLICIES ── -->
+    <div class="section-title"> — Life &amp; Protection</div>
+
+    <div class="card">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-bottom:6px;letter-spacing:1px">LIFE PERKS · 0024207824</div>
+      <div class="ins-row"><div><div class="ins-name">Whole Life</div><div class="ins-meta">Since 31 May 2001 · perpetual</div></div><div class="ins-val" style="color:var(--green)">Inforce<span>YH</span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Sum Assured</div><div class="ins-meta">Natural death</div></div><div class="ins-val">150,000<span>SGD</span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Net Surrender Value</div><div class="ins-meta">As at last update</div></div><div class="ins-val" style="color:var(--gold)">109,234<span>SGD</span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Premium</div><div class="ins-meta">GIRO monthly</div></div><div class="ins-val">$472.85/mo<span>$5,674/yr</span></div></div>
+      <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border)">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);margin-bottom:4px">PAYCARE RIDER 60 — Disability</div>
+        <div class="ins-row"><div><div class="ins-name">Sum assured</div><div class="ins-meta">Ends 30 May 2027</div></div><div class="ins-val">4,000<span>SGD</span></div></div>
+        <div class="ins-row"><div><div class="ins-name">Rider premium</div><div class="ins-meta">GIRO monthly</div></div><div class="ins-val">$142.35/mo<span>$1,708/yr</span></div></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:6px">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-bottom:6px;letter-spacing:1px">LIVING ASSUR POL PLUS WITH CRB · 0018835006</div>
+      <div class="ins-row"><div><div class="ins-name">Whole Life + CI</div><div class="ins-meta">Since 19 Mar 1996 · perpetual</div></div><div class="ins-val" style="color:var(--green)">Inforce<span>YH</span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Sum Assured (death)</div><div class="ins-meta">Natural death &amp; CI</div></div><div class="ins-val">100,000<span>SGD</span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Premium</div><div class="ins-meta">Monthly</div></div><div class="ins-val" style="color:var(--red)">$269.20/mo<span>⚠ due Jun 2026</span></div></div>
+    </div>
+
+    <div class="card" style="margin-top:6px">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-bottom:6px;letter-spacing:1px">GREAT PROTECTOR ACTIVE CLASSIC · 0236227162</div>
+      <div class="ins-row"><div><div class="ins-name">Term / Personal Accident</div><div class="ins-meta">30 Apr 2021 → 29 Apr 2043</div></div><div class="ins-val" style="color:var(--green)">Inforce<span>YH</span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Sum Assured (accidental death)</div><div class="ins-meta">Nominee: Yang Sik San 100%</div></div><div class="ins-val">500,000<span>SGD</span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Premium</div><div class="ins-meta">Yearly · Credit Card</div></div><div class="ins-val">$529.72/yr<span></span></div></div>
+    </div>
+
+    <div class="card" style="margin-top:6px">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-bottom:6px;letter-spacing:1px">PREMIER HEALTH PLAN B · 0082353077</div>
+      <div class="ins-row"><div><div class="ins-name">Health / Hospitalisation Plan</div><div class="ins-meta">24 Mar 2004 → 23 Mar 2053</div></div><div class="ins-val" style="color:var(--green)">Inforce<span>YH</span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Premium</div><div class="ins-meta">Yearly · Credit Card</div></div><div class="ins-val">$1,305/yr<span></span></div></div>
+    </div>
+
+    <div class="card" style="margin-top:6px">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--blue);margin-bottom:6px;letter-spacing:1px">INCOMESHIELD PLAN A · 91339817</div>
+      <div class="ins-row"><div><div class="ins-name">MediShield / Hospitalisation</div><div class="ins-meta">Since 01 Nov 1995 · renews yearly</div></div><div class="ins-val" style="color:var(--green)">Inforce<span>YH</span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Coverage</div><div class="ins-meta">Public &amp; private, any ward, any doctor</div></div><div class="ins-val">$1,200/day<span>SGD 0 excl.</span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Premium (MediSave)</div><div class="ins-meta">Yearly via MediSave</div></div><div class="ins-val">$841.36/yr<span>MediSave</span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Premium (cash top-up)</div><div class="ins-meta">Additional private coverage</div></div><div class="ins-val">$303/yr<span>Cash</span></div></div>
+    </div>
+
+    <div class="card" style="margin-top:6px">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-bottom:6px;letter-spacing:1px">WHOLE LIFE WITH CRB · 0013632119</div>
+      <div class="ins-row"><div><div class="ins-name">Whole Life</div><div class="ins-meta">Since 31 May 1992 · perpetual</div></div><div class="ins-val" style="color:var(--green)">Inforce<span>YH</span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Sum Assured (natural death)</div><div class="ins-meta">Nominee: Yang Sik San 100%</div></div><div class="ins-val">100,000<span>SGD</span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Net Surrender Value</div><div class="ins-meta">As at May 2026</div></div><div class="ins-val" style="color:var(--gold)">124,114<span>SGD</span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Net Available Loan Value</div><div class="ins-meta"></div></div><div class="ins-val" style="color:var(--gold)">114,185<span>SGD</span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Accumulated Rev. Bonus</div><div class="ins-meta">As at 31 May 2026</div></div><div class="ins-val" style="color:var(--green)">139,692<span>SGD</span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Premium</div><div class="ins-meta">GIRO monthly</div></div><div class="ins-val">$208/mo<span>$2,496/yr</span></div></div>
+    </div>
+
+    <div class="card" style="margin-top:6px">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-bottom:6px;letter-spacing:1px">SAN CLASSIC · 0080853699</div>
+      <div class="ins-row"><div><div class="ins-name">Personal Accident / Term</div><div class="ins-meta">12 Oct 2001 → 11 Oct 2042</div></div><div class="ins-val" style="color:var(--green)">Inforce<span>YH</span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Sum Assured (accidental death)</div><div class="ins-meta"></div></div><div class="ins-val">400,000<span>SGD</span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Premium</div><div class="ins-meta">Monthly · Credit Card</div></div><div class="ins-val" style="color:var(--red)">$81.40/mo<span>⚠ outstanding</span></div></div>
+    </div>
+
+    <div class="card" style="margin-top:6px;background:rgba(74,85,104,.15);border-color:var(--muted)">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);margin-bottom:6px;letter-spacing:1px">ELDERSHIELD VALUEPLUS 400 · 0068696572 — TERMINATED</div>
+      <div class="ins-row"><div><div class="ins-name">Disability (ElderShield)</div><div class="ins-meta">30 Jun 2009 → 30 Jun 2026</div></div><div class="ins-val" style="color:var(--text-dim)">Terminated<span>YH</span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Sum Assured</div><div class="ins-meta">$400/month disability payout</div></div><div class="ins-val" style="color:var(--text-dim)">400/mo<span>SGD — ended</span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Last premium</div><div class="ins-meta">MediSave · now nil</div></div><div class="ins-val" style="color:var(--text-dim)">$53.22/yr<span>Terminated</span></div></div>
+    </div>
+
+    <div class="card" style="margin-top:6px;background:rgba(74,85,104,.15);border-color:var(--muted)">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);margin-bottom:6px;letter-spacing:1px">GREATLINK FLEXIPLAN (ILP) · 0022820913 — TERMINATED</div>
+      <div class="ins-row"><div><div class="ins-name">Investment-Linked Plan</div><div class="ins-meta">25 Oct 2000 → 14 Jan 2026</div></div><div class="ins-val" style="color:var(--text-dim)">Terminated<span>YH</span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Sum Assured</div><div class="ins-meta">Premium $0 · GIRO</div></div><div class="ins-val" style="color:var(--text-dim)">125,000<span>SGD — ended</span></div></div>
+    </div>
+
+    <div class="card" style="margin-top:6px;background:rgba(74,85,104,.15);border-color:var(--muted)">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);margin-bottom:6px;letter-spacing:1px">GREATLINK FLEXIPLAN (ILP) · 0024100600 — TERMINATED</div>
+      <div class="ins-row"><div><div class="ins-name">Investment-Linked Plan</div><div class="ins-meta">27 Jun 2001 → 23 Apr 2026</div></div><div class="ins-val" style="color:var(--text-dim)">Terminated<span>Ryan</span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Sum Assured</div><div class="ins-meta">Premium $0 · GIRO</div></div><div class="ins-val" style="color:var(--text-dim)">30,000<span>SGD — ended</span></div></div>
+    </div>
+
+    <!-- ── YANG SIK SAN ── -->
+    <div class="section-title" style="margin-top:14px">YANG SIK SAN — Shield</div>
+
+    <div class="card">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-bottom:6px;letter-spacing:1px">GREAT SUPREMEHEALTH A PLUS · 0086153693</div>
+      <div class="ins-row"><div><div class="ins-name">Hospitalisation — Class A Ward</div><div class="ins-meta">Since 01 Jun 2009 · perpetual</div></div><div class="ins-val" style="color:var(--green)">Inforce<span>Sik San</span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Max per year / per life</div><div class="ins-meta">Room &amp; board as charged</div></div><div class="ins-val">1.2M / Unltd<span>SGD</span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Premium</div><div class="ins-meta">Yearly · CPF MediSave</div></div><div class="ins-val" style="color:var(--red)">$1,439.28/yr<span>⚠ $786.98 due</span></div></div>
+    </div>
+
+    <div class="card" style="margin-top:6px">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-bottom:6px;letter-spacing:1px">GREAT TOTALCARE A · 0086153839</div>
+      <div class="ins-row"><div><div class="ins-name">TotalCare Rider — Class A Ward</div><div class="ins-meta">Since 01 Jun 2009 · perpetual</div></div><div class="ins-val" style="color:var(--green)">Inforce<span>Sik San</span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Max per year</div><div class="ins-meta">Deductible &amp; co-ins reimbursed · loss limit 3K</div></div><div class="ins-val">200,000<span>SGD/yr</span></div></div>
+    </div>
+
+    <!-- ── RYAN ── -->
+    <div class="section-title" style="margin-top:14px">RYAN LOH WUI ONN — Shield</div>
+
+    <div class="card">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-bottom:6px;letter-spacing:1px">GREAT SUPREMEHEALTH A PLUS · 0086153635</div>
+      <div class="ins-row"><div><div class="ins-name">Hospitalisation — Class A Ward</div><div class="ins-meta">Since 01 May 2009 · perpetual</div></div><div class="ins-val" style="color:var(--green)">Inforce<span>Ryan</span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Premium</div><div class="ins-meta">Yearly · CPF MediSave</div></div><div class="ins-val">$398.55/yr<span>MediSave</span></div></div>
+    </div>
+
+    <div class="card" style="margin-top:6px">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-bottom:6px;letter-spacing:1px">GREAT TOTALCARE A · 0086153782</div>
+      <div class="ins-row"><div><div class="ins-name">TotalCare Rider — Class A Ward</div><div class="ins-meta">Since 01 May 2009 · perpetual</div></div><div class="ins-val" style="color:var(--green)">Inforce<span>Ryan</span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Max per year</div><div class="ins-meta">Deductible &amp; co-ins reimbursed · loss limit 3K</div></div><div class="ins-val">200,000<span>SGD/yr</span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Premium</div><div class="ins-meta">Yearly · Credit Card</div></div><div class="ins-val">$176.58/yr<span></span></div></div>
+      <div class="ins-row"><div><div class="ins-name">MediShield Life rider</div><div class="ins-meta">Bundled · CPF MediSave</div></div><div class="ins-val">$0.00<span>Bundled</span></div></div>
+    </div>
+
+    <!-- ── INCOME CAR ── -->
+    <div class="section-title" style="margin-top:14px">Income Insurance — Car</div>
+    <div class="card" style="background:rgba(96,165,250,.04);border-color:var(--blue-dim)">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--blue);margin-bottom:6px;letter-spacing:1px">DRIVO CLASSIC · 5126140300-04</div>
+      <div class="ins-row"><div><div class="ins-name">BMW 216i · SLX4964Z · 1500CC</div><div class="ins-meta">29 Mar 2026 → 28 Mar 2027</div></div><div class="ins-val" style="color:var(--green)">Active<span></span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Named drivers</div><div class="ins-meta">YH · Sik San · Rayna</div></div><div class="ins-val">3 drivers<span></span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Premium</div><div class="ins-meta">One-time · Credit Card · HP: DBS</div></div><div class="ins-val">$1,063.48/yr<span></span></div></div>
+      <div class="ins-row"><div><div class="ins-name">Excess</div><div class="ins-meta">Own damage SG / Third party</div></div><div class="ins-val" style="color:var(--green)">$0 / $0<span>Windscreen $100</span></div></div>
+    </div>
+
+    <!-- ── TOTAL PREMIUMS ── -->
+    <div class="section-title" style="margin-top:14px">Annual Premiums Summary</div>
+    <div class="card">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);margin-bottom:6px;letter-spacing:1px">CASH / CREDIT CARD (out of pocket)</div>
+      <div class="row-kv"><span class="k">Life Perks (YH)</span><span class="v">$472.85/mo = $5,674/yr</span></div>
+      <div class="row-kv"><span class="k">Paycare Rider 60 (YH)</span><span class="v">$142.35/mo = $1,708/yr</span></div>
+      <div class="row-kv"><span class="k">Living Assur Pol Plus + CRB (YH)</span><span class="v">$269.20/mo = $3,230/yr</span></div>
+      <div class="row-kv"><span class="k">Whole Life with CRB (YH)</span><span class="v">$208/mo = $2,496/yr</span></div>
+      <div class="row-kv"><span class="k">SAN Classic (YH)</span><span class="v">$81.40/mo = $977/yr</span></div>
+      <div class="row-kv"><span class="k">Great Protector Active Classic</span><span class="v">$530/yr</span></div>
+      <div class="row-kv"><span class="k">Premier Health Plan B</span><span class="v">$1,305/yr</span></div>
+      <div class="row-kv"><span class="k">IncomeShield (cash top-up)</span><span class="v">$303/yr</span></div>
+      <div class="row-kv"><span class="k">Ryan TotalCare A</span><span class="v">$177/yr</span></div>
+      <div class="row-kv"><span class="k">Car Insurance (drivo)</span><span class="v">$1,063/yr</span></div>
+      <div class="row-kv" style="border-top:1px solid var(--gold-dim);padding-top:8px;margin-top:4px">
+        <span class="k" style="color:var(--gold)">Total cash/CC outflow</span>
+        <span class="v gold">~$17,463/yr · ~$1,455/mo</span>
+      </div>
+    </div>
+    <div class="card" style="margin-top:6px">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);margin-bottom:6px;letter-spacing:1px">MEDISAVE DEDUCTIONS</div>
+      <div class="row-kv"><span class="k">IncomeShield Plan A (YH)</span><span class="v">$841/yr</span></div>
+      <div class="row-kv"><span class="k">SupremeHealth A Plus (Sik San)</span><span class="v">$1,439/yr</span></div>
+      <div class="row-kv"><span class="k">SupremeHealth A Plus (Ryan)</span><span class="v">$399/yr</span></div>
+      <div class="row-kv" style="border-top:1px solid var(--border);padding-top:8px;margin-top:4px">
+        <span class="k" style="color:var(--text-dim)">Total MediSave deductions</span>
+        <span class="v">~$2,679/yr</span>
+      </div>
+    </div>
+    <div class="card" style="margin-top:6px;background:rgba(201,168,76,.05);border-color:var(--gold-dim)">
+      <div class="row-kv">
+        <span class="k" style="color:var(--gold);font-size:12px">Grand Total All Premiums</span>
+        <span class="v gold" style="font-size:14px">~$20,142/yr</span>
+      </div>
+      <div style="font-size:9px;color:var(--text-dim);margin-top:4px;font-family:'DM Mono',monospace">Cash+CC $17,463 + MediSave $2,679 · ElderShield terminated Jun 2026</div>
+    </div>
+
+    <div class="section-title" style="margin-top:14px">Income Insurance — IncomeShield Plan A</div>
+    <div class="card" style="background:rgba(96,165,250,.04);border-color:var(--blue-dim)">
+      <div class="ins-row">
+        <div><div class="ins-name">IncomeShield Plan A</div><div class="ins-meta">Policy 91339817 · Since 01 Nov 1995</div></div>
+        <div class="ins-val" style="color:var(--green)">Active<span>YH ()</span></div>
+      </div>
+      <div class="ins-row">
+        <div><div class="ins-name">Coverage Period</div><div class="ins-meta">Agent: Income-Direct</div></div>
+        <div class="ins-val">Oct 2026<span>renews yearly</span></div>
+      </div>
+      <div class="ins-row">
+        <div><div class="ins-name">Total Annual Premium</div><div class="ins-meta">MediShield Life + private top-up</div></div>
+        <div class="ins-val" style="color:var(--gold)">$1,144.36<span>incl. GST</span></div>
+      </div>
+      <div class="ins-row">
+        <div><div class="ins-name">MediShield Life portion</div><div class="ins-meta">Paid via MediSave yearly</div></div>
+        <div class="ins-val">$841.36<span>MediSave</span></div>
+      </div>
+      <div class="ins-row">
+        <div><div class="ins-name">Addl private coverage</div><div class="ins-meta">Cash top-up portion</div></div>
+        <div class="ins-val">$303.00<span>Cash</span></div>
+      </div>
+      <div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--border)">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--blue);margin-bottom:5px;letter-spacing:1px">COVERAGE FEATURES</div>
+        <div style="font-size:10px;color:var(--text-dim);line-height:1.8">
+          Public or Private Hospital · Choose any Doctor · Choose any Ward<br>
+          $1,200/day on daily ward &amp; treatment charges (normal ward) · No special exclusions
+        </div>
+      </div>
+    </div>
+
+    <!-- INCOME INSURANCE: CAR -->
+    <div class="section-title" style="margin-top:14px">Income Insurance — Car (drivo CLASSIC)</div>
+    <div class="card" style="background:rgba(96,165,250,.04);border-color:var(--blue-dim)">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--blue);margin-bottom:6px;letter-spacing:1px">DRIVO CLASSIC · 5126140300-04</div>
+      <div class="ins-row"><div><div class="ins-name">BMW 216i · SLX4964Z · 1500CC</div><div class="ins-meta">29 Mar 2026 → 28 Mar 2027</div></div><div class="ins-val" style="color:var(--green)">Active</div></div>
+      <div class="ins-row"><div><div class="ins-name">Named drivers</div><div class="ins-meta">YH · Sik San · Rayna</div></div><div class="ins-val">3 drivers</div></div>
+      <div class="ins-row"><div><div class="ins-name">Premium</div><div class="ins-meta">One-time · Credit Card · HP: DBS</div></div><div class="ins-val" style="color:var(--gold)">$1,063.48/yr</div></div>
+      <div class="ins-row"><div><div class="ins-name">Excess (own damage / third party)</div><div class="ins-meta">Windscreen $100</div></div><div class="ins-val" style="color:var(--green)">$0 / $0</div></div>
+    </div>
+
+  </div><!-- end .section -->
+</div><!-- end #tab-insurance -->
+
+<!-- TAB: DEPLOY -->
+<div id="tab-deploy" class="tab-content">
+  <div class="section">
+    <div class="section-title">Dry Powder</div>
+    <div class="dp-item deployable"><div><div class="dp-label">Deployable Capital</div><div class="dp-label"><b>Available to invest now</b></div></div><div class="dp-amount">240–282K</div></div>
+    <div class="dp-item reserve"><div><div class="dp-label">Permanent Reserve</div><div class="dp-label"><b>Never deployed</b></div></div><div class="dp-amount">30K</div></div>
+    <div style="text-align:right;font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);margin-top:4px">Total: SGD 270K–312K</div>
+  </div>
+  <div class="section">
+    <div class="section-title">Deployment Tranches</div>
+    <div class="tranche">
+      <div class="tranche-header"><span class="tranche-title">Tranche 1 — Immediate</span><span class="tranche-status status-active">ACTIVE</span></div>
+      <div class="tranche-items"><span>JEPQ.L</span> top-up · <span>WINC.L</span> pilot (30K ✓) · <span>ParkwayLife REIT</span> · <span>NetLink NBN Trust</span> · <span>Mapletree Log. Trust</span> · <span style="color:#4ade80">CSPX.L</span> <span style="font-size:11px;color:var(--text-dim)">(S&amp;P 500 UCITS)</span></div>
+    </div>
+    <div class="tranche">
+      <div class="tranche-header"><span class="tranche-title">Tranche 2 — On Pullback</span><span class="tranche-status status-waiting">WAITING</span></div>
+      <div class="tranche-items"><span>DBS</span> · <span>OCBC</span> · <span>Keppel DC REIT</span> · <span>Frasers Centrepoint Trust</span> · <span style="color:#4ade80">CSPX.L</span> top-up</div>
+    </div>
+    <div class="tranche">
+      <div class="tranche-header"><span class="tranche-title">Tranche 3 — Deep Dislocation</span><span class="tranche-status status-standby">STANDBY</span></div>
+      <div class="tranche-items">Lower bank triggers · <span>Sembcorp Industries</span> · Further <span>JEPQ.L</span> · <span style="color:#4ade80">CSPX.L</span> add</div>
+    </div>
+    <div class="card" style="background:rgba(248,113,113,.04);border-color:var(--red-dim)">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--red);margin-bottom:4px">DO NOT ADD</div>
+      <div style="font-size:10px;color:var(--text-dim)">Prime US REIT (OXMU) · CapitaLand China Trust (AU8U)</div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB: TRENDS -->
+<div id="tab-trends" class="tab-content">
+  <div class="section">
+    <div class="section-title">Portfolio Value Trend</div>
+    <div class="card" style="padding:10px 6px">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);margin-bottom:8px;padding:0 6px">TOTAL PORTFOLIO · SGD · May 26 = real · prior months = estimated</div>
+      <canvas id="chart-total" height="160"></canvas>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">Sub-Portfolio Values</div>
+    <div class="card" style="padding:10px 6px">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);margin-bottom:8px;padding:0 6px">ALL ACCOUNTS · SGD equiv.</div>
+      <canvas id="chart-subport" height="200"></canvas>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">Monthly Passive Income Trend</div>
+    <div class="card" style="padding:10px 6px">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);margin-bottom:8px;padding:0 6px">SGD/MONTH · from Snowball passive income field</div>
+      <canvas id="chart-income" height="140"></canvas>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">Key Stock Price Trends (Live)</div>
+    <div class="card" style="padding:10px 6px">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);margin-bottom:8px;padding:0 6px">DBS · OCBC · NVDA · 30-day range</div>
+      <canvas id="chart-stocks" height="160"></canvas>
+      <div id="chart-stocks-status" style="text-align:center;font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);margin-top:6px">fetching live data…</div>
+    </div>
+  </div>
+  <div style="padding:8px 16px;font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim)">
+    * Portfolio trend uses manual snapshots. Update by sending new Snowball screenshot.
+  </div>
+</div>
+
+<!-- TAB: BUY LINES -->
+<div id="tab-buylines" class="tab-content">
+  <div class="section">
+    <div class="section-title">Buy Line Monitor</div>
+    <div class="card" style="background:rgba(201,168,76,.04);border-color:var(--gold-dim);margin-bottom:10px">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-bottom:4px">HOW TO READ</div>
+      <div style="font-size:10px;color:var(--text-dim);line-height:1.6">Green bar = current price. Gold line = T1 buy trigger. Red line = T2/T3 trigger. If bar is below a line → deploy that tranche.</div>
+    </div>
+    <div id="buylines-grid" style="display:flex;flex-direction:column;gap:10px"></div>
+    <div style="text-align:right;font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);margin-top:8px" id="buylines-time">Fetching prices…</div>
+  </div>
+  <div class="section">
+    <div class="section-title">Tranche Summary</div>
+    <div class="card" style="background:rgba(74,222,128,.05);border-color:var(--green-dim)">
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--green);margin-bottom:6px">TRANCHE 1 — ACTIVE · −5% from today's price</div>
+      <div style="font-size:13px;color:var(--text-dim);line-height:1.9">JEPQ.L · WINC.L ✓ · ParkwayLife · NetLink · <span style="color:var(--text-dim);text-decoration:line-through">M44U stood down</span> · <span style="color:#4ade80">CSPX.L (S&amp;P 500)</span></div>
+    </div>
+    <div class="card" style="margin-top:6px;background:rgba(201,168,76,.05);border-color:var(--gold-dim)">
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);margin-bottom:6px">TRANCHE 2 — WAITING · −10% from today's price</div>
+      <div style="font-size:13px;color:var(--text-dim);line-height:1.9">DBS · OCBC · Keppel DC · FCT · <span style="color:#4ade80">CSPX.L</span> top-up</div>
+    </div>
+    <div class="card" style="margin-top:6px;background:rgba(74,85,104,.2);border-color:var(--muted)">
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim);margin-bottom:6px">TRANCHE 3 — STANDBY · −15% from today's price</div>
+      <div style="font-size:13px;color:var(--text-dim);line-height:1.9">DBS · OCBC · Sembcorp · JEPQ.L · <span style="color:#4ade80">CSPX.L</span> add</div>
+    </div>
+    <div class="card" style="margin-top:6px;background:rgba(248,113,113,.04);border-color:var(--red-dim)">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--red);margin-bottom:4px">DO NOT ADD — REGARDLESS OF PRICE</div>
+      <div style="font-size:10px;color:var(--text-dim)">Prime US REIT (OXMU) · CapitaLand China Trust (AU8U)</div>
+    </div>
+  </div>
+</div>
+
+<!-- SHARE CARD -->
+<div class="share-section">
+  <div class="share-card">
+    <div class="share-title">Portfolio Snapshot</div>
+    <div class="share-metrics">
+      <div class="share-metric"><div class="val">1,568,967</div><div class="lbl">Portfolio (SGD)</div></div>
+      <div class="share-metric"><div class="val">7,833</div><div class="lbl">Passive Inc/mo</div></div>
+      <div class="share-metric"><div class="val">+40.1%</div><div class="lbl">Total Profit</div></div>
+      <div class="share-metric"><div class="val">22.03%</div><div class="lbl">IRR</div></div>
+    </div>
+    <button class="share-btn" onclick="showSnapshot()">📤 Generate WhatsApp Card</button>
+  </div>
+</div>
+
+<!-- SNAPSHOT OVERLAY -->
+<div id="snapshot-overlay" onclick="hideSnapshot()">
+  <div id="snapshot-card" onclick="event.stopPropagation()">
+    <div class="snap-logo">Ramsesport</div>
+    <div class="snap-date" id="snap-date"></div>
+    <div class="snap-grid">
+      <div class="snap-box"><div class="sv">SGD 1,568,967</div><div class="sl">Portfolio Value</div></div>
+      <div class="snap-box"><div class="sv">SGD 7,833/mo</div><div class="sl">Passive Income</div></div>
+      <div class="snap-box"><div class="sv">+40.1%</div><div class="sl">Total Profit</div></div>
+      <div class="snap-box"><div class="sv">22.03%</div><div class="sl">IRR (all-time)</div></div>
+    </div>
+    <div class="snap-grid">
+      <div class="snap-box"><div class="sv">6.0%</div><div class="sl">Passive Yield</div></div>
+      <div class="snap-box"><div class="sv">SGD 93,995</div><div class="sl">Annual Income</div></div>
+    </div>
+    <div class="snap-footer">Source: Snowball · Screenshot &amp; share via WhatsApp<br>Passive income target SGD 20,000/mo · Progress: 39.2% · As at 31 May 2026</div>
+    <button class="snap-close" onclick="hideSnapshot()">Close</button>
+  </div>
+</div>
+
+<!-- CHART.JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+// ── LIVE DATE & TIME in header ──
+function updateDateTime() {
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-SG', {weekday:'short', day:'numeric', month:'short', year:'numeric'});
+  const timeStr = now.toLocaleTimeString('en-SG', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+  const el = document.getElementById('live-date');
+  const tel = document.getElementById('live-time');
+  if (el) el.textContent = dateStr;
+  if (tel) tel.textContent = timeStr;
+}
+updateDateTime();
+setInterval(updateDateTime, 1000);
+function showTab(id, el) {
+  document.querySelectorAll('.tab-content').forEach(e => e.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(e => e.classList.remove('active'));
+  const target = document.getElementById('tab-' + id);
+  if (target) target.classList.add('active');
+  if (el) el.classList.add('active');
+
+  if (id === 'trends' && !window._chartsBuilt) {
+    window._chartsBuilt = true;
+    setTimeout(() => {
+      buildTotalChart();
+      buildSubportChart();
+      buildIncomeChart();
+      buildStockTrendChart();
+    }, 100);
+  }
+  if (id === 'buylines' && !window._buyLinesBuilt) {
+    window._buyLinesBuilt = true;
+    buildBuyLines();
+    setInterval(buildBuyLines, 5 * 60 * 1000);
+  }
+}
+
+// ── SNAPSHOT ──
+function showSnapshot() {
+  const now = new Date();
+  document.getElementById('snap-date').textContent = now.toLocaleDateString('en-SG', {year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('snapshot-overlay').classList.add('show');
+}
+function hideSnapshot() {
+  document.getElementById('snapshot-overlay').classList.remove('show');
+}
+
+// ── LIVE PRICES (Income tab) ──
+// ── ALL PORTFOLIO HOLDINGS — grouped by market ───────────────────────────────
+const PRICE_GROUPS = [
+  {
+    group: 'SGX — Singapore',
+    tag: 'SGX', tagBg: 'rgba(74,222,128,.12)', tagCol: '#4ade80',
+    tickers: [
+      { sym:'D05.SI',  label:'DBS',               cur:'SGD', accts:'Cash SGD · CPFIS · SRS' },
+      { sym:'O39.SI',  label:'OCBC',              cur:'SGD', accts:'Cash SGD · CPFIS · SRS' },
+      { sym:'C2PU.SI', label:'ParkwayLife REIT',  cur:'SGD', accts:'Cash SGD · SRS' },
+      { sym:'AJBU.SI', label:'Keppel DC REIT',    cur:'SGD', accts:'CPFIS' },
+      { sym:'J69U.SI', label:'Frasers CT',        cur:'SGD', accts:'Cash SGD · SRS' },
+      { sym:'CJLU.SI', label:'NetLink NBN',       cur:'SGD', accts:'Cash SGD · SRS' },
+      { sym:'C38U.SI', label:'CICT',              cur:'SGD', accts:'CPFIS · SRS' },
+      { sym:'ME8U.SI', label:'Mapletree Ind',     cur:'SGD', accts:'Cash SGD' },
+      { sym:'9A4U.SI', label:'ESR-REIT',          cur:'SGD', accts:'Cash SGD · CPFIS · SRS' },
+      { sym:'C52.SI',  label:'ComfortDelGro',     cur:'SGD', accts:'Cash SGD · CPFIS' },
+      { sym:'MXNU.SI', label:'Elite Comm REIT',   cur:'SGD', accts:'Cash SGD' },
+      { sym:'DCRU.SI', label:'Digital Core REIT', cur:'SGD', accts:'Cash SGD · SRS' },
+      { sym:'BUOU.SI', label:'Frasers L&C Trust', cur:'SGD', accts:'CPFIS' },
+      { sym:'P40U.SI', label:'Starhill REIT',     cur:'SGD', accts:'CPFIS' },
+      { sym:'P9D.SI',  label:'Civmec',            cur:'SGD', accts:'CPFIS' },
+      { sym:'CFA.SI',  label:'NikkoAM Asia ex-JP',cur:'SGD', accts:'CPFIS' },
+      { sym:'OV8.SI',  label:'Sheng Siong',       cur:'SGD', accts:'Cash SGD' },
+      { sym:'P8Z.SI',  label:'Bumitama Agri',     cur:'SGD', accts:'Cash SGD' },
+      { sym:'AGS.SI',  label:'The Hour Glass',    cur:'SGD', accts:'SRS' },
+      { sym:'Z74.SI',  label:'Singtel',           cur:'SGD', accts:'SRS' },
+      { sym:'HMN.SI',  label:'CapitaLand Ascott', cur:'SGD', accts:'SRS' },
+      { sym:'DHLU.SI', label:'Daiwa House Log',   cur:'SGD', accts:'SRS' },
+      { sym:'QL3.SI',  label:'iShares SE Asia',   cur:'SGD', accts:'SRS' },
+      { sym:'A7RU.SI', label:'Keppel Infra Trust',cur:'SGD', accts:'SRS' },
+      { sym:'AU8U.SI', label:'CapitaLand China ⚠',cur:'SGD', accts:'SRS' },
+      { sym:'Y92.SI',  label:'Thai Beverage',     cur:'SGD', accts:'SRS' },
+      { sym:'OXMU.SI', label:'Prime US REIT ⚠',  cur:'SGD', accts:'Cash SGD' },
+    ]
+  },
+  {
+    group: 'LSE — GBP Cash Portfolio',
+    tag: 'LSE', tagBg: 'rgba(248,113,113,.12)', tagCol: '#f87171',
+    tickers: [
+      { sym:'HSBA.L', label:'HSBC Holdings',    cur:'GBX', accts:'Cash GBP' },
+      { sym:'LGEN.L', label:'Legal & General',  cur:'GBX', accts:'Cash GBP' },
+      { sym:'MNG.L',  label:'M&G Plc',          cur:'GBX', accts:'Cash GBP' },
+      { sym:'HFEL.L', label:'Henderson FEI',    cur:'GBX', accts:'Cash GBP' },
+      { sym:'ICG.L',  label:'Intermediate Cap', cur:'GBX', accts:'Cash GBP' },
+      { sym:'TFIF.L', label:'TwentyFour Income',cur:'GBX', accts:'Cash GBP' },
+    ]
+  },
+  {
+    group: 'LSE — UCITS & Income Funds (FSM)',
+    tag: 'UCITS', tagBg: 'rgba(96,165,250,.12)', tagCol: '#60a5fa',
+    tickers: [
+      { sym:'PHP.L',  label:'Primary Health Prop',cur:'GBX', accts:'Cash FSM' },
+      { sym:'JEPG.L', label:'JPM Global Eq Prem', cur:'GBX', accts:'Cash FSM' },
+      { sym:'JEPQ.L', label:'JPM Nasdaq Eq Prem', cur:'GBX', accts:'Cash FSM' },
+      { sym:'WINC.L', label:'iShares World HI',   cur:'GBX', accts:'Cash FSM' },
+    ]
+  },
+  {
+    group: 'NYSE / NASDAQ — USD',
+    tag: 'US', tagBg: 'rgba(201,168,76,.12)', tagCol: '#c9a84c',
+    tickers: [
+      { sym:'NVDA', label:'NVIDIA',           cur:'USD', accts:'Growth' },
+      { sym:'MSFT', label:'Microsoft',        cur:'USD', accts:'Growth' },
+      { sym:'ADX',  label:'Adams Div Equity', cur:'USD', accts:'Cash FSM' },
+    ]
+  },
+  {
+    group: 'Unit Trusts — Daily NAV',
+    tag: 'UT', tagBg: 'rgba(192,132,252,.12)', tagCol: '#c084fc',
+    tickers: [
+      { sym:'0P0000Z1XG',  label:'Nikko AM Japan Div', cur:'SGD', accts:'CPFIS',    type:'morningstar' },
+      { sym:'IE000YTNTUN2',label:'PIMCO Balanced Inc',  cur:'USD', accts:'Cash FSM', type:'static', nav:12.44, navDate:'31 May 26' },
+    ]
+  },
+];
+// Flat list for buy-lines (exchange-listed only)
+const TAG_COLORS = { 'SGX':'rgba(74,222,128,.12)', 'NASDAQ':'rgba(201,168,76,.12)', 'NYSE':'rgba(201,168,76,.12)', 'LSE':'rgba(248,113,113,.12)', 'UCITS':'rgba(96,165,250,.12)' };
+const TAG_TEXT   = { 'SGX':'#4ade80', 'NASDAQ':'#c9a84c', 'NYSE':'#c9a84c', 'LSE':'#f87171', 'UCITS':'#60a5fa' };
+
+
+// ── PRICE HELPERS ────────────────────────────────────────────────────────────
+function fmtPrice(p, cur) {
+  if (p == null) return '—';
+  if (cur === 'GBX') return '£' + (p / 100).toFixed(2); // pence → pounds
+  const sym = cur === 'USD' ? 'US$' : cur === 'GBP' ? '£' : 'S$';
+  return sym + p.toFixed(2);
+}
+function fmtChange(pct) {
+  if (pct == null) return '';
+  return (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%';
+}
+
+// Batch Yahoo Finance fetch (up to ~50 tickers in one call)
+async function fetchYahooBatch(syms) {
+  const joined = syms.join(',');
+  const url = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${encodeURIComponent(joined)}&fields=regularMarketPrice,previousClose,regularMarketChangePercent`;
+  const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+  try {
+    const r = await fetch(proxy, { cache: 'no-cache' });
+    const j = await r.json();
+    const results = JSON.parse(j.contents)?.quoteResponse?.result || [];
+    const map = {};
+    results.forEach(q => {
+      map[q.symbol] = {
+        price: q.regularMarketPrice,
+        pct:   q.regularMarketChangePercent ?? null
+      };
+    });
+    return map;
+  } catch { return {}; }
+}
+
+// Morningstar fetch for unit trust fund IDs (0P... codes)
+async function fetchMorningstar(id) {
+  const today = new Date();
+  const dd = d => d.toISOString().split('T')[0];
+  const start = dd(new Date(today - 14 * 86400000));
+  const end   = dd(today);
+  const url = `https://lt.morningstar.com/api/rest.svc/timeseries_price/t92wz0sj7w?id=${id}&currencyId=SGD&frequency=daily&startDate=${start}&endDate=${end}&outputType=COMPACTJSON&idtype=Morningstar`;
+  const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+  try {
+    const r = await fetch(proxy, { cache: 'no-cache' });
+    const j = await r.json();
+    const raw = JSON.parse(j.contents);
+    // Response is [[date, price], ...] or {Price: [[date,price],...]}
+    let prices = null;
+    if (Array.isArray(raw) && raw.length) prices = raw;
+    else if (raw?.Price) prices = raw.Price;
+    else if (raw?.[0]?.Price) prices = raw[0].Price;
+    if (!prices || prices.length < 1) return null;
+    const latest = prices[prices.length - 1];
+    const prev   = prices.length > 1 ? prices[prices.length - 2] : null;
+    const price  = Array.isArray(latest) ? latest[1] : latest;
+    const prevP  = prev ? (Array.isArray(prev) ? prev[1] : prev) : null;
+    const pct    = prevP ? ((price - prevP) / prevP) * 100 : null;
+    return { price, pct, isNAV: true };
+  } catch { return null; }
+}
+
+// Render one price row
+function priceRowHTML(label, accts, tagBg, tagCol, tag, priceStr, pctStr, pctColor, note) {
+  return `<div style="display:grid;grid-template-columns:1fr auto;align-items:center;padding:7px 10px;background:var(--surface2);border-radius:8px;gap:6px">
+    <div style="min-width:0">
+      <span style="font-family:'DM Mono',monospace;font-size:12px;color:var(--text-bright);white-space:nowrap">${label}</span>
+      <span style="font-size:8px;padding:1px 4px;border-radius:3px;margin-left:4px;font-family:'DM Mono',monospace;background:${tagBg};color:${tagCol};white-space:nowrap">${tag}</span>
+      ${note ? `<span style="font-size:8px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-left:3px">${note}</span>` : ''}
+      <div style="font-size:9px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${accts}</div>
+    </div>
+    <div style="text-align:right;flex-shrink:0">
+      <span style="font-family:'DM Mono',monospace;font-size:13px;color:var(--text-bright)">${priceStr}</span>
+      <span style="font-family:'DM Mono',monospace;font-size:10px;margin-left:5px;color:${pctColor}">${pctStr}</span>
+    </div>
+  </div>`;
+}
+
+// Main loader
+async function loadLivePrices() {
+  const grid    = document.getElementById('live-prices-grid');
+  const statusEl= document.getElementById('price-status');
+  const timeEl  = document.getElementById('price-time');
+  if (!grid) return;
+  statusEl.textContent = 'fetching…'; statusEl.style.color = 'var(--text-dim)';
+  grid.innerHTML = `<div style="padding:12px;text-align:center;font-family:DM Mono,monospace;font-size:10px;color:var(--text-dim)">Loading all holdings…</div>`;
+
+  // Collect all Yahoo exchange tickers
+  const yahooBatch = [];
+  PRICE_GROUPS.forEach(g => g.tickers.forEach(t => {
+    if (!t.type) yahooBatch.push(t.sym);
+  }));
+
+  // Batch fetch — split into chunks of 20 to avoid URL limits
+  const chunks = [];
+  for (let i = 0; i < yahooBatch.length; i += 20) chunks.push(yahooBatch.slice(i, i+20));
+  const batchResults = await Promise.all(chunks.map(c => fetchYahooBatch(c)));
+  const priceMap = Object.assign({}, ...batchResults);
+
+  // Fetch Morningstar funds
+  for (const g of PRICE_GROUPS) {
+    for (const t of g.tickers) {
+      if (t.type === 'morningstar') {
+        priceMap[t.sym] = await fetchMorningstar(t.sym);
+      }
+    }
+  }
+
+  // Render grouped
+  let totalOk = 0, totalTickers = 0;
+  let html = '';
+  for (const g of PRICE_GROUPS) {
+    html += `<div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:${g.tagCol};padding:10px 0 5px;border-bottom:1px solid var(--border);margin-bottom:5px">${g.group}</div>`;
+    html += '<div style="display:flex;flex-direction:column;gap:4px;margin-bottom:4px">';
+    for (const t of g.tickers) {
+      totalTickers++;
+      let priceStr = '…', pctStr = '', pctColor = 'var(--text-dim)', note = '';
+      if (t.type === 'static') {
+        priceStr = `US$${t.nav.toFixed(2)}`;
+        pctStr = `NAV ${t.navDate}`;
+        pctColor = 'var(--text-dim)';
+        note = '(static)';
+        totalOk++;
+      } else {
+        const d = priceMap[t.sym];
+        if (d && d.price != null) {
+          priceStr = fmtPrice(d.price, t.cur);
+          if (d.pct != null) {
+            pctStr = fmtChange(d.pct);
+            pctColor = d.pct >= 0 ? 'var(--green)' : 'var(--red)';
+          }
+          if (d.isNAV) note = '(NAV)';
+          totalOk++;
+        } else {
+          priceStr = 'n/a';
+        }
+      }
+      html += priceRowHTML(t.label, t.accts, g.tagBg, g.tagCol, g.tag, priceStr, pctStr, pctColor, note);
+    }
+    html += '</div>';
+  }
+  grid.innerHTML = html;
+
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});
+  timeEl.textContent = timeStr;
+  if (totalOk > 0) {
+    statusEl.textContent = `● LIVE (${totalOk}/${totalTickers})`;
+    statusEl.style.color = 'var(--green)';
+    const hu = document.getElementById('hero-updated');
+    if (hu) hu.textContent = timeStr;
+  } else {
+    statusEl.textContent = '● offline';
+    statusEl.style.color = 'var(--red)';
+  }
+}
+loadLivePrices();
+setInterval(loadLivePrices, 5 * 60 * 1000);
+Chart.defaults.color = '#718096';
+Chart.defaults.font.family = "'DM Mono', monospace";
+Chart.defaults.font.size = 10;
+
+// ── PORTFOLIO SNAPSHOT DATA (update when you send new Snowball screenshots) ──
+const PORTFOLIO_HISTORY = [
+  { label: 'Jan 25', total: 1415000, income: 6800 }, // estimated
+  { label: 'Feb 25', total: 1445000, income: 6900 }, // estimated
+  { label: 'Mar 25', total: 1430000, income: 6900 }, // estimated
+  { label: 'Apr 25', total: 1460000, income: 7100 }, // estimated
+  { label: 'May 25', total: 1480000, income: 7200 }, // estimated
+  { label: 'Jun 25', total: 1465000, income: 7100 }, // estimated
+  { label: 'Jul 25', total: 1495000, income: 7300 }, // estimated
+  { label: 'Aug 25', total: 1510000, income: 7400 }, // estimated
+  { label: 'Sep 25', total: 1490000, income: 7200 }, // estimated
+  { label: 'Oct 25', total: 1520000, income: 7500 }, // estimated
+  { label: 'Nov 25', total: 1540000, income: 7600 }, // estimated
+  { label: 'Dec 25', total: 1525000, income: 7500 }, // estimated
+  { label: 'Jan 26', total: 1535000, income: 7700 }, // estimated
+  { label: 'Feb 26', total: 1545000, income: 7750 }, // estimated
+  { label: 'Mar 26', total: 1525000, income: 7600 }, // estimated
+  { label: 'Apr 26', total: 1550000, income: 7800 }, // estimated
+  { label: 'May 26', total: 1568967, income: 7833 }, // REAL — 31 May 2026 Snowball
+];
+
+// Sub-portfolio snapshots (SGD equiv, May 2026 actuals)
+const SUBPORT_DATA = [
+  { label: 'Cash SGD', value: 376630, color: '#4ade80' },
+  { label: 'Cash GBP', value: 107775, color: '#f87171' },
+  { label: 'SRS',      value: 370705, color: '#60a5fa' },
+  { label: 'CPFIS',    value: 439550, color: '#c084fc' },
+  { label: 'Cash FSM', value: 251744, color: '#c9a84c' },
+  { label: 'Growth',   value: 22563,  color: '#fb923c' },
+];
+
+// ── BUY LINE CONFIG — tranche triggers ──
+// T1 = buy now/slight dip, T2 = 5-8% pullback, T3 = deep dislocation
+const BUY_LINES = [
+  { sym:'D05.SI',  label:'DBS',             cur:'SGD' },
+  { sym:'O39.SI',  label:'OCBC',            cur:'SGD' },
+  { sym:'AJBU.SI', label:'Keppel DC',       cur:'SGD' },
+  { sym:'J69U.SI', label:'FCT',             cur:'SGD' },
+  { sym:'C2PU.SI', label:'ParkwayLife',     cur:'SGD' },
+  { sym:'CJLU.SI', label:'NetLink',         cur:'SGD' },
+  { sym:'M44U.SI', label:'Mapletree Log',   cur:'SGD' },
+  { sym:'ME8U.SI', label:'Mapletree Ind',   cur:'SGD' },
+  { sym:'C38U.SI', label:'CICT',            cur:'SGD' },
+  { sym:'NVDA',    label:'NVDA',            cur:'USD' },
+  { sym:'MSFT',    label:'MSFT',            cur:'USD' },
+  { sym:'JEPQ',    label:'JEPQ (US)',       cur:'USD' },
+  { sym:'CSPX.L',  label:'CSPX (S&P 500)', cur:'USD' },
+  { sym:'HSBA.L',  label:'HSBC',            cur:'GBP' },
+  { sym:'LGEN.L',  label:'L&G',             cur:'GBP' },
+];
+
+// ── CHART HELPERS ──
+const GRID = { color: 'rgba(30,35,48,0.8)', drawBorder: false };
+const TICK = { color: '#4a5568' };
+
+function makeLineChart(id, labels, datasets, yLabel) {
+  const ctx = document.getElementById(id);
+  if (!ctx) return;
+  new Chart(ctx, {
+    type: 'line',
+    data: { labels, datasets },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: datasets.length > 1, labels: { boxWidth: 10, padding: 10 } }, tooltip: { mode: 'index', intersect: false } },
+      scales: {
+        x: { grid: GRID, ticks: { ...TICK, maxRotation: 0, maxTicksLimit: 6 } },
+        y: { grid: GRID, ticks: TICK, title: { display: !!yLabel, text: yLabel, color: '#4a5568' } }
+      }
+    }
+  });
+}
+
+// ── TOTAL PORTFOLIO CHART ──
+function buildTotalChart() {
+  const labels = PORTFOLIO_HISTORY.map(d => d.label);
+  const vals   = PORTFOLIO_HISTORY.map(d => d.total / 1000); // in K
+  makeLineChart('chart-total', labels, [{
+    label: 'Portfolio SGD (K)',
+    data: vals,
+    borderColor: '#c9a84c',
+    backgroundColor: 'rgba(201,168,76,0.08)',
+    fill: true,
+    tension: 0.35,
+    pointRadius: 3,
+    pointBackgroundColor: '#c9a84c',
+  }], 'SGD (K)');
+}
+
+// ── SUB-PORTFOLIO BAR CHART ──
+function buildSubportChart() {
+  const ctx = document.getElementById('chart-subport');
+  if (!ctx) return;
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: SUBPORT_DATA.map(d => d.label),
+      datasets: [{
+        label: 'Value SGD',
+        data: SUBPORT_DATA.map(d => Math.round(d.value / 1000)),
+        backgroundColor: SUBPORT_DATA.map(d => d.color + 'cc'),
+        borderColor:     SUBPORT_DATA.map(d => d.color),
+        borderWidth: 1,
+        borderRadius: 4,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: GRID, ticks: TICK },
+        y: { grid: GRID, ticks: TICK, title: { display: true, text: 'SGD (K)', color: '#4a5568' } }
+      }
+    }
+  });
+}
+
+// ── INCOME TREND CHART ──
+function buildIncomeChart() {
+  const labels = PORTFOLIO_HISTORY.map(d => d.label);
+  const vals   = PORTFOLIO_HISTORY.map(d => d.income);
+  makeLineChart('chart-income', labels, [{
+    label: 'Passive Income SGD/mo',
+    data: vals,
+    borderColor: '#4ade80',
+    backgroundColor: 'rgba(74,222,128,0.08)',
+    fill: true,
+    tension: 0.35,
+    pointRadius: 3,
+    pointBackgroundColor: '#4ade80',
+  },
+  {
+    label: 'Target 20,000',
+    data: labels.map(() => 20000),
+    borderColor: 'rgba(248,113,113,0.5)',
+    borderDash: [6, 4],
+    borderWidth: 1.5,
+    pointRadius: 0,
+    fill: false,
+  }], 'SGD/mo');
+}
+
+// ── LIVE STOCK TREND CHART (30-day from Yahoo) ──
+async function buildStockTrendChart() {
+  const statusEl = document.getElementById('chart-stocks-status');
+  const stocks = [
+    { sym: 'D05.SI', label: 'DBS',  color: '#4ade80' },
+    { sym: 'O39.SI', label: 'OCBC', color: '#60a5fa' },
+    { sym: 'NVDA',   label: 'NVDA', color: '#c9a84c' },
+  ];
+
+  async function fetchHistory(sym) {
+    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=1d&range=1mo`;
+    const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+    try {
+      const r = await fetch(proxy, { cache: 'no-cache' });
+      const j = await r.json();
+      const result = JSON.parse(j.contents)?.chart?.result?.[0];
+      if (!result) return null;
+      const ts = result.timestamp.map(t => {
+        const d = new Date(t * 1000);
+        return `${d.getDate()}/${d.getMonth()+1}`;
+      });
+      const closes = result.indicators.quote[0].close.map(v => v ? +v.toFixed(2) : null);
+      return { labels: ts, closes };
+    } catch { return null; }
+  }
+
+  const results = await Promise.all(stocks.map(s => fetchHistory(s.sym)));
+  const anyOk = results.some(r => r !== null);
+
+  if (!anyOk) {
+    statusEl.textContent = '● Price history unavailable — proxy offline';
+    return;
+  }
+
+  // Use first successful result's labels
+  const baseLabels = results.find(r => r !== null).labels;
+  const ctx = document.getElementById('chart-stocks');
+  if (!ctx) return;
+
+  const datasets = stocks.map((s, i) => ({
+    label: s.label,
+    data: results[i] ? results[i].closes : [],
+    borderColor: s.color,
+    backgroundColor: 'transparent',
+    tension: 0.3,
+    pointRadius: 2,
+    pointBackgroundColor: s.color,
+    yAxisID: s.sym === 'NVDA' ? 'y2' : 'y',
+  }));
+
+  new Chart(ctx, {
+    type: 'line',
+    data: { labels: baseLabels, datasets },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: true, labels: { boxWidth: 8, padding: 8 } } },
+      scales: {
+        x: { grid: GRID, ticks: { ...TICK, maxRotation: 0, maxTicksLimit: 8 } },
+        y:  { grid: GRID, ticks: TICK, title: { display: true, text: 'SGD', color: '#4a5568' } },
+        y2: { position: 'right', grid: { display: false }, ticks: TICK, title: { display: true, text: 'USD', color: '#4a5568' } }
+      }
+    }
+  });
+  statusEl.textContent = '● Live · 30-day · ' + new Date().toLocaleTimeString('en-SG', {hour:'2-digit',minute:'2-digit'});
+}
+
+// ── BUY LINES CHART ──
+async function buildBuyLines() {
+  const grid = document.getElementById('buylines-grid');
+  const timeEl = document.getElementById('buylines-time');
+  if (!grid) return;
+
+  const prices = await Promise.all(BUY_LINES.map(async item => {
+    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${item.sym}?interval=1d&range=2d`;
+    const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+    try {
+      const r = await fetch(proxy, { cache: 'no-cache' });
+      const j = await r.json();
+      const meta = JSON.parse(j.contents)?.chart?.result?.[0]?.meta;
+      return meta ? meta.regularMarketPrice : null;
+    } catch { return null; }
+  }));
+
+  grid.innerHTML = '';
+
+  BUY_LINES.forEach((item, i) => {
+    const price = prices[i];
+    const cur = item.cur === 'USD' ? 'US$' : item.cur === 'GBP' ? '£' : 'S$';
+    const dp = price < 5 ? 3 : 2;
+
+    // Compute tranche lines dynamically from live price
+    const t1 = price ? +(price * 0.95).toFixed(dp) : null;  // −5%
+    const t2 = price ? +(price * 0.90).toFixed(dp) : null;  // −10%
+    const t3 = price ? +(price * 0.85).toFixed(dp) : null;  // −15%
+
+    // Signal — always HOLD since price is at current level (lines are below)
+    // But show how close price is to each line
+    let signal = price !== null ? '⬜ HOLD' : '—';
+    let sigColor = 'var(--text-dim)', sigBg = 'rgba(74,85,104,.08)';
+
+    // Bar: show current price with lines at 5/10/15% below
+    // Scale: show from 15% below to 5% above current price
+    const scaleMin = price ? price * 0.83 : 0;
+    const scaleMax = price ? price * 1.05 : 1;
+    const scaleRange = scaleMax - scaleMin;
+
+    const pricePct = price ? ((price  - scaleMin) / scaleRange) * 100 : 85;
+    const t1Pct    = price ? ((t1     - scaleMin) / scaleRange) * 100 : 65;
+    const t2Pct    = price ? ((t2     - scaleMin) / scaleRange) * 100 : 45;
+    const t3Pct    = price ? ((t3     - scaleMin) / scaleRange) * 100 : 20;
+
+    const barColor = '#4ade80';
+
+    const el = document.createElement('div');
+    el.style.cssText = `background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:13px 14px;margin-bottom:8px`;
+    el.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+        <div>
+          <div style="font-family:'DM Mono',monospace;font-size:15px;color:var(--text-bright);font-weight:500">${item.label}</div>
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-dim);margin-top:2px">${item.sym}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-family:'DM Serif Display',serif;font-size:26px;color:${barColor};line-height:1">${price !== null ? cur + price.toFixed(dp) : 'n/a'}</div>
+          <div style="font-size:10px;padding:2px 8px;border-radius:4px;background:${sigBg};color:${sigColor};font-family:'DM Mono',monospace;display:inline-block;margin-top:4px">${signal}</div>
+        </div>
+      </div>
+      <!-- Bar track -->
+      <div style="position:relative;height:24px;background:var(--surface2);border-radius:5px;overflow:visible;margin-bottom:6px">
+        <div style="position:absolute;top:0;height:100%;left:0;width:${pricePct}%;background:rgba(74,222,128,.12);border-radius:5px;border-right:2.5px solid #4ade80"></div>
+        <div style="position:absolute;top:-6px;bottom:-6px;left:${t1Pct}%;width:2px;background:#4ade80"></div>
+        <div style="position:absolute;top:-6px;bottom:-6px;left:${t2Pct}%;width:2px;background:#c9a84c"></div>
+        <div style="position:absolute;top:-6px;bottom:-6px;left:${t3Pct}%;width:2px;background:#f87171"></div>
+        <div style="position:absolute;top:-17px;left:${Math.max(t1Pct-1,0)}%;font-size:8px;color:#4ade80;font-family:'DM Mono',monospace">T1</div>
+        <div style="position:absolute;top:-17px;left:${Math.max(t2Pct-1,0)}%;font-size:8px;color:#c9a84c;font-family:'DM Mono',monospace">T2</div>
+        <div style="position:absolute;top:-17px;left:${Math.max(t3Pct-2,0)}%;font-size:8px;color:#f87171;font-family:'DM Mono',monospace">T3</div>
+      </div>
+      <!-- Buy price row -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:14px">
+        <div style="background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.2);border-radius:7px;padding:7px 6px;text-align:center">
+          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#4ade80;margin-bottom:2px">T1 −5%</div>
+          <div style="font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);font-weight:500">${price ? cur+t1 : '—'}</div>
+        </div>
+        <div style="background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);border-radius:7px;padding:7px 6px;text-align:center">
+          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#c9a84c;margin-bottom:2px">T2 −10%</div>
+          <div style="font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);font-weight:500">${price ? cur+t2 : '—'}</div>
+        </div>
+        <div style="background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.2);border-radius:7px;padding:7px 6px;text-align:center">
+          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#f87171;margin-bottom:2px">T3 −15%</div>
+          <div style="font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);font-weight:500">${price ? cur+t3 : '—'}</div>
+        </div>
+      </div>
+    `;
+    grid.appendChild(el);
+  });
+
+  const t = new Date().toLocaleTimeString('en-SG', {hour:'2-digit',minute:'2-digit'});
+  timeEl.textContent = `● Live prices · ${t} · auto-refresh every 5 min`;
+}
+
+// ── Charts initialised lazily via showTab above ──
+</script>
+</body>
+</html>
