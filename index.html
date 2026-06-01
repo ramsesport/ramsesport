@@ -292,8 +292,8 @@ function checkPin() {
 <!-- HERO -->
 <div class="hero">
   <div class="hero-label">Investment Portfolio — Total Value</div>
-  <div class="hero-value"><span>SGD </span><span id="hero-portfolio-val">1,568,967</span></div>
-  <div class="hero-sub">Invested SGD 1,223,775 · Profit +SGD 490,835 (+40.1%) · IRR 22.03%</div>
+  <div class="hero-value"><span>SGD </span><span id="hero-portfolio-val">1,571,376</span></div>
+  <div class="hero-sub">Invested SGD 1,226,119 · Profit +SGD 490,900 (+40.0%) · IRR 22.03%</div>
   <div class="hero-grid">
     <div class="hero-pill"><span class="val" id="hero-passive">7,833</span><span class="lbl">Passive Inc/mo</span></div>
     <div class="hero-pill"><span class="val">6.0%</span><span class="lbl">Yield (cost)</span></div>
@@ -336,9 +336,9 @@ function checkPin() {
     </div>
     <div class="card" style="margin-top:10px;background:rgba(201,168,76,.05);border-color:var(--gold-dim)">
       <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-bottom:6px;letter-spacing:1px">SNOWBALL ANALYTICS — Total Net Worth (Income &amp; Growth)</div>
-      <div class="row-kv"><span class="k">Portfolio value</span><span class="v">SGD 1,568,967</span></div>
-      <div class="row-kv"><span class="k">Amount invested</span><span class="v">SGD 1,223,775</span></div>
-      <div class="row-kv"><span class="k">Total profit</span><span class="v green">+SGD 490,835 (+40.1%)</span></div>
+      <div class="row-kv"><span class="k">Portfolio value</span><span class="v">SGD 1,571,376</span></div>
+      <div class="row-kv"><span class="k">Amount invested</span><span class="v">SGD 1,226,119</span></div>
+      <div class="row-kv"><span class="k">Total profit</span><span class="v green">+SGD 490,900 (+40.0%)</span></div>
       <div class="row-kv"><span class="k">IRR (all-time)</span><span class="v green">22.03% (prior snapshot)</span></div>
       <div class="row-kv"><span class="k">IRR (current holdings)</span><span class="v green">18.38%</span></div>
       <div class="row-kv"><span class="k">Passive income yield</span><span class="v green">6.0%</span></div>
@@ -489,10 +489,14 @@ function checkPin() {
       <div><div class="h-ticker">WINC</div><div class="h-name">iShares World HI Active</div><div><span class="h-tag tag-ucits">UCITS</span></div></div>
       <div class="h-val">127,686</div><div class="h-yield">9.68%</div><div class="h-income">3,689/qtr</div>
     </div>
+    <div class="holding-row">
+      <div><div class="h-ticker">VWRP</div><div class="h-name">Vanguard All-World UCITS ETF</div><div><span class="h-tag tag-gbp">LSE</span><span class="h-tag" style="background:rgba(74,222,128,.12);color:#4ade80;margin-left:2px">ACCUM</span></div></div>
+      <div class="h-val">2,409</div><div class="h-yield" style="color:var(--text-dim)">0.0%</div><div class="h-income">—</div>
+    </div>
     <div class="card" style="margin-top:8px">
-      <div class="row-kv"><span class="k">Cost basis</span><span class="v">245,730</span></div>
-      <div class="row-kv"><span class="k">Current value</span><span class="v">251,744</span></div>
-      <div class="row-kv"><span class="k">Capital gain</span><span class="v green">+6,014 (+2.45%)</span></div>
+      <div class="row-kv"><span class="k">Cost basis</span><span class="v">248,074</span></div>
+      <div class="row-kv"><span class="k">Current value</span><span class="v">254,153</span></div>
+      <div class="row-kv"><span class="k">Capital gain</span><span class="v green">+6,079 (+2.45%)</span></div>
       <div class="row-kv"><span class="k">Div received (total)</span><span class="v gold">3,745</span></div>
     </div>
     <div class="card" style="background:rgba(96,165,250,.04);border-color:var(--blue-dim)">
@@ -1136,7 +1140,7 @@ function checkPin() {
   <div class="share-card">
     <div class="share-title">Portfolio Snapshot</div>
     <div class="share-metrics">
-      <div class="share-metric"><div class="val">1,568,967</div><div class="lbl">Portfolio (SGD)</div></div>
+      <div class="share-metric"><div class="val">1,571,376</div><div class="lbl">Portfolio (SGD)</div></div>
       <div class="share-metric"><div class="val">7,833</div><div class="lbl">Passive Inc/mo</div></div>
       <div class="share-metric"><div class="val">+40.1%</div><div class="lbl">Total Profit</div></div>
       <div class="share-metric"><div class="val">22.03%</div><div class="lbl">IRR</div></div>
@@ -1151,7 +1155,7 @@ function checkPin() {
     <div class="snap-logo">Ramsesport</div>
     <div class="snap-date" id="snap-date"></div>
     <div class="snap-grid">
-      <div class="snap-box"><div class="sv">SGD 1,568,967</div><div class="sl">Portfolio Value</div></div>
+      <div class="snap-box"><div class="sv">SGD 1,571,376</div><div class="sl">Portfolio Value</div></div>
       <div class="snap-box"><div class="sv">SGD 7,833/mo</div><div class="sl">Passive Income</div></div>
       <div class="snap-box"><div class="sv">+40.1%</div><div class="sl">Total Profit</div></div>
       <div class="snap-box"><div class="sv">22.03%</div><div class="sl">IRR (all-time)</div></div>
@@ -1269,6 +1273,7 @@ const PRICE_GROUPS = [
       { sym:'JEPG.L', label:'JPM Global Eq Prem', cur:'GBX', accts:'Cash FSM' },
       { sym:'JEPQ.L', label:'JPM Nasdaq Eq Prem', cur:'GBX', accts:'Cash FSM' },
       { sym:'WINC.L', label:'iShares World HI',   cur:'GBX', accts:'Cash FSM' },
+      { sym:'VWRP.L', label:'Vanguard All-World',  cur:'GBX', accts:'Cash FSM' },
     ]
   },
   {
@@ -1480,7 +1485,7 @@ const SUBPORT_DATA = [
   { label: 'Cash GBP', value: 107775, color: '#f87171' },
   { label: 'SRS',      value: 370705, color: '#60a5fa' },
   { label: 'CPFIS',    value: 439550, color: '#c084fc' },
-  { label: 'Cash FSM', value: 251744, color: '#c9a84c' },
+  { label: 'Cash FSM', value: 254153, color: '#c9a84c' },
   { label: 'Growth',   value: 22563,  color: '#fb923c' },
 ];
 
