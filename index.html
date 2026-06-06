@@ -1317,20 +1317,30 @@ function fmtChange(pct) {
 async function fetchYahooBatch(syms) {
   const joined = syms.join(',');
   const url = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${encodeURIComponent(joined)}&fields=regularMarketPrice,previousClose,regularMarketChangePercent`;
-  const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
-  try {
-    const r = await fetch(proxy, { cache: 'no-cache' });
-    const j = await r.json();
-    const results = JSON.parse(j.contents)?.quoteResponse?.result || [];
-    const map = {};
-    results.forEach(q => {
-      map[q.symbol] = {
-        price: q.regularMarketPrice,
-        pct:   q.regularMarketChangePercent ?? null
-      };
-    });
-    return map;
-  } catch { return {}; }
+  // Try corsproxy.io first, fall back to allorigins
+  const proxies = [
+    `https://corsproxy.io/?url=${encodeURIComponent(url)}`,
+    `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`
+  ];
+  for (const proxy of proxies) {
+    try {
+      const r = await fetch(proxy, { cache: 'no-cache' });
+      const j = await r.json();
+      // corsproxy returns raw JSON; allorigins wraps in {contents:'...'}
+      const raw = j.contents ? JSON.parse(j.contents) : j;
+      const results = raw?.quoteResponse?.result || [];
+      if (!results.length) continue;
+      const map = {};
+      results.forEach(q => {
+        map[q.symbol] = {
+          price: q.regularMarketPrice,
+          pct:   q.regularMarketChangePercent ?? null
+        };
+      });
+      return map;
+    } catch { continue; }
+  }
+  return {};
 }
 
 // Morningstar fetch for unit trust fund IDs (0P... codes)
@@ -1340,11 +1350,11 @@ async function fetchMorningstar(id) {
   const start = dd(new Date(today - 14 * 86400000));
   const end   = dd(today);
   const url = `https://lt.morningstar.com/api/rest.svc/timeseries_price/t92wz0sj7w?id=${id}&currencyId=SGD&frequency=daily&startDate=${start}&endDate=${end}&outputType=COMPACTJSON&idtype=Morningstar`;
-  const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+  const proxy = `https://corsproxy.io/?url=${encodeURIComponent(url)}`;
   try {
     const r = await fetch(proxy, { cache: 'no-cache' });
     const j = await r.json();
-    const raw = JSON.parse(j.contents);
+    const raw = j.contents ? JSON.parse(j.contents) : j;
     // Response is [[date, price], ...] or {Price: [[date,price],...]}
     let prices = null;
     if (Array.isArray(raw) && raw.length) prices = raw;
@@ -1447,9 +1457,17 @@ async function loadLivePrices() {
     const cur = el.dataset.cur || 'SGD';
     const d   = priceMap[sym];
     if (!d || d.price == null) { el.textContent = '—'; el.style.color = 'var(--text-dim)'; return; }
-    if (d.isNAV) { el.textContent = 'US$' + d.price.toFixed(2); el.style.color = 'var(--text-dim)'; return; }
-    el.textContent = fmtPrice(d.price, cur);
-    el.style.color = 'var(--text-bright)';
+    if (d.isNAV) {
+      el.textContent = 'US$' + d.price.toFixed(2);
+      el.style.color = 'var(--text-dim)';
+      return;
+    }
+    const priceStr = fmtPrice(d.price, cur);
+    const pctStr   = d.pct != null ? ' (' + fmtChange(d.pct) + ')' : '';
+    el.textContent = priceStr + pctStr;
+    el.style.color = d.pct != null
+      ? (d.pct >= 0 ? 'var(--green)' : 'var(--red)')
+      : 'var(--text-bright)';
   });
 
   const now = new Date();
@@ -1623,7 +1641,7 @@ async function buildStockTrendChart() {
 
   async function fetchHistory(sym) {
     const url = `https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=1d&range=1mo`;
-    const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+    const proxy = `https://corsproxy.io/?url=${encodeURIComponent(url)}`;
     try {
       const r = await fetch(proxy, { cache: 'no-cache' });
       const j = await r.json();
@@ -1686,7 +1704,7 @@ async function buildBuyLines() {
 
   const prices = await Promise.all(BUY_LINES.map(async item => {
     const url = `https://query1.finance.yahoo.com/v8/finance/chart/${item.sym}?interval=1d&range=2d`;
-    const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+    const proxy = `https://corsproxy.io/?url=${encodeURIComponent(url)}`;
     try {
       const r = await fetch(proxy, { cache: 'no-cache' });
       const j = await r.json();
