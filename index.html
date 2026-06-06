@@ -1395,26 +1395,24 @@ async function loadLivePrices() {
   statusEl.textContent = 'fetching…'; statusEl.style.color = 'var(--text-dim)';
   grid.innerHTML = `<div style="padding:12px;text-align:center;font-family:DM Mono,monospace;font-size:10px;color:var(--text-dim)">Loading all holdings…</div>`;
 
-  // Collect all Yahoo exchange tickers
-  const yahooBatch = [];
-  PRICE_GROUPS.forEach(g => g.tickers.forEach(t => {
-    if (!t.type) yahooBatch.push(t.sym);
-  }));
-
-  // Batch fetch — split into chunks of 20 to avoid URL limits
-  const chunks = [];
-  for (let i = 0; i < yahooBatch.length; i += 20) chunks.push(yahooBatch.slice(i, i+20));
-  const batchResults = await Promise.all(chunks.map(c => fetchYahooBatch(c)));
-  const priceMap = Object.assign({}, ...batchResults);
-
-  // Fetch Morningstar funds
-  for (const g of PRICE_GROUPS) {
-    for (const t of g.tickers) {
-      if (t.type === 'morningstar') {
-        priceMap[t.sym] = await fetchMorningstar(t.sym);
+  // Load prices from prices.json (updated every 15 min by GitHub Actions)
+  let priceMap = {};
+  try {
+    const r = await fetch('/ramsesport/prices.json?t=' + Date.now(), { cache: 'no-cache' });
+    if (r.ok) {
+      const data = await r.json();
+      priceMap = data.prices || {};
+      if (timeEl && data.updated) {
+        const d = new Date(data.updated);
+        timeEl.textContent = d.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'}) + ' UTC';
       }
     }
-  }
+  } catch(e) { console.warn('prices.json unavailable:', e); }
+
+  // Merge static NAV entries (PIMCO etc.)
+  PRICE_GROUPS.forEach(g => g.tickers.forEach(t => {
+    if (t.type === 'static') priceMap[t.sym] = { price: t.nav, pct: null, isNAV: true };
+  }));
 
   // Render grouped
   let totalOk = 0, totalTickers = 0;
