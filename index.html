@@ -74,9 +74,10 @@
   .holding-row:last-child{border-bottom:none}
   .h-ticker{font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);font-weight:500}
   .h-name{font-size:10px;color:var(--text-dim);margin-top:1px;line-height:1.2}
-  .h-val{font-family:'DM Mono',monospace;font-size:12px;color:var(--text);text-align:right}
-  .h-yield{font-family:'DM Mono',monospace;font-size:12px;color:var(--green);text-align:right}
-  .h-income{font-family:'DM Mono',monospace;font-size:12px;color:var(--gold);text-align:right}
+  .h-val{font-family:'DM Mono',monospace;font-size:12px;color:var(--text-dim);text-align:right}
+  .h-yield{font-family:'DM Mono',monospace;font-size:12px;color:var(--text);text-align:right}
+  .h-income{font-family:'DM Mono',monospace;font-size:12px;color:var(--text-dim);text-align:right}
+  .h-day{font-family:'DM Mono',monospace;font-size:12px;text-align:right}
   .h-tag{display:inline-block;font-size:9px;padding:2px 5px;border-radius:3px;font-family:'DM Mono',monospace;margin-top:2px}
   .tag-ucits{background:rgba(96,165,250,.15);color:var(--blue)}
   .tag-sg{background:rgba(74,222,128,.12);color:var(--green)}
@@ -394,59 +395,59 @@ function checkPin() {
       <div><div class="acct-name">Cash SGD — CDP</div><div class="acct-yield">Yield 6.86% (cost) · 5.31% (mkt)</div></div>
       <div class="acct-total">376,630</div>
     </div>
-    <div class="holdings-header"><span>Holding</span><span>Value</span><span>Yield</span><span>Next Div</span></div>
+    <div class="holdings-header"><span>Holding</span><span>Cost</span><span>Mkt Value</span><span>Day %</span></div>
 
     <div class="holding-row">
       <div><div class="h-ticker">OXMU</div><div class="h-name">Prime US REIT</div><div><span class="h-tag tag-reit">REIT</span><span class="h-tag tag-warn" style="margin-left:2px">⚠ DO NOT ADD</span></div></div>
-      <div class="h-val">15</div><div class="h-yield" style="color:var(--red)">0.56%</div><div class="h-income">0.09</div>
+      <div class="h-val">—</div><div class="h-yield">15</div><div class="h-income h-day" data-sym="OXMU.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">OV8</div><div class="h-name">Sheng Siong Group</div><div><span class="h-tag tag-sg">SGX</span></div></div>
-      <div class="h-val">7,320</div><div class="h-yield">2.3%</div><div class="h-income">91.20</div>
+      <div class="h-val">—</div><div class="h-yield">7,320</div><div class="h-income h-day" data-sym="OV8.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">ME8U</div><div class="h-name">Mapletree Industrial</div><div><span class="h-tag tag-reit">REIT</span></div></div>
-      <div class="h-val">9,700</div><div class="h-yield">6.55%</div><div class="h-income">154.50</div>
+      <div class="h-val">—</div><div class="h-yield">9,700</div><div class="h-income h-day" data-sym="ME8U.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">P8Z</div><div class="h-name">Bumitama Agri</div><div><span class="h-tag tag-sg">SGX</span></div></div>
-      <div class="h-val">15,500</div><div class="h-yield">4.15%</div><div class="h-income">322</div>
+      <div class="h-val">—</div><div class="h-yield">15,500</div><div class="h-income h-day" data-sym="P8Z.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">C2PU</div><div class="h-name">ParkwayLife REIT</div><div><span class="h-tag tag-reit">REIT</span></div></div>
-      <div class="h-val">18,045</div><div class="h-yield">3.81%</div><div class="h-income">343.80</div>
+      <div class="h-val">—</div><div class="h-yield">18,045</div><div class="h-income h-day" data-sym="C2PU.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">DCRU</div><div class="h-name">Digital Core REIT</div><div><span class="h-tag tag-reit">REIT</span></div></div>
-      <div class="h-val">9,382</div><div class="h-yield">7.35%</div><div class="h-income">344.63</div>
+      <div class="h-val">—</div><div class="h-yield">9,382</div><div class="h-income h-day" data-sym="DCRU.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">C52</div><div class="h-name">ComfortDelGro</div><div><span class="h-tag tag-sg">SGX</span></div></div>
-      <div class="h-val">14,061</div><div class="h-yield">6.07%</div><div class="h-income">500.31</div>
+      <div class="h-val">—</div><div class="h-yield">14,061</div><div class="h-income h-day" data-sym="C52.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">MXNU</div><div class="h-name">Elite Commercial REIT</div><div><span class="h-tag tag-reit">REIT</span></div></div>
-      <div class="h-val">11,675</div><div class="h-yield">8.88%</div><div class="h-income">487.62</div>
+      <div class="h-val">—</div><div class="h-yield">11,675</div><div class="h-income h-day" data-sym="MXNU.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">9A4U</div><div class="h-name">ESR-REIT</div><div><span class="h-tag tag-reit">REIT</span></div></div>
-      <div class="h-val">12,424</div><div class="h-yield">9.21%</div><div class="h-income">586.68</div>
+      <div class="h-val">—</div><div class="h-yield">12,424</div><div class="h-income h-day" data-sym="9A4U.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">J69U</div><div class="h-name">Frasers Centrepoint Trust</div><div><span class="h-tag tag-reit">REIT</span></div></div>
-      <div class="h-val">27,792</div><div class="h-yield">5.33%</div><div class="h-income">751.23</div>
+      <div class="h-val">—</div><div class="h-yield">27,792</div><div class="h-income h-day" data-sym="J69U.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">CJLU</div><div class="h-name">NetLink NBN Trust</div><div><span class="h-tag tag-sg">SGX</span></div></div>
-      <div class="h-val">29,850</div><div class="h-yield">5.45%</div><div class="h-income">813</div>
+      <div class="h-val">—</div><div class="h-yield">29,850</div><div class="h-income h-day" data-sym="CJLU.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">O39</div><div class="h-name">OCBC</div><div><span class="h-tag tag-sg">SGX</span></div></div>
-      <div class="h-val">46,800</div><div class="h-yield">4.23%</div><div class="h-income">840</div>
+      <div class="h-val">—</div><div class="h-yield">46,800</div><div class="h-income h-day" data-sym="O39.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">D05</div><div class="h-name">DBS Group Holdings</div><div><span class="h-tag tag-sg">SGX</span></div></div>
-      <div class="h-val">174,067</div><div class="h-yield">5.16%</div><div class="h-income">2,243.70</div>
+      <div class="h-val">—</div><div class="h-yield">174,067</div><div class="h-income h-day" data-sym="D05.SI">—</div>
     </div>
     <div class="card" style="margin-top:8px">
       <div class="row-kv"><span class="k">Cost basis</span><span class="v">291,541</span></div>
@@ -464,34 +465,34 @@ function checkPin() {
       <div><div class="acct-name">Cash FSM — USD</div><div class="acct-yield">Yield 8.96% (cost) · 9.19% (mkt)</div></div>
       <div class="acct-total">262,888</div>
     </div>
-    <div class="holdings-header"><span>Holding</span><span>Value</span><span>Yield</span><span>Next Div</span></div>
+    <div class="holdings-header"><span>Holding</span><span>Cost</span><span>Mkt Value</span><span>Day %</span></div>
     <div class="holding-row">
       <div><div class="h-ticker">PHP</div><div class="h-name">Primary Health Properties</div><div><span class="h-tag tag-gbp">LSE</span></div></div>
-      <div class="h-val">9,321</div><div class="h-yield">7.97%</div><div class="h-income">183.21</div>
+      <div class="h-val">10,386</div><div class="h-yield">9,321</div><div class="h-income h-day" data-sym="PHP.L">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">JEPG</div><div class="h-name">JPM Global Equity Premium</div><div><span class="h-tag tag-ucits">UCITS</span></div></div>
-      <div class="h-val">19,643</div><div class="h-yield">8.29%</div><div class="h-income">251.07</div>
+      <div class="h-val">20,504</div><div class="h-yield">19,643</div><div class="h-income h-day" data-sym="JEPG.L">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">IE000Y</div><div class="h-name">PIMCO GIS Balanced Income</div><div><span class="h-tag tag-ucits">UCITS</span></div></div>
-      <div class="h-val">31,455</div><div class="h-yield">5.97%</div><div class="h-income">162.16</div>
+      <div class="h-val">30,000</div><div class="h-yield">31,455</div><div class="h-income h-day" data-sym="IE000YTNTUN2">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">ADX</div><div class="h-name">Adams Diversified Equity</div><div><span class="h-tag tag-us">NYSE CEF</span></div></div>
-      <div class="h-val">33,985</div><div class="h-yield">7.70%</div><div class="h-income">653.82</div>
+      <div class="h-val">30,728</div><div class="h-yield">33,985</div><div class="h-income h-day" data-sym="ADX">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">JEPQ</div><div class="h-name">JPM Nasdaq Equity Premium</div><div><span class="h-tag tag-ucits">UCITS</span></div></div>
-      <div class="h-val">37,642</div><div class="h-yield">11.15%</div><div class="h-income">413.06</div>
+      <div class="h-val">37,356</div><div class="h-yield">37,642</div><div class="h-income h-day" data-sym="JEPQ.L">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">WINC</div><div class="h-name">iShares World HI Active</div><div><span class="h-tag tag-ucits">UCITS</span></div></div>
-      <div class="h-val">128,432</div><div class="h-yield">9.73%</div><div class="h-income">3,728/qtr</div>
+      <div class="h-val">124,907</div><div class="h-yield">128,432</div><div class="h-income h-day" data-sym="WINC.L">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">VWRP</div><div class="h-name">Vanguard All-World UCITS ETF</div><div><span class="h-tag tag-gbp">LSE</span><span class="h-tag" style="background:rgba(74,222,128,.12);color:#4ade80;margin-left:2px">ACCUM</span></div></div>
-      <div class="h-val">2,411</div><div class="h-yield" style="color:var(--text-dim)">0.0%</div><div class="h-income">—</div>
+      <div class="h-val">2,369</div><div class="h-yield">2,411</div><div class="h-income h-day" data-sym="VWRP.L">—</div>
     </div>
     <div class="card" style="margin-top:8px">
       <div class="row-kv"><span class="k">Cost basis</span><span class="v">256,250</span></div>
@@ -513,50 +514,50 @@ function checkPin() {
       <div><div class="acct-name">CPFIS — SGD DBS</div><div class="acct-yield">Yield 7.03% (cost) · 5.37% (mkt)</div></div>
       <div class="acct-total">439,550</div>
     </div>
-    <div class="holdings-header"><span>Holding</span><span>Value</span><span>Yield</span><span>Next Div</span></div>
+    <div class="holdings-header"><span>Holding</span><span>Cost</span><span>Mkt Value</span><span>Day %</span></div>
     <div class="holding-row">
       <div><div class="h-ticker">9A4U</div><div class="h-name">ESR-REIT</div><div><span class="h-tag tag-reit">REIT</span></div></div>
-      <div class="h-val">1,904</div><div class="h-yield">9.21%</div><div class="h-income">89.91</div>
+      <div class="h-val">—</div><div class="h-yield">1,904</div><div class="h-income h-day" data-sym="9A4U.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">P9D</div><div class="h-name">Civmec Limited</div><div><span class="h-tag tag-sg">SGX</span></div></div>
-      <div class="h-val">7,650</div><div class="h-yield">2.74%</div><div class="h-income">104.84</div>
+      <div class="h-val">—</div><div class="h-yield">7,650</div><div class="h-income h-day" data-sym="P9D.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">C38U</div><div class="h-name">CICT</div><div><span class="h-tag tag-reit">REIT</span></div></div>
-      <div class="h-val">9,534</div><div class="h-yield">6.85%</div><div class="h-income">167.16</div>
+      <div class="h-val">—</div><div class="h-yield">9,534</div><div class="h-income h-day" data-sym="C38U.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">CFA</div><div class="h-name">NikkoAM-StraitsTrading Asia ex-JP</div><div><span class="h-tag tag-sg">ETF</span></div></div>
-      <div class="h-val">18,308</div><div class="h-yield">5.29%</div><div class="h-income">236.90</div>
+      <div class="h-val">—</div><div class="h-yield">18,308</div><div class="h-income h-day" data-sym="CFA.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">AJBU</div><div class="h-name">Keppel DC REIT</div><div><span class="h-tag tag-reit">REIT</span></div></div>
-      <div class="h-val">23,100</div><div class="h-yield">4.49%</div><div class="h-income">513.30</div>
+      <div class="h-val">—</div><div class="h-yield">23,100</div><div class="h-income h-day" data-sym="AJBU.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">P40U</div><div class="h-name">Starhill Global REIT</div><div><span class="h-tag tag-reit">REIT</span></div></div>
-      <div class="h-val">19,116</div><div class="h-yield">6.7%</div><div class="h-income">648.91</div>
+      <div class="h-val">—</div><div class="h-yield">19,116</div><div class="h-income h-day" data-sym="P40U.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">BUOU</div><div class="h-name">Frasers L&C Trust</div><div><span class="h-tag tag-reit">REIT</span></div></div>
-      <div class="h-val">24,900</div><div class="h-yield">5.9%</div><div class="h-income">734.55</div>
+      <div class="h-val">—</div><div class="h-yield">24,900</div><div class="h-income h-day" data-sym="BUOU.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">C52</div><div class="h-name">ComfortDelGro</div><div><span class="h-tag tag-sg">SGX</span></div></div>
-      <div class="h-val">30,960</div><div class="h-yield">6.59%</div><div class="h-income">1,101.60</div>
+      <div class="h-val">—</div><div class="h-yield">30,960</div><div class="h-income h-day" data-sym="C52.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">O39</div><div class="h-name">OCBC</div><div><span class="h-tag tag-sg">SGX</span></div></div>
-      <div class="h-val">77,220</div><div class="h-yield">4.23%</div><div class="h-income">1,386</div>
+      <div class="h-val">—</div><div class="h-yield">77,220</div><div class="h-income h-day" data-sym="O39.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">0P00Z1XG</div><div class="h-name">Nikko AM Japan Div Eq Fund</div><div><span class="h-tag tag-sg">UT</span></div></div>
-      <div class="h-val">75,727</div><div class="h-yield">6.2%</div><div class="h-income">436.65</div>
+      <div class="h-val">—</div><div class="h-yield">75,727</div><div class="h-income h-day" data-sym="0P0000Z1XG">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">D05</div><div class="h-name">DBS Group Holdings</div><div><span class="h-tag tag-sg">SGX</span></div></div>
-      <div class="h-val">151,130</div><div class="h-yield">5.16%</div><div class="h-income">1,948.05</div>
+      <div class="h-val">—</div><div class="h-yield">151,130</div><div class="h-income h-day" data-sym="D05.SI">—</div>
     </div>
     <div class="card" style="margin-top:8px">
       <div class="row-kv"><span class="k">Cost basis</span><span class="v">335,500</span></div>
@@ -574,70 +575,70 @@ function checkPin() {
       <div><div class="acct-name">SRS — SGD DBS</div><div class="acct-yield">Yield 7.74% (cost) · 5.39% (mkt)</div></div>
       <div class="acct-total">370,705</div>
     </div>
-    <div class="holdings-header"><span>Holding</span><span>Value</span><span>Yield</span><span>Next Div</span></div>
+    <div class="holdings-header"><span>Holding</span><span>Cost</span><span>Mkt Value</span><span>Day %</span></div>
     <div class="holding-row">
       <div><div class="h-ticker">Z74</div><div class="h-name">Singtel</div><div><span class="h-tag tag-sg">SGX</span></div></div>
-      <div class="h-val">456</div><div class="h-yield">3.78%</div><div class="h-income">8.61</div>
+      <div class="h-val">—</div><div class="h-yield">456</div><div class="h-income h-day" data-sym="Z74.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">C2PU</div><div class="h-name">ParkwayLife REIT</div><div><span class="h-tag tag-reit">REIT</span></div></div>
-      <div class="h-val">2,406</div><div class="h-yield">3.81%</div><div class="h-income">45.84</div>
+      <div class="h-val">—</div><div class="h-yield">2,406</div><div class="h-income h-day" data-sym="C2PU.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">Y92</div><div class="h-name">Thai Beverage</div><div><span class="h-tag tag-sg">SGX</span></div></div>
-      <div class="h-val">2,700</div><div class="h-yield">4.3%</div><div class="h-income">35.27</div>
+      <div class="h-val">—</div><div class="h-yield">2,700</div><div class="h-income h-day" data-sym="Y92.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">DCRU</div><div class="h-name">Digital Core REIT</div><div><span class="h-tag tag-reit">REIT</span></div></div>
-      <div class="h-val">2,814</div><div class="h-yield">7.35%</div><div class="h-income">103.39</div>
+      <div class="h-val">—</div><div class="h-yield">2,814</div><div class="h-income h-day" data-sym="DCRU.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">J69U</div><div class="h-name">Frasers Centrepoint Trust</div><div><span class="h-tag tag-reit">REIT</span></div></div>
-      <div class="h-val">7,116</div><div class="h-yield">5.33%</div><div class="h-income">192.36</div>
+      <div class="h-val">—</div><div class="h-yield">7,116</div><div class="h-income h-day" data-sym="J69U.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">AU8U</div><div class="h-name">CapitaLand China Trust</div><div><span class="h-tag tag-reit">REIT</span><span class="h-tag tag-warn" style="margin-left:2px">⚠ DO NOT ADD</span></div></div>
-      <div class="h-val">6,450</div><div class="h-yield">7.22%</div><div class="h-income">233</div>
+      <div class="h-val">—</div><div class="h-yield">6,450</div><div class="h-income h-day" data-sym="AU8U.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">AGS</div><div class="h-name">The Hour Glass</div><div><span class="h-tag tag-sg">SGX</span></div></div>
-      <div class="h-val">20,560</div><div class="h-yield">2.33%</div><div class="h-income">320</div>
+      <div class="h-val">—</div><div class="h-yield">20,560</div><div class="h-income h-day" data-sym="AGS.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">HMN</div><div class="h-name">CapitaLand Ascott Trust</div><div><span class="h-tag tag-reit">REIT</span></div></div>
-      <div class="h-val">8,950</div><div class="h-yield">6.82%</div><div class="h-income">252.60</div>
+      <div class="h-val">—</div><div class="h-yield">8,950</div><div class="h-income h-day" data-sym="HMN.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">DHLU</div><div class="h-name">Daiwa House Logistics Trust</div><div><span class="h-tag tag-reit">REIT</span></div></div>
-      <div class="h-val">7,425</div><div class="h-yield">8.44%</div><div class="h-income">313.50</div>
+      <div class="h-val">—</div><div class="h-yield">7,425</div><div class="h-income h-day" data-sym="DHLU.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">CJLU</div><div class="h-name">NetLink NBN Trust</div><div><span class="h-tag tag-sg">SGX</span></div></div>
-      <div class="h-val">13,930</div><div class="h-yield">5.45%</div><div class="h-income">379.40</div>
+      <div class="h-val">—</div><div class="h-yield">13,930</div><div class="h-income h-day" data-sym="CJLU.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">9A4U</div><div class="h-name">ESR-REIT</div><div><span class="h-tag tag-reit">REIT</span></div></div>
-      <div class="h-val">8,735</div><div class="h-yield">9.21%</div><div class="h-income">412.47</div>
+      <div class="h-val">—</div><div class="h-yield">8,735</div><div class="h-income h-day" data-sym="9A4U.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">QL3</div><div class="h-name">iShares SE Asia (QL3)</div><div><span class="h-tag tag-ucits">ETF</span></div></div>
-      <div class="h-val">17,240</div><div class="h-yield">7.26%</div><div class="h-income">306.34</div>
+      <div class="h-val">—</div><div class="h-yield">17,240</div><div class="h-income h-day" data-sym="QL3.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">A7RU</div><div class="h-name">Keppel Infrastructure Trust</div><div><span class="h-tag tag-sg">SGX</span></div></div>
-      <div class="h-val">18,709</div><div class="h-yield">7.43%</div><div class="h-income">695.41</div>
+      <div class="h-val">—</div><div class="h-yield">18,709</div><div class="h-income h-day" data-sym="A7RU.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">C38U</div><div class="h-name">CICT</div><div><span class="h-tag tag-reit">REIT</span></div></div>
-      <div class="h-val">37,873</div><div class="h-yield">6.85%</div><div class="h-income">664.02</div>
+      <div class="h-val">—</div><div class="h-yield">37,873</div><div class="h-income h-day" data-sym="C38U.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">O39</div><div class="h-name">OCBC</div><div><span class="h-tag tag-sg">SGX</span></div></div>
-      <div class="h-val">102,983</div><div class="h-yield">4.23%</div><div class="h-income">1,848.42</div>
+      <div class="h-val">—</div><div class="h-yield">102,983</div><div class="h-income h-day" data-sym="O39.SI">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">D05</div><div class="h-name">DBS Group Holdings</div><div><span class="h-tag tag-sg">SGX</span></div></div>
-      <div class="h-val">112,358</div><div class="h-yield">5.16%</div><div class="h-income">1,448.28</div>
+      <div class="h-val">—</div><div class="h-yield">112,358</div><div class="h-income h-day" data-sym="D05.SI">—</div>
     </div>
     <div class="card" style="margin-top:8px">
       <div class="row-kv"><span class="k">Cost basis</span><span class="v">258,047</span></div>
@@ -655,30 +656,30 @@ function checkPin() {
       <div><div class="acct-name">Cash GBP — DBS</div><div class="acct-yield">Yield 9.0% (cost) · 6.43% (mkt) · ~SGD 107,775</div></div>
       <div class="acct-total">£63,397</div>
     </div>
-    <div class="holdings-header"><span>Holding</span><span>Value</span><span>Yield</span><span>Next Div</span></div>
+    <div class="holdings-header"><span>Holding</span><span>Cost</span><span>Mkt Value</span><span>Day %</span></div>
     <div class="holding-row">
       <div><div class="h-ticker">TFIF</div><div class="h-name">TwentyFour Income Fund</div><div><span class="h-tag tag-gbp">LSE</span></div></div>
-      <div class="h-val">£5,430</div><div class="h-yield">9.95%</div><div class="h-income">£240.50</div>
+      <div class="h-val">—</div><div class="h-yield">£5,430</div><div class="h-income h-day" data-sym="TFIF.L">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">HSBA</div><div class="h-name">HSBC Holdings plc</div><div><span class="h-tag tag-gbp">LSE</span></div></div>
-      <div class="h-val">£14,201</div><div class="h-yield">4.03%</div><div class="h-income">£76.04</div>
+      <div class="h-val">—</div><div class="h-yield">£14,201</div><div class="h-income h-day" data-sym="HSBA.L">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">ICG</div><div class="h-name">Intermediate Capital Group</div><div><span class="h-tag tag-gbp">LSE</span></div></div>
-      <div class="h-val">£13,069</div><div class="h-yield">4.66%</div><div class="h-income">£415.10</div>
+      <div class="h-val">—</div><div class="h-yield">£13,069</div><div class="h-income h-day" data-sym="ICG.L">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">HFEL</div><div class="h-name">Henderson Far East Income</div><div><span class="h-tag tag-gbp">LSE</span></div></div>
-      <div class="h-val">£7,033</div><div class="h-yield">9.24%</div><div class="h-income">£162.50</div>
+      <div class="h-val">—</div><div class="h-yield">£7,033</div><div class="h-income h-day" data-sym="HFEL.L">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">MNG</div><div class="h-name">M&amp;G Plc</div><div><span class="h-tag tag-gbp">LSE</span></div></div>
-      <div class="h-val">£12,735</div><div class="h-yield">6.49%</div><div class="h-income">£270.01</div>
+      <div class="h-val">—</div><div class="h-yield">£12,735</div><div class="h-income h-day" data-sym="MNG.L">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">LGEN</div><div class="h-name">Legal &amp; General Group</div><div><span class="h-tag tag-gbp">LSE</span></div></div>
-      <div class="h-val">£10,929</div><div class="h-yield">8.03%</div><div class="h-income">£631.03</div>
+      <div class="h-val">—</div><div class="h-yield">£10,929</div><div class="h-income h-day" data-sym="LGEN.L">—</div>
     </div>
     <div class="card" style="margin-top:8px">
       <div class="row-kv"><span class="k">Cost basis</span><span class="v">£45,268</span></div>
@@ -699,14 +700,14 @@ function checkPin() {
       <div><div class="acct-name">Growth — NVDA &amp; MSFT</div><div class="acct-yield">Capital appreciation focus · low yield</div></div>
       <div class="acct-total">SGD 22,563</div>
     </div>
-    <div class="holdings-header"><span>Holding</span><span>Value</span><span>Yield</span><span>Next Div</span></div>
+    <div class="holdings-header"><span>Holding</span><span>Cost</span><span>Mkt Value</span><span>Day %</span></div>
     <div class="holding-row">
       <div><div class="h-ticker">MSFT</div><div class="h-name">Microsoft Corp · 13 shares</div><div><span class="h-tag tag-us">NASDAQ</span></div></div>
-      <div class="h-val">7,471</div><div class="h-yield">0.81%</div><div class="h-income">15.10</div>
+      <div class="h-val">—</div><div class="h-yield">7,471</div><div class="h-income h-day" data-sym="MSFT">—</div>
     </div>
     <div class="holding-row">
       <div><div class="h-ticker">NVDA</div><div class="h-name">NVIDIA Corp · 56 shares</div><div><span class="h-tag tag-us">NASDAQ</span></div></div>
-      <div class="h-val">15,092</div><div class="h-yield">0.47%</div><div class="h-income">17.87</div>
+      <div class="h-val">—</div><div class="h-yield">15,092</div><div class="h-income h-day" data-sym="NVDA">—</div>
     </div>
     <div class="card" style="margin-top:8px">
       <div class="row-kv"><span class="k">Cost basis</span><span class="v">16,002</span></div>
@@ -1438,6 +1439,19 @@ async function loadLivePrices() {
     html += '</div>';
   }
   grid.innerHTML = html;
+
+  // ── Update per-holding Day % cells ───────────────────────────────────────
+  document.querySelectorAll('.h-day[data-sym]').forEach(el => {
+    const sym = el.dataset.sym;
+    const d   = priceMap[sym];
+    if (!d) { el.textContent = '—'; el.style.color = 'var(--text-dim)'; return; }
+    if (d.isNAV)  { el.textContent = 'NAV'; el.style.color = 'var(--text-dim)'; return; }
+    if (d.pct == null) { el.textContent = '—'; el.style.color = 'var(--text-dim)'; return; }
+    const sign = d.pct >= 0 ? '+' : '';
+    el.textContent  = sign + d.pct.toFixed(2) + '%';
+    el.style.color  = d.pct >= 0 ? 'var(--green)' : 'var(--red)';
+    el.style.fontWeight = '600';
+  });
 
   const now = new Date();
   const timeStr = now.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});
