@@ -1,6 +1,14 @@
 #!/usr/bin/env python3
-"""Fetches latest prices from Yahoo Finance and writes prices.json."""
-import urllib.request, json, time, sys
+"""Fetch latest prices using yfinance and write prices.json."""
+import json, time, sys
+
+try:
+    import yfinance as yf
+except ImportError:
+    print("Installing yfinance...", file=sys.stderr)
+    import subprocess
+    subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'yfinance', '-q'])
+    import yfinance as yf
 
 SYMBOLS = [
     # SGX
@@ -15,32 +23,36 @@ SYMBOLS = [
     'NVDA','MSFT','ADX',
 ]
 
-HEADERS = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-    'Accept': 'application/json',
-}
-
 prices = {}
-errors = []
+try:
+    # Download last 5 days for all symbols in one batch call
+    data = yf.download(
+        SYMBOLS,
+        period='5d',
+        interval='1d',
+        auto_adjust=True,
+        progress=False,
+        group_by='ticker'
+    )
 
-for i in range(0, len(SYMBOLS), 20):
-    batch = SYMBOLS[i:i+20]
-    url = ('https://query1.finance.yahoo.com/v7/finance/quote'
-           f'?symbols={",".join(batch)}'
-           '&fields=regularMarketPrice,regularMarketChangePercent,currency')
-    try:
-        req = urllib.request.Request(url, headers=HEADERS)
-        with urllib.request.urlopen(req, timeout=15) as resp:
-            data = json.loads(resp.read())
-            for q in data.get('quoteResponse', {}).get('result', []):
-                prices[q['symbol']] = {
-                    'price': q.get('regularMarketPrice'),
-                    'pct':   q.get('regularMarketChangePercent'),
-                    'cur':   q.get('currency','')
-                }
-    except Exception as e:
-        errors.append(f"{batch}: {e}")
-    time.sleep(0.3)
+    for sym in SYMBOLS:
+        try:
+            if len(SYMBOLS) == 1:
+                closes = data['Close'].dropna()
+            else:
+                closes = data[sym]['Close'].dropna()
+
+            if len(closes) == 0:
+                continue
+            last  = float(closes.iloc[-1])
+            prev  = float(closes.iloc[-2]) if len(closes) >= 2 else None
+            pct   = ((last - prev) / prev * 100) if prev else None
+            prices[sym] = {'price': round(last, 4), 'pct': round(pct, 4) if pct is not None else None}
+        except Exception as e:
+            print(f"  {sym}: {e}", file=sys.stderr)
+
+except Exception as e:
+    print(f"Download error: {e}", file=sys.stderr)
 
 output = {
     'updated': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
@@ -51,5 +63,5 @@ with open('prices.json', 'w') as f:
     json.dump(output, f)
 
 print(f"Fetched {len(prices)}/{len(SYMBOLS)} prices")
-if errors:
-    print("Errors:", errors, file=sys.stderr)
+if len(prices) == 0:
+    sys.exit(1)

@@ -2,8 +2,8 @@ name: Update Prices
 
 on:
   schedule:
-    - cron: '*/15 * * * *'   # every 15 min (GitHub runs ~5-15 min cadence)
-  workflow_dispatch:           # allow manual trigger from GitHub UI
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -14,7 +14,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Fetch prices from Yahoo Finance
+      - name: Install yfinance
+        run: pip install yfinance --quiet
+
+      - name: Fetch prices
         run: python3 fetch_prices.py
 
       - name: Commit prices.json
@@ -22,5 +25,4 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add prices.json
-          git diff --staged --quiet && echo "No changes" || git commit -m "prices: $(date -u +%H:%M UTC)"
-          git push
+          git diff --staged --quiet && echo "No changes" || (git commit -m "prices: $(date -u +%H:%M UTC)" && git push)
