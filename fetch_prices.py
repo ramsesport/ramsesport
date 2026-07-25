@@ -23,36 +23,59 @@ SYMBOLS = [
     'NVDA','MSFT','ADX',
 ]
 
-prices = {}
-try:
-    # Download last 5 days for all symbols in one batch call
-    data = yf.download(
-        SYMBOLS,
-        period='5d',
-        interval='1d',
-        auto_adjust=True,
-        progress=False,
-        group_by='ticker'
-    )
+def download_with_retry(symbols, attempts=3, backoff=5):
+    """Yahoo occasionally rejects/rate-limits the batch call; retry before giving up."""
+    for attempt in range(1, attempts + 1):
+        try:
+            return yf.download(
+                symbols,
+                period='5d',
+                interval='1d',
+                auto_adjust=True,
+                progress=False,
+                group_by='ticker'
+            )
+        except Exception as e:
+            print(f"  batch download attempt {attempt}/{attempts} failed: {e}", file=sys.stderr)
+            if attempt < attempts:
+                time.sleep(backoff * attempt)
+    return None
 
+def parse_symbol(data, sym, single):
+    closes = (data['Close'] if single else data[sym]['Close']).dropna()
+    if len(closes) == 0:
+        return None
+    last = float(closes.iloc[-1])
+    prev = float(closes.iloc[-2]) if len(closes) >= 2 else None
+    pct  = ((last - prev) / prev * 100) if prev else None
+    return {'price': round(last, 4), 'pct': round(pct, 4) if pct is not None else None}
+
+prices = {}
+data = download_with_retry(SYMBOLS)
+
+if data is not None:
+    single = len(SYMBOLS) == 1
     for sym in SYMBOLS:
         try:
-            if len(SYMBOLS) == 1:
-                closes = data['Close'].dropna()
-            else:
-                closes = data[sym]['Close'].dropna()
-
-            if len(closes) == 0:
-                continue
-            last  = float(closes.iloc[-1])
-            prev  = float(closes.iloc[-2]) if len(closes) >= 2 else None
-            pct   = ((last - prev) / prev * 100) if prev else None
-            prices[sym] = {'price': round(last, 4), 'pct': round(pct, 4) if pct is not None else None}
+            result = parse_symbol(data, sym, single)
+            if result is not None:
+                prices[sym] = result
         except Exception as e:
             print(f"  {sym}: {e}", file=sys.stderr)
 
-except Exception as e:
-    print(f"Download error: {e}", file=sys.stderr)
+# Fall back to per-symbol fetches for anything still missing (batch endpoint
+# occasionally drops individual tickers even when the overall call succeeds).
+missing = [s for s in SYMBOLS if s not in prices]
+for sym in missing:
+    try:
+        single_data = download_with_retry([sym], attempts=2, backoff=5)
+        if single_data is None:
+            continue
+        result = parse_symbol(single_data, sym, True)
+        if result is not None:
+            prices[sym] = result
+    except Exception as e:
+        print(f"  {sym} (fallback): {e}", file=sys.stderr)
 
 output = {
     'updated': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
