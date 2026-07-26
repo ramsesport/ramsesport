@@ -295,10 +295,10 @@ function checkPin() {
 <div class="hero">
   <div class="hero-label">Investment Portfolio — Total Value</div>
   <div class="hero-value"><span>SGD </span><span id="hero-portfolio-val">1,823,791</span></div>
-  <div class="hero-sub">Invested SGD 1,326,353 · Profit +SGD 497,438 (+37.51%) · IRR 22.36%*</div>
+  <div class="hero-sub">Invested SGD 1,326,353 · Profit +SGD 497,438 (+37.51%) · IRR 25.13%</div>
   <div class="hero-grid">
-    <div class="hero-pill"><span class="val" id="hero-passive">7,861</span><span class="lbl">Passive Inc/mo</span></div>
-    <div class="hero-pill"><span class="val">7.64%</span><span class="lbl">Yield (cost)</span></div>
+    <div class="hero-pill"><span class="val" id="hero-passive">11,515</span><span class="lbl">Passive Inc/mo</span></div>
+    <div class="hero-pill"><span class="val">7.58%</span><span class="lbl">Yield (mkt)</span></div>
     <div class="hero-pill"><span class="val" id="hero-updated">--</span><span class="lbl">Prices updated</span></div>
   </div>
 </div>
@@ -325,27 +325,27 @@ function checkPin() {
     <div class="section-title">Passive Investment Income</div>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
       <span style="font-size:12px;color:var(--text-dim)">Monthly Passive Income</span>
-      <span class="mono" style="font-size:16px;color:var(--text-bright)">SGD <span id="inc-monthly">7,861</span></span>
+      <span class="mono" style="font-size:16px;color:var(--text-bright)">SGD <span id="inc-monthly">11,515</span></span>
     </div>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
       <span style="font-size:11px;color:var(--text-dim)">Annual Passive Income</span>
-      <span class="mono" style="font-size:12px;color:var(--gold)">SGD <span id="inc-annual">94,337</span></span>
+      <span class="mono" style="font-size:12px;color:var(--gold)">SGD <span id="inc-annual">138,175</span></span>
     </div>
-    <div class="progress-track"><div class="progress-fill" style="width:39.2%"></div></div>
+    <div class="progress-track"><div class="progress-fill" style="width:57.6%"></div></div>
     <div style="display:flex;justify-content:space-between;align-items:center">
       <span style="font-size:9px;color:var(--text-dim);font-family:'DM Mono',monospace">TARGET: SGD 20,000/mo passive</span>
-      <span class="mono" style="font-size:10px;color:var(--gold)">39.3%</span>
+      <span class="mono" style="font-size:10px;color:var(--gold)">57.6%</span>
     </div>
     <div class="card" style="margin-top:10px;background:rgba(201,168,76,.05);border-color:var(--gold-dim)">
       <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-bottom:6px;letter-spacing:1px">SNOWBALL ANALYTICS — Total Net Worth (Income &amp; Growth)</div>
       <div class="row-kv"><span class="k">Portfolio value</span><span class="v">SGD 1,823,791</span></div>
       <div class="row-kv"><span class="k">Amount invested</span><span class="v">SGD 1,326,353</span></div>
       <div class="row-kv"><span class="k">Total profit</span><span class="v green">+SGD 497,438 (+37.51%)</span></div>
-      <div class="row-kv"><span class="k">IRR (all-time)</span><span class="v green">22.36%*</span></div>
+      <div class="row-kv"><span class="k">IRR (all-time, XIRR)</span><span class="v green">25.13%</span></div>
       <div class="row-kv"><span class="k">IRR (current holdings)</span><span class="v green">18.66%*</span></div>
-      <div class="row-kv"><span class="k">Passive income yield</span><span class="v green">7.64%*</span></div>
-      <div class="row-kv"><span class="k">Annual passive income</span><span class="v gold">SGD 94,337*</span></div>
-      <div style="margin-top:6px;font-size:9px;color:var(--text-dim)">* IRR / yield / passive-income figures not recomputed this update — portfolio value and cost basis are current as of latest export, but these three metrics need cash-flow-timed data I wasn't given. Treat as stale until refreshed.</div>
+      <div class="row-kv"><span class="k">Passive income yield (mkt)</span><span class="v green">7.58%</span></div>
+      <div class="row-kv"><span class="k">Annual passive income (est.)</span><span class="v gold">SGD 138,175</span></div>
+      <div style="margin-top:6px;font-size:9px;color:var(--text-dim)">IRR computed as XIRR over all 862 transactions (2015–2026) from your Snowball export, converted to SGD at current FX rates (USD 1.2911, GBP 1.7181, AUD 0.8985, THB 0.0383) — historical FX movement not modeled, so treat as a close approximation, not exact. Passive income = Σ(account market value × yield-on-mkt%) from the latest holdings snapshot — a forward run-rate estimate, not a guarantee. * IRR (current holdings only, excluding exited positions) not recomputed — needs a different, position-filtered methodology.</div>
     </div>
   </div>
 
@@ -362,30 +362,30 @@ function checkPin() {
     <div class="section-title">Passive Income by Account</div>
     <div class="income-source-row">
       <div><div class="source-name">Cash SGD</div><div class="source-type">14 holdings · DBS, OCBC, NetLink, FCT…</div></div>
-      <div class="source-income">~6,979</div>
+      <div class="source-income">~30,210</div>
     </div>
     <div class="income-source-row">
       <div><div class="source-name">Cash GBP</div><div class="source-type">TFIF, HSBA, ICG, HFEL, MNG, LGEN</div></div>
-      <div class="source-income">~3,052</div>
+      <div class="source-income">~11,418</div>
     </div>
     <div class="income-source-row">
       <div><div class="source-name">SRS</div><div class="source-type">15 holdings · Singtel, NetLink, DBS, OCBC…</div></div>
-      <div class="source-income">~7,259</div>
+      <div class="source-income">~33,192</div>
     </div>
     <div class="income-source-row">
       <div><div class="source-name">CPFIS</div><div class="source-type">11 holdings · Keppel DC, DBS, OCBC…</div></div>
-      <div class="source-income">~7,368</div>
+      <div class="source-income">~34,570</div>
     </div>
     <div class="income-source-row">
       <div><div class="source-name">Cash FSM</div><div class="source-type">PHP, JEPG, PIMCO, ADX, JEPQ, WINC</div></div>
-      <div class="source-income">~2,695</div>
+      <div class="source-income">~28,624</div>
     </div>
     <div class="income-source-row">
       <div><div class="source-name">Growth</div><div class="source-type">NVDA, MSFT, GOOG, VWRP, SMH — capital appreciation</div></div>
-      <div class="source-income">~33</div>
+      <div class="source-income">~161</div>
     </div>
     <div style="text-align:right;font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);margin-top:6px">
-      * Per-account figures from Snowball next-payment fields · Snowball total = SGD 94,337/yr
+      * Per-account = market value × yield-on-mkt% from latest holdings snapshot (forward run-rate estimate, not Snowball next-payment fields) · Total = SGD 138,175/yr
     </div>
   </div>
 </div>
@@ -1148,10 +1148,10 @@ function checkPin() {
   <div class="share-card">
     <div class="share-title">Portfolio Snapshot</div>
     <div class="share-metrics">
-      <div class="share-metric"><div class="val">1,332,481</div><div class="lbl">Portfolio (SGD)</div></div>
-      <div class="share-metric"><div class="val">7,861</div><div class="lbl">Passive Inc/mo</div></div>
-      <div class="share-metric"><div class="val">+52.7%</div><div class="lbl">Total Profit</div></div>
-      <div class="share-metric"><div class="val">22.36%</div><div class="lbl">IRR</div></div>
+      <div class="share-metric"><div class="val">1,823,791</div><div class="lbl">Portfolio (SGD)</div></div>
+      <div class="share-metric"><div class="val">11,515</div><div class="lbl">Passive Inc/mo</div></div>
+      <div class="share-metric"><div class="val">+37.51%</div><div class="lbl">Total Profit</div></div>
+      <div class="share-metric"><div class="val">25.13%</div><div class="lbl">IRR</div></div>
     </div>
     <button class="share-btn" onclick="showSnapshot()">📤 Generate WhatsApp Card</button>
   </div>
@@ -1163,16 +1163,16 @@ function checkPin() {
     <div class="snap-logo">Ramsesport</div>
     <div class="snap-date" id="snap-date"></div>
     <div class="snap-grid">
-      <div class="snap-box"><div class="sv">SGD 1,571,376</div><div class="sl">Portfolio Value</div></div>
-      <div class="snap-box"><div class="sv">SGD 7,833/mo</div><div class="sl">Passive Income</div></div>
-      <div class="snap-box"><div class="sv">+52.7%</div><div class="sl">Total Profit</div></div>
-      <div class="snap-box"><div class="sv">22.36%</div><div class="sl">IRR (all-time)</div></div>
+      <div class="snap-box"><div class="sv">SGD 1,823,791</div><div class="sl">Portfolio Value</div></div>
+      <div class="snap-box"><div class="sv">SGD 11,515/mo</div><div class="sl">Passive Income</div></div>
+      <div class="snap-box"><div class="sv">+37.51%</div><div class="sl">Total Profit</div></div>
+      <div class="snap-box"><div class="sv">25.13%</div><div class="sl">IRR (all-time)</div></div>
     </div>
     <div class="snap-grid">
-      <div class="snap-box"><div class="sv">6.0%</div><div class="sl">Passive Yield</div></div>
-      <div class="snap-box"><div class="sv">SGD 94,337</div><div class="sl">Annual Income</div></div>
+      <div class="snap-box"><div class="sv">7.58%</div><div class="sl">Passive Yield</div></div>
+      <div class="snap-box"><div class="sv">SGD 138,175</div><div class="sl">Annual Income</div></div>
     </div>
-    <div class="snap-footer">Source: Snowball · Screenshot &amp; share via WhatsApp<br>Passive income target SGD 20,000/mo · Progress: 39.2% · As at 31 May 2026</div>
+    <div class="snap-footer">Source: Snowball · Screenshot &amp; share via WhatsApp<br>Passive income target SGD 20,000/mo · Progress: 57.6% · As at 26 Jul 2026</div>
     <button class="snap-close" onclick="hideSnapshot()">Close</button>
   </div>
 </div>
