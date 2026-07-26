@@ -15,12 +15,12 @@ SYMBOLS = [
     'D05.SI','O39.SI','C2PU.SI','AJBU.SI','J69U.SI','CJLU.SI','C38U.SI',
     'ME8U.SI','9A4U.SI','C52.SI','MXNU.SI','DCRU.SI','BUOU.SI','P40U.SI',
     'P9D.SI','CFA.SI','OV8.SI','P8Z.SI','AGS.SI','Z74.SI','HMN.SI',
-    'DHLU.SI','QL3.SI','A7RU.SI','AU8U.SI','Y92.SI','OXMU.SI',
+    'DHLU.SI','QL3.SI','A7RU.SI','Y92.SI','OXMU.SI',
     # LSE
     'HSBA.L','LGEN.L','MNG.L','HFEL.L','ICG.L','TFIF.L',
-    'PHP.L','JEPG.L','JEPQ.L','WINC.L','VWRP.L',
+    'PHP.L','JEPG.L','JEPQ.L','WINC.L','VWRP.L','SMH.L',
     # US
-    'NVDA','MSFT','ADX',
+    'NVDA','MSFT','ADX','GOOG',
 ]
 
 def download_with_retry(symbols, attempts=3, backoff=5):
