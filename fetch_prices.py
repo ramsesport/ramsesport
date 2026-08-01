@@ -15,10 +15,10 @@ SYMBOLS = [
     'D05.SI','O39.SI','C2PU.SI','AJBU.SI','J69U.SI','CJLU.SI','C38U.SI',
     'ME8U.SI','9A4U.SI','C52.SI','MXNU.SI','DCRU.SI','BUOU.SI','P40U.SI',
     'P9D.SI','CFA.SI','OV8.SI','P8Z.SI','AGS.SI','Z74.SI','HMN.SI',
-    'DHLU.SI','QL3.SI','A7RU.SI','Y92.SI','OXMU.SI',
+    'DHLU.SI','QL3.SI','A7RU.SI','Y92.SI','OXMU.SI','NTDU.SI',
     # LSE
     'HSBA.L','LGEN.L','MNG.L','HFEL.L','ICG.L','TFIF.L',
-    'PHP.L','JEPG.L','JEPQ.L','WINC.L','VWRP.L','SMH.L',
+    'PHP.L','JEPG.L','JEPQ.L','WINC.L','VWRP.L','SMH.L','CNDX.L',
     # US
     'NVDA','MSFT','ADX','GOOG',
 ]
