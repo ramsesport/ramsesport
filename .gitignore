@@ -1,3 +1,8 @@
-
-.ramsesport-token
-Setup-GitHub.ps1
+node_modules/
+.env
+data/*.db
+data/*.db-journal
+data/*.db-wal
+data/*.db-shm
+data/SEED_CREDENTIALS.txt
+*.log
