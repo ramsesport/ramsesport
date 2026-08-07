@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %> · SACH CCD Complaints</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<% if (currentUser) { %>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="/dashboard">SACH Corp <span>Comms Dept · Patient Complaints</span></a>
+    <nav class="nav">
+      <a href="/dashboard">Dashboard</a>
+      <a href="/complaints">Complaints</a>
+      <a href="/complaints/new" class="nav-cta">+ New complaint</a>
+      <% if (currentUser.role === 'admin') { %>
+        <a href="/admin/users">Staff</a>
+        <a href="/admin/audit">Audit log</a>
+      <% } %>
+    </nav>
+    <div class="user-menu">
+      <span class="user-name"><%= currentUser.name %></span>
+      <span class="role-badge role-<%= currentUser.role %>"><%= currentUser.role %></span>
+      <a href="/account/password" class="user-link">Password</a>
+      <form method="post" action="/logout" class="inline-form">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button type="submit" class="link-button">Sign out</button>
+      </form>
+    </div>
+  </div>
+</header>
+<% } %>
+<main class="page">
+<% if (typeof flashMessages !== 'undefined' && flashMessages.length) { %>
+  <div class="flash-stack">
+    <% flashMessages.forEach(function(f) { %>
+      <div class="flash flash-<%= f.type %>"><%= f.message %></div>
+    <% }) %>
+  </div>
+<% } %>

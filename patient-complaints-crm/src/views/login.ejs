@@ -1,0 +1,20 @@
+<%- include('partials/header', { title }) %>
+<div class="auth-shell">
+  <div class="card">
+    <h1 class="auth-title">Patient Complaints CRM</h1>
+    <p class="auth-sub">SACH Corp Communications Department</p>
+    <% if (error) { %><div class="field-error"><%= error %></div><% } %>
+    <form method="post" action="/login">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <label for="email">Work email</label>
+      <input type="email" id="email" name="email" required autofocus autocomplete="username">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required autocomplete="current-password">
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Sign in</button>
+      </div>
+    </form>
+  </div>
+  <p class="small text-dim auth-footnote">Internal system. Access is logged for security and PDPA compliance.</p>
+</div>
+<%- include('partials/footer') %>

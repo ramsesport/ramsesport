@@ -1,0 +1,90 @@
+<%- include('../partials/header', { title }) %>
+
+<% if (complaint.redacted) { %>
+  <div class="redacted-notice">Patient identifying details on this record were redacted on <%= complaint.redacted_at %> in response to a PDPA request.</div>
+<% } %>
+
+<div class="detail-header">
+  <div>
+    <h1><%= complaint.reference_no %> <span class="badge status-<%= complaint.status.replace(/ /g,'-') %>"><%= complaint.status %></span> <span class="badge severity-<%= complaint.severity %>"><%= complaint.severity %></span></h1>
+    <p class="text-dim"><%= complaint.category %> · via <%= complaint.source %> · logged <%= complaint.created_at %> by <%= complaint.created_by_name %></p>
+    <% if (complaint.isOverdue) { %><p class="overdue-flag">Past SLA due date (<%= complaint.due_at.slice(0,10) %>)</p><% } %>
+  </div>
+  <% if (!complaint.redacted) { %>
+    <a class="btn btn-secondary" href="/complaints/<%= complaint.id %>/edit">Edit details</a>
+  <% } %>
+</div>
+
+<div class="dash-grid">
+  <div>
+    <div class="card">
+      <h2>Complaint details</h2>
+      <div class="kv-grid">
+        <div><div class="k">Patient / complainant</div><div class="v"><%= complaint.patient_name %></div></div>
+        <div><div class="k">Contact</div><div class="v"><%= complaint.patient_contact || '—' %></div></div>
+        <div><div class="k">Assigned to</div><div class="v"><%= complaint.assigned_name || 'Unassigned' %></div></div>
+        <div><div class="k">SLA due</div><div class="v"><%= complaint.due_at.slice(0,10) %></div></div>
+        <div><div class="k">Resolved</div><div class="v"><%= complaint.resolved_at ? complaint.resolved_at.slice(0,10) : '—' %></div></div>
+        <div><div class="k">Closed</div><div class="v"><%= complaint.closed_at ? complaint.closed_at.slice(0,10) : '—' %></div></div>
+      </div>
+      <p class="k">Description</p>
+      <p><%= complaint.description %></p>
+    </div>
+
+    <div class="card">
+      <h2>Notes & communication log</h2>
+      <ul class="timeline">
+        <% notes.forEach(function(n) { %>
+          <li>
+            <div class="meta"><%= n.author_name %> · <%= n.created_at %></div>
+            <div class="body"><%= n.body %></div>
+          </li>
+        <% }) %>
+        <% if (!notes.length) { %><li class="text-dim">No notes yet.</li><% } %>
+      </ul>
+      <form method="post" action="/complaints/<%= complaint.id %>/notes">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <label for="body">Add a note</label>
+        <textarea id="body" name="body" required placeholder="Call summary, follow-up action, decision made…"></textarea>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Add note</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div>
+    <div class="card">
+      <h2>Update status</h2>
+      <form method="post" action="/complaints/<%= complaint.id %>/status">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <label for="status">Status</label>
+        <select id="status" name="status">
+          <% STATUSES.forEach(function(s) { %>
+            <option value="<%= s %>" <%= complaint.status === s ? 'selected' : '' %>><%= s %></option>
+          <% }) %>
+        </select>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Update status</button>
+        </div>
+      </form>
+    </div>
+
+    <% if (currentUser.role === 'admin' && !complaint.redacted) { %>
+      <div class="card danger-zone">
+        <h2>PDPA data actions</h2>
+        <p class="small text-dim">Use these when a patient exercises their access/correction/withdrawal rights under the PDPA.</p>
+        <form method="post" action="/complaints/<%= complaint.id %>/redact" data-confirm="Redact patient name and contact details on this record? This cannot be undone.">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <button type="submit" class="btn btn-secondary btn-sm">Redact patient details</button>
+        </form>
+        <form method="post" action="/complaints/<%= complaint.id %>/delete" data-confirm="Permanently delete this complaint record, including all notes? This cannot be undone.">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <button type="submit" class="btn btn-danger btn-sm">Delete record permanently</button>
+        </form>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

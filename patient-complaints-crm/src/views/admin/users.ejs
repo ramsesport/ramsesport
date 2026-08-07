@@ -1,0 +1,73 @@
+<%- include('../partials/header', { title }) %>
+<h1>Staff accounts</h1>
+<p class="text-dim">Create and manage CCD login accounts. New accounts get a one-time temporary password and must change it on first sign-in.</p>
+
+<% if (tempPassword) { %>
+  <div class="flash flash-success">
+    Account created for <%= tempPassword.email %>. Temporary password (share this with them securely, it will not be shown again):
+    <strong><%= tempPassword.password %></strong>
+  </div>
+<% } %>
+
+<div class="card">
+  <h2>Add a staff account</h2>
+  <% if (error) { %><div class="field-error"><%= error %></div><% } %>
+  <form method="post" action="/admin/users">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <div class="form-row">
+      <div>
+        <label for="name">Full name</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div>
+        <label for="email">Work email</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+    </div>
+    <label for="role">Role</label>
+    <select id="role" name="role">
+      <option value="staff">Staff</option>
+      <option value="admin">Admin</option>
+    </select>
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Create account</button>
+    </div>
+  </form>
+</div>
+
+<div class="card table-wrap">
+  <h2>All accounts</h2>
+  <table>
+    <thead>
+      <tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Created</th><th></th></tr>
+    </thead>
+    <tbody>
+      <% users.forEach(function(u) { %>
+        <tr>
+          <td><%= u.name %><% if (u.must_change_password) { %><br><span class="small text-dim">Password reset pending</span><% } %></td>
+          <td><%= u.email %></td>
+          <td>
+            <form method="post" action="/admin/users/<%= u.id %>/role" class="inline-form">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <select name="role" class="auto-submit" <%= u.id === currentUser.id ? 'disabled' : '' %>>
+                <option value="staff" <%= u.role === 'staff' ? 'selected' : '' %>>Staff</option>
+                <option value="admin" <%= u.role === 'admin' ? 'selected' : '' %>>Admin</option>
+              </select>
+            </form>
+          </td>
+          <td><span class="badge <%= u.active ? 'status-Resolved' : 'status-Closed' %>"><%= u.active ? 'Active' : 'Deactivated' %></span></td>
+          <td class="small text-dim"><%= u.created_at %></td>
+          <td>
+            <form method="post" action="/admin/users/<%= u.id %>/toggle-active" class="inline-form">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <button type="submit" class="btn btn-secondary btn-sm" <%= u.id === currentUser.id ? 'disabled' : '' %>>
+                <%= u.active ? 'Deactivate' : 'Reactivate' %>
+              </button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+<%- include('../partials/footer') %>

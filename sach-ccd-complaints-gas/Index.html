@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <?!= include('Stylesheet'); ?>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">SACH Corp <span>Comms Dept · Patient Complaints</span></div>
+  <nav class="nav" id="nav">
+    <button data-view="dashboard">Dashboard</button>
+    <button data-view="list">Complaints</button>
+    <button data-view="new">+ New complaint</button>
+    <button data-view="reports">Reports</button>
+    <button data-view="admin" id="nav-admin" class="hidden">Admin</button>
+  </nav>
+  <div class="user-menu">
+    <span id="user-name">…</span>
+    <span class="role-badge" id="user-role"></span>
+  </div>
+</header>
+
+<main class="page">
+  <div class="flash-stack" id="flash-stack"></div>
+
+  <!-- DASHBOARD -->
+  <section id="view-dashboard" class="hidden">
+    <h1>Dashboard</h1>
+    <p class="text-dim">Overview of patient complaint activity across SACH Corp.</p>
+    <div class="stat-grid" id="dash-stats"></div>
+    <div class="dash-grid">
+      <div class="card"><h2>By status</h2><div id="dash-status"></div></div>
+      <div class="card"><h2>By category</h2><div id="dash-category"></div></div>
+      <div class="card"><h2>By severity</h2><div id="dash-severity"></div></div>
+      <div class="card"><h2>Recent activity</h2><ul class="timeline" id="dash-activity"></ul></div>
+    </div>
+  </section>
+
+  <!-- LIST -->
+  <section id="view-list" class="hidden">
+    <div class="detail-header">
+      <div><h1>Complaints</h1><p class="text-dim" id="list-count"></p></div>
+      <button class="btn btn-primary" data-view="new">+ New complaint</button>
+    </div>
+    <form class="filter-bar" id="list-filter-form">
+      <div class="field"><label>Search</label><input type="search" id="f-q" placeholder="Reference, name, description"></div>
+      <div class="field"><label>Status</label><select id="f-status"></select></div>
+      <div class="field"><label>Category</label><select id="f-category"></select></div>
+      <div class="field"><label>Severity</label><select id="f-severity"></select></div>
+      <div class="field"><label>Assigned to</label><select id="f-assignedTo"></select></div>
+      <div class="field"><button type="submit" class="btn btn-secondary">Filter</button></div>
+    </form>
+    <div class="card table-wrap">
+      <table>
+        <thead><tr><th>Reference</th><th>Patient / complainant</th><th>Category</th><th>Severity</th><th>Status</th><th>Assigned to</th><th>Due</th></tr></thead>
+        <tbody id="list-tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- NEW / EDIT COMPLAINT -->
+  <section id="view-new" class="hidden">
+    <h1 id="new-title">Log a new complaint</h1>
+    <p class="text-dim">Only collect the details needed to investigate and respond to this complaint (PDPA data minimisation).</p>
+    <div class="card">
+      <div class="field-error hidden" id="new-error"></div>
+      <form id="complaint-form">
+        <div class="form-row">
+          <div><label>Patient / complainant name *</label><input type="text" id="c-patientName" required></div>
+          <div><label>Contact (phone or email)</label><input type="text" id="c-patientContact"></div>
+        </div>
+        <div class="form-row">
+          <div><label>Source *</label><select id="c-source" required></select></div>
+          <div><label>Category *</label><select id="c-category" required></select></div>
+        </div>
+        <div class="form-row">
+          <div>
+            <label>Severity *</label><select id="c-severity" required></select>
+            <p class="hint">Sets the SLA due date (Critical 2d, High 5d, Medium 10d, Low 15d).</p>
+          </div>
+          <div><label>Assign to</label><select id="c-assignedTo"><option value="">Unassigned</option></select></div>
+        </div>
+        <label>Description *</label>
+        <textarea id="c-description" required></textarea>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" id="complaint-submit-btn">Log complaint</button>
+          <button type="button" class="btn btn-secondary" data-view="list">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- DETAIL -->
+  <section id="view-detail" class="hidden">
+    <div id="detail-redacted-notice"></div>
+    <div class="detail-header">
+      <div>
+        <h1 id="detail-title"></h1>
+        <p class="text-dim" id="detail-sub"></p>
+        <p class="overdue-flag hidden" id="detail-overdue"></p>
+      </div>
+      <button class="btn btn-secondary" id="detail-edit-btn">Edit details</button>
+    </div>
+    <div class="dash-grid">
+      <div>
+        <div class="card">
+          <h2>Complaint details</h2>
+          <div class="kv-grid" id="detail-kv"></div>
+          <p class="k">Description</p>
+          <p id="detail-description"></p>
+        </div>
+        <div class="card">
+          <h2>Notes &amp; communication log</h2>
+          <ul class="timeline" id="detail-notes"></ul>
+          <label>Add a note</label>
+          <textarea id="note-body" placeholder="Call summary, follow-up action, decision made…"></textarea>
+          <div class="form-actions"><button class="btn btn-primary" id="add-note-btn">Add note</button></div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <h2>Update status</h2>
+          <select id="detail-status-select"></select>
+          <div class="form-actions"><button class="btn btn-primary" id="update-status-btn">Update status</button></div>
+        </div>
+        <div class="card danger-zone hidden" id="detail-admin-actions">
+          <h2>PDPA data actions</h2>
+          <p class="small text-dim">Use when a patient exercises access/correction/withdrawal rights under the PDPA.</p>
+          <button class="btn btn-secondary btn-sm" id="redact-btn">Redact patient details</button>
+          <button class="btn btn-danger btn-sm" id="delete-btn">Delete record permanently</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REPORTS -->
+  <section id="view-reports" class="hidden">
+    <h1>Reports</h1>
+    <p class="text-dim">Generate a PDF report from any filter combination, save it as a reusable template, or export a full Excel snapshot for backup / the eventual M365 move.</p>
+
+    <div class="card">
+      <h2>Build a report</h2>
+      <form id="report-filter-form">
+        <div class="form-row">
+          <div><label>Date from</label><input type="date" id="r-dateFrom"></div>
+          <div><label>Date to</label><input type="date" id="r-dateTo"></div>
+        </div>
+        <div class="form-row">
+          <div><label>Status</label><select id="r-status"></select></div>
+          <div><label>Category</label><select id="r-category"></select></div>
+        </div>
+        <div class="form-row">
+          <div><label>Severity</label><select id="r-severity"></select></div>
+          <div><label>Assigned to</label><select id="r-assignedTo"></select></div>
+        </div>
+        <label>Columns to include</label>
+        <div class="checkbox-grid" id="report-fields"></div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Generate PDF</button>
+          <button type="button" class="btn btn-secondary" id="save-template-btn">Save as template</button>
+        </div>
+      </form>
+      <p class="hint" id="report-result"></p>
+    </div>
+
+    <div class="card">
+      <h2>Saved report templates</h2>
+      <table><tbody id="templates-tbody"></tbody></table>
+      <p class="text-dim small hidden" id="templates-empty">No saved templates yet.</p>
+    </div>
+
+    <div class="card danger-zone hidden" id="report-admin-section" style="border-color: var(--border); background: var(--surface);">
+      <h2 style="color: var(--navy-dark)">Admin: scheduling &amp; migration export</h2>
+      <label>Weekly report recipients (comma-separated emails)</label>
+      <input type="text" id="report-recipients">
+      <div class="form-actions"><button class="btn btn-secondary btn-sm" id="save-recipients-btn">Save recipients</button></div>
+
+      <label>Automated weekly email report</label>
+      <p class="small text-dim" id="trigger-status">Checking…</p>
+      <div class="form-actions">
+        <select id="trigger-day"><option>MONDAY</option><option>TUESDAY</option><option>WEDNESDAY</option><option>THURSDAY</option><option>FRIDAY</option></select>
+        <select id="trigger-hour"></select>
+        <button class="btn btn-secondary btn-sm" id="enable-trigger-btn">Enable weekly email</button>
+        <button class="btn btn-secondary btn-sm" id="disable-trigger-btn">Disable</button>
+      </div>
+
+      <label>M365 / OneDrive migration</label>
+      <p class="small text-dim">Creates a full .xlsx snapshot of every sheet (Complaints, Notes, Users, Audit Log) in the Backups Drive folder — download it and drop it straight into OneDrive when you move platforms.</p>
+      <div class="form-actions"><button class="btn btn-secondary btn-sm" id="export-xlsx-btn">Export Excel snapshot</button></div>
+      <p class="hint" id="xlsx-result"></p>
+    </div>
+  </section>
+
+  <!-- ADMIN -->
+  <section id="view-admin" class="hidden">
+    <h1>Staff accounts &amp; audit log</h1>
+    <div class="card">
+      <h2>Add a staff account</h2>
+      <p class="hint">No password to set — access is controlled entirely by your Google Workspace sign-in. This just grants an @sach.org.sg address access to the app.</p>
+      <div class="form-row">
+        <div><label>Full name</label><input type="text" id="u-name"></div>
+        <div><label>Work email</label><input type="email" id="u-email"></div>
+      </div>
+      <label>Role</label>
+      <select id="u-role"><option value="staff">Staff</option><option value="admin">Admin</option></select>
+      <div class="form-actions"><button class="btn btn-primary" id="add-user-btn">Create account</button></div>
+    </div>
+    <div class="card table-wrap">
+      <h2>All accounts</h2>
+      <table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th></th></tr></thead><tbody id="users-tbody"></tbody></table>
+    </div>
+    <div class="card table-wrap">
+      <h2>Audit log</h2>
+      <p class="text-dim small">Most recent 300 entries — every login-gated action is recorded here for PDPA accountability.</p>
+      <table><thead><tr><th>When</th><th>Actor</th><th>Action</th><th>Entity</th><th>Details</th></tr></thead><tbody id="audit-tbody"></tbody></table>
+    </div>
+  </section>
+</main>
+
+<div class="spinner-overlay hidden" id="spinner"><div class="spinner"></div></div>
+
+<script>
+// ---------------------------------------------------------------------
+// Thin promise wrapper around google.script.run, plus small DOM helpers.
+// Everything below is plain vanilla JS — no build step, no framework —
+// so the whole client fits in this one file and is easy to read top to
+// bottom when something needs fixing.
+// ---------------------------------------------------------------------
+
+function gsRun(fnName) {
+  var args = Array.prototype.slice.call(arguments, 1);
+  showSpinner(true);
+  return new Promise(function (resolve, reject) {
+    google.script.run
+      .withSuccessHandler(function (result) { showSpinner(false); resolve(result); })
+      .withFailureHandler(function (err) { showSpinner(false); reject(err); })
+      [fnName].apply(null, args);
+  });
+}
+
+function showSpinner(on) { document.getElementById('spinner').classList.toggle('hidden', !on); }
+
+function escapeHtml(str) {
+  if (str == null) return '';
+  return String(str).replace(/[&<>"']/g, function (c) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+  });
+}
+
+function fmtDate(v) {
+  if (!v) return '—';
+  var d = new Date(v);
+  return d.toLocaleDateString('en-SG', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+function fmtDateTime(v) {
+  if (!v) return '—';
+  var d = new Date(v);
+  return d.toLocaleString('en-SG', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+
+function statusClass(s) { return 'status-' + String(s).replace(/ /g, '-'); }
+
+function flash(type, message) {
+  var el = document.createElement('div');
+  el.className = 'flash flash-' + type;
+  el.textContent = message;
+  var stack = document.getElementById('flash-stack');
+  stack.appendChild(el);
+  setTimeout(function () { el.remove(); }, 6000);
+}
+
+function showError(err) {
+  flash('error', (err && err.message) || String(err));
+}
+
+// ---- App state ----------------------------------------------------------
+
+var APP = { user: null, constants: null, staff: [], editingComplaintId: null };
+
+function fillSelect(select, values, includeBlank, blankLabel) {
+  select.innerHTML = '';
+  if (includeBlank) {
+    var opt = document.createElement('option');
+    opt.value = ''; opt.textContent = blankLabel || 'All';
+    select.appendChild(opt);
+  }
+  values.forEach(function (v) {
+    var o = document.createElement('option');
+    o.value = v; o.textContent = v;
+    select.appendChild(o);
+  });
+}
+
+function fillStaffSelect(select, includeBlank) {
+  select.innerHTML = '';
+  if (includeBlank) {
+    var opt = document.createElement('option');
+    opt.value = ''; opt.textContent = 'Anyone';
+    select.appendChild(opt);
+  }
+  APP.staff.forEach(function (u) {
+    var o = document.createElement('option');
+    o.value = u.email; o.textContent = u.name + ' (' + u.email + ')';
+    select.appendChild(o);
+  });
+}
+
+function init() {
+  gsRun('getBootstrapData').then(function (data) {
+    APP.user = data; APP.constants = data.constants; APP.staff = data.staff;
+    document.getElementById('user-name').textContent = data.name;
+    document.getElementById('user-role').textContent = data.role;
+    if (data.role === 'admin') {
+      document.getElementById('nav-admin').classList.remove('hidden');
+      document.getElementById('report-admin-section').classList.remove('hidden');
+    }
+
+    fillSelect(document.getElementById('f-status'), APP.constants.STATUSES, true);
+    fillSelect(document.getElementById('f-category'), APP.constants.CATEGORIES, true);
+    fillSelect(document.getElementById('f-severity'), APP.constants.SEVERITIES, true);
+    fillStaffSelect(document.getElementById('f-assignedTo'), true);
+
+    fillSelect(document.getElementById('c-source'), APP.constants.SOURCES);
+    fillSelect(document.getElementById('c-category'), APP.constants.CATEGORIES);
+    fillSelect(document.getElementById('c-severity'), APP.constants.SEVERITIES);
+    fillStaffSelect(document.getElementById('c-assignedTo'), false);
+
+    fillSelect(document.getElementById('r-status'), APP.constants.STATUSES, true);
+    fillSelect(document.getElementById('r-category'), APP.constants.CATEGORIES, true);
+    fillSelect(document.getElementById('r-severity'), APP.constants.SEVERITIES, true);
+    fillStaffSelect(document.getElementById('r-assignedTo'), true);
+
+    fillSelect(document.getElementById('detail-status-select'), APP.constants.STATUSES);
+
+    var hourSelect = document.getElementById('trigger-hour');
+    for (var h = 0; h < 24; h++) {
+      var o = document.createElement('option'); o.value = h; o.textContent = (h < 10 ? '0' : '') + h + ':00';
+      hourSelect.appendChild(o);
+    }
+    hourSelect.value = 8;
+
+    loadReportFieldOptions();
+    showView('dashboard');
+  }).catch(showError);
+}
+
+// ---- View switching -------------------------------------------------
+
+function showView(name) {
+  document.querySelectorAll('main > section').forEach(function (s) { s.classList.add('hidden'); });
+  document.getElementById('view-' + name).classList.remove('hidden');
+  document.querySelectorAll('.nav button').forEach(function (b) { b.classList.toggle('active', b.dataset.view === name); });
+
+  if (name === 'dashboard') loadDashboard();
+  if (name === 'list') loadList();
+  if (name === 'reports') loadTemplates();
+  if (name === 'admin') { loadUsers(); loadAuditLog(); loadRecipientsAndTrigger(); }
+}
+
+// One delegated handler covers every element with a data-view attribute —
+// nav buttons, the "+ New complaint" shortcuts, and the list/new Cancel
+// buttons alike — so none of them end up double-bound. Clicking into the
+// "new" view always starts a blank form (openEditForm() bypasses this by
+// calling showView('new') directly, not via a click, so editing a case
+// doesn't get wiped out by this same reset).
+document.addEventListener('click', function (e) {
+  if (!(e.target.dataset && e.target.dataset.view)) return;
+  if (e.target.dataset.view === 'new') resetComplaintForm();
+  showView(e.target.dataset.view);
+});
+
+// ---- Dashboard ----------------------------------------------------------
+
+function loadDashboard() {
+  gsRun('getDashboardStats').then(function (s) {
+    var open = (s.statusMap['Open'] || 0) + (s.statusMap['In Progress'] || 0) + (s.statusMap['Escalated'] || 0);
+    document.getElementById('dash-stats').innerHTML =
+      statTile(s.total, 'Total complaints') +
+      statTile(s.overdue, 'Overdue (past SLA)', s.overdue > 0) +
+      statTile(open, 'Currently open') +
+      statTile(s.avgResolutionDays !== null ? s.avgResolutionDays + 'd' : '—', 'Avg. resolution time');
+
+    document.getElementById('dash-status').innerHTML = '<table><tbody>' +
+      Object.keys(s.statusMap).map(function (k) {
+        return '<tr><td><span class="badge ' + statusClass(k) + '">' + k + '</span></td><td class="mono">' + s.statusMap[k] + '</td></tr>';
+      }).join('') + '</tbody></table>';
+
+    document.getElementById('dash-category').innerHTML = '<table><tbody>' +
+      s.byCategory.map(function (r) { return '<tr><td>' + escapeHtml(r.category) + '</td><td class="mono">' + r.n + '</td></tr>'; }).join('') +
+      '</tbody></table>';
+
+    document.getElementById('dash-severity').innerHTML = '<table><tbody>' +
+      s.bySeverity.map(function (r) { return '<tr><td><span class="badge severity-' + r.severity + '">' + r.severity + '</span></td><td class="mono">' + r.n + '</td></tr>'; }).join('') +
+      '</tbody></table>';
+
+    document.getElementById('dash-activity').innerHTML = s.recentActivity.length ? s.recentActivity.map(function (a) {
+      return '<li><div class="meta">' + fmtDateTime(a.Timestamp) + ' · ' + escapeHtml(a.ActorEmail) + '</div><div class="body">' +
+        escapeHtml(String(a.Action).replace(/_/g, ' ')) + (a.Reference ? ' — ' + escapeHtml(a.Reference) : '') + '</div></li>';
+    }).join('') : '<li class="text-dim">No activity yet.</li>';
+  }).catch(showError);
+}
+
+function statTile(n, label, warn) {
+  return '<div class="stat-tile' + (warn ? ' warn' : '') + '"><span class="n">' + n + '</span><span class="lbl">' + label + '</span></div>';
+}
+
+// ---- List -----------------------------------------------------------
+
+document.getElementById('list-filter-form').addEventListener('submit', function (e) { e.preventDefault(); loadList(); });
+
+function loadList() {
+  var filters = {
+    q: document.getElementById('f-q').value,
+    status: document.getElementById('f-status').value,
+    category: document.getElementById('f-category').value,
+    severity: document.getElementById('f-severity').value,
+    assignedTo: document.getElementById('f-assignedTo').value,
+  };
+  gsRun('listComplaints', filters).then(function (rows) {
+    document.getElementById('list-count').textContent = rows.length + ' shown (most recent first, max 300)';
+    document.getElementById('list-tbody').innerHTML = rows.length ? rows.map(function (c) {
+      return '<tr>' +
+        '<td><a data-open="' + c.ID + '">' + escapeHtml(c.Reference) + '</a></td>' +
+        '<td>' + escapeHtml(c.PatientName) + '</td>' +
+        '<td>' + escapeHtml(c.Category) + '</td>' +
+        '<td><span class="badge severity-' + c.Severity + '">' + c.Severity + '</span></td>' +
+        '<td><span class="badge ' + statusClass(c.Status) + '">' + c.Status + '</span></td>' +
+        '<td>' + escapeHtml(c.AssignedTo || '—') + '</td>' +
+        '<td class="mono small">' + fmtDate(c.DueAt) + (c.IsOverdue ? '<br><span class="overdue-flag">Overdue</span>' : '') + '</td>' +
+        '</tr>';
+    }).join('') : '<tr><td colspan="7" class="text-dim">No complaints match these filters.</td></tr>';
+    document.querySelectorAll('[data-open]').forEach(function (el) {
+      el.addEventListener('click', function () { openDetail(Number(el.dataset.open)); });
+    });
+  }).catch(showError);
+}
+
+// ---- New / edit complaint ------------------------------------------
+
+function resetComplaintForm() {
+  APP.editingComplaintId = null;
+  document.getElementById('new-title').textContent = 'Log a new complaint';
+  document.getElementById('complaint-submit-btn').textContent = 'Log complaint';
+  document.getElementById('complaint-form').reset();
+  document.getElementById('new-error').classList.add('hidden');
+}
+
+function openEditForm(c) {
+  APP.editingComplaintId = c.ID;
+  document.getElementById('new-title').textContent = 'Edit ' + c.Reference;
+  document.getElementById('complaint-submit-btn').textContent = 'Save changes';
+  document.getElementById('c-patientName').value = c.PatientName;
+  document.getElementById('c-patientContact').value = c.PatientContact;
+  document.getElementById('c-source').value = c.Source;
+  document.getElementById('c-category').value = c.Category;
+  document.getElementById('c-severity').value = c.Severity;
+  document.getElementById('c-assignedTo').value = c.AssignedTo || '';
+  document.getElementById('c-description').value = c.Description;
+  document.getElementById('new-error').classList.add('hidden');
+  showView('new');
+}
+
+document.getElementById('complaint-form').addEventListener('submit', function (e) {
+  e.preventDefault();
+  var data = {
+    patientName: document.getElementById('c-patientName').value,
+    patientContact: document.getElementById('c-patientContact').value,
+    source: document.getElementById('c-source').value,
+    category: document.getElementById('c-category').value,
+    severity: document.getElementById('c-severity').value,
+    assignedTo: document.getElementById('c-assignedTo').value,
+    description: document.getElementById('c-description').value,
+  };
+  var errorBox = document.getElementById('new-error');
+  errorBox.classList.add('hidden');
+
+  var call = APP.editingComplaintId
+    ? gsRun('updateComplaint', APP.editingComplaintId, data)
+    : gsRun('addComplaint', data);
+
+  call.then(function (c) {
+    flash('success', (APP.editingComplaintId ? 'Complaint updated.' : 'Complaint ' + c.Reference + ' logged.'));
+    APP.editingComplaintId = null;
+    openDetail(c.ID);
+  }).catch(function (err) {
+    errorBox.textContent = err.message || String(err);
+    errorBox.classList.remove('hidden');
+  });
+});
+
+// ---- Detail -----------------------------------------------------------
+
+var currentDetailId = null;
+
+function openDetail(id) {
+  currentDetailId = id;
+  gsRun('getComplaint', id).then(renderDetail).catch(showError);
+  showView('detail');
+}
+
+function renderDetail(c) {
+  document.getElementById('detail-redacted-notice').innerHTML = c.Redacted
+    ? '<div class="redacted-notice">Patient identifying details on this record were redacted on ' + fmtDateTime(c.RedactedAt) + ' in response to a PDPA request.</div>' : '';
+
+  document.getElementById('detail-title').innerHTML = escapeHtml(c.Reference) + ' ' +
+    '<span class="badge ' + statusClass(c.Status) + '">' + c.Status + '</span> ' +
+    '<span class="badge severity-' + c.Severity + '">' + c.Severity + '</span>';
+  document.getElementById('detail-sub').textContent = c.Category + ' · via ' + c.Source + ' · logged ' + fmtDateTime(c.CreatedAt) + ' by ' + c.CreatedBy;
+
+  var overdueEl = document.getElementById('detail-overdue');
+  overdueEl.classList.toggle('hidden', !c.IsOverdue);
+  overdueEl.textContent = c.IsOverdue ? 'Past SLA due date (' + fmtDate(c.DueAt) + ')' : '';
+
+  document.getElementById('detail-edit-btn').classList.toggle('hidden', !!c.Redacted);
+  document.getElementById('detail-edit-btn').onclick = function () { openEditForm(c); };
+
+  document.getElementById('detail-kv').innerHTML =
+    kv('Patient / complainant', c.PatientName) + kv('Contact', c.PatientContact || '—') +
+    kv('Assigned to', c.AssignedTo || 'Unassigned') + kv('SLA due', fmtDate(c.DueAt)) +
+    kv('Resolved', fmtDate(c.ResolvedAt)) + kv('Closed', fmtDate(c.ClosedAt));
+  document.getElementById('detail-description').textContent = c.Description;
+
+  document.getElementById('detail-notes').innerHTML = c.Notes.length ? c.Notes.map(function (n) {
+    return '<li><div class="meta">' + escapeHtml(n.AuthorEmail) + ' · ' + fmtDateTime(n.CreatedAt) + '</div><div class="body">' + escapeHtml(n.Body) + '</div></li>';
+  }).join('') : '<li class="text-dim">No notes yet.</li>';
+
+  document.getElementById('detail-status-select').value = c.Status;
+
+  var adminActions = document.getElementById('detail-admin-actions');
+  adminActions.classList.toggle('hidden', !(APP.user.role === 'admin' && !c.Redacted));
+}
+
+function kv(k, v) { return '<div><div class="k">' + escapeHtml(k) + '</div><div class="v">' + escapeHtml(v) + '</div></div>'; }
+
+document.getElementById('add-note-btn').addEventListener('click', function () {
+  var body = document.getElementById('note-body').value.trim();
+  if (!body) { flash('error', 'Note cannot be empty.'); return; }
+  gsRun('addNote', currentDetailId, body).then(function () {
+    document.getElementById('note-body').value = '';
+    return gsRun('getComplaint', currentDetailId);
+  }).then(renderDetail).catch(showError);
+});
+
+document.getElementById('update-status-btn').addEventListener('click', function () {
+  var status = document.getElementById('detail-status-select').value;
+  gsRun('updateComplaintStatus', currentDetailId, status).then(function (c) {
+    flash('success', 'Status updated to ' + status + '.');
+    renderDetail(c);
+  }).catch(showError);
+});
+
+document.getElementById('redact-btn').addEventListener('click', function () {
+  if (!confirm('Redact patient name and contact details on this record? This cannot be undone.')) return;
+  gsRun('redactComplaint', currentDetailId).then(function (c) {
+    flash('success', 'Patient identifying details have been redacted.');
+    renderDetail(c);
+  }).catch(showError);
+});
+
+document.getElementById('delete-btn').addEventListener('click', function () {
+  if (!confirm('Permanently delete this complaint record, including all notes? This cannot be undone.')) return;
+  gsRun('deleteComplaint', currentDetailId).then(function (result) {
+    flash('success', result.reference + ' has been permanently deleted.');
+    showView('list');
+  }).catch(showError);
+});
+
+// ---- Reports ----------------------------------------------------------
+
+function currentReportFilters() {
+  return {
+    dateFrom: document.getElementById('r-dateFrom').value || null,
+    dateTo: document.getElementById('r-dateTo').value || null,
+    status: document.getElementById('r-status').value,
+    category: document.getElementById('r-category').value,
+    severity: document.getElementById('r-severity').value,
+    assignedTo: document.getElementById('r-assignedTo').value,
+  };
+}
+
+function currentReportFields() {
+  return Array.prototype.slice.call(document.querySelectorAll('#report-fields input:checked')).map(function (el) { return el.value; });
+}
+
+function loadReportFieldOptions() {
+  gsRun('getReportFieldOptions').then(function (options) {
+    var defaults = ['Reference', 'PatientName', 'Category', 'Severity', 'Status', 'CreatedAt', 'DueAt', 'AssignedTo'];
+    document.getElementById('report-fields').innerHTML = options.map(function (o) {
+      return '<label><input type="checkbox" value="' + o.key + '" ' + (defaults.indexOf(o.key) !== -1 ? 'checked' : '') + '> ' + escapeHtml(o.label) + '</label>';
+    }).join('');
+  }).catch(showError);
+}
+
+document.getElementById('report-filter-form').addEventListener('submit', function (e) {
+  e.preventDefault();
+  var resultEl = document.getElementById('report-result');
+  resultEl.textContent = 'Generating…';
+  gsRun('generatePdfReport', currentReportFilters(), currentReportFields(), null).then(function (file) {
+    resultEl.innerHTML = 'Report ready: <a href="' + file.url + '" target="_blank">' + escapeHtml(file.name) + '</a>';
+  }).catch(function (err) { resultEl.textContent = ''; showError(err); });
+});
+
+document.getElementById('save-template-btn').addEventListener('click', function () {
+  var name = prompt('Name this report template:');
+  if (!name) return;
+  gsRun('saveReportTemplate', name, currentReportFilters(), currentReportFields()).then(function () {
+    flash('success', 'Report template saved.');
+    loadTemplates();
+  }).catch(showError);
+});
+
+function loadTemplates() {
+  gsRun('listReportTemplates').then(function (templates) {
+    document.getElementById('templates-empty').classList.toggle('hidden', templates.length > 0);
+    document.getElementById('templates-tbody').innerHTML = templates.map(function (t) {
+      return '<tr><td>' + escapeHtml(t.Name) + '</td><td class="small text-dim">' + escapeHtml(t.OwnerEmail) + '</td>' +
+        '<td><a data-load-tpl="' + t.ID + '">Load</a> &middot; <a data-del-tpl="' + t.ID + '">Delete</a></td></tr>';
+    }).join('');
+    document.querySelectorAll('[data-load-tpl]').forEach(function (el) {
+      var tpl = templates.filter(function (t) { return String(t.ID) === el.dataset.loadTpl; })[0];
+      el.addEventListener('click', function () { applyTemplate(tpl); });
+    });
+    document.querySelectorAll('[data-del-tpl]').forEach(function (el) {
+      el.addEventListener('click', function () {
+        if (!confirm('Delete this saved report template?')) return;
+        gsRun('deleteReportTemplate', Number(el.dataset.delTpl)).then(function () { flash('success', 'Template deleted.'); loadTemplates(); }).catch(showError);
+      });
+    });
+  }).catch(showError);
+}
+
+function applyTemplate(tpl) {
+  var parsed = JSON.parse(tpl.FiltersJson);
+  var f = parsed.filters || {};
+  document.getElementById('r-dateFrom').value = f.dateFrom || '';
+  document.getElementById('r-dateTo').value = f.dateTo || '';
+  document.getElementById('r-status').value = f.status || '';
+  document.getElementById('r-category').value = f.category || '';
+  document.getElementById('r-severity').value = f.severity || '';
+  document.getElementById('r-assignedTo').value = f.assignedTo || '';
+  var fields = parsed.fields || [];
+  document.querySelectorAll('#report-fields input').forEach(function (el) { el.checked = fields.indexOf(el.value) !== -1; });
+  flash('success', 'Loaded "' + tpl.Name + '". Click Generate PDF to run it.');
+}
+
+// -- Admin: recipients + scheduled trigger + xlsx export --
+
+function loadRecipientsAndTrigger() {
+  if (APP.user.role !== 'admin') return;
+  gsRun('getReportRecipients').then(function (csv) { document.getElementById('report-recipients').value = csv; }).catch(showError);
+  gsRun('listScheduledReportTriggers').then(function (triggers) {
+    document.getElementById('trigger-status').textContent = triggers.length
+      ? 'Weekly email report is currently ENABLED.'
+      : 'Weekly email report is currently disabled.';
+  }).catch(showError);
+}
+
+document.getElementById('save-recipients-btn').addEventListener('click', function () {
+  gsRun('setReportRecipients', document.getElementById('report-recipients').value).then(function () {
+    flash('success', 'Recipients saved.');
+  }).catch(showError);
+});
+
+document.getElementById('enable-trigger-btn').addEventListener('click', function () {
+  var day = document.getElementById('trigger-day').value;
+  var hour = Number(document.getElementById('trigger-hour').value);
+  gsRun('setupWeeklyReportTrigger', day, hour).then(function () {
+    flash('success', 'Weekly email report enabled (' + day + ' at ' + hour + ':00).');
+    loadRecipientsAndTrigger();
+  }).catch(showError);
+});
+
+document.getElementById('disable-trigger-btn').addEventListener('click', function () {
+  gsRun('removeScheduledReportTrigger').then(function () {
+    flash('success', 'Weekly email report disabled.');
+    loadRecipientsAndTrigger();
+  }).catch(showError);
+});
+
+document.getElementById('export-xlsx-btn').addEventListener('click', function () {
+  var resultEl = document.getElementById('xlsx-result');
+  resultEl.textContent = 'Exporting…';
+  gsRun('exportXlsxSnapshot').then(function (file) {
+    resultEl.innerHTML = 'Snapshot ready: <a href="' + file.url + '" target="_blank">' + escapeHtml(file.name) + '</a>';
+  }).catch(function (err) { resultEl.textContent = ''; showError(err); });
+});
+
+// ---- Admin: users + audit log ------------------------------------------
+
+function loadUsers() {
+  gsRun('listUsers').then(function (users) {
+    document.getElementById('users-tbody').innerHTML = users.map(function (u) {
+      var isMe = u.Email === APP.user.email;
+      return '<tr><td>' + escapeHtml(u.Name) + '</td><td>' + escapeHtml(u.Email) + '</td>' +
+        '<td><select data-role-for="' + escapeHtml(u.Email) + '" ' + (isMe ? 'disabled' : '') + '>' +
+        '<option value="staff"' + (u.Role === 'staff' ? ' selected' : '') + '>Staff</option>' +
+        '<option value="admin"' + (u.Role === 'admin' ? ' selected' : '') + '>Admin</option></select></td>' +
+        '<td><span class="badge ' + (u.Active ? 'status-Resolved' : 'status-Closed') + '">' + (u.Active ? 'Active' : 'Deactivated') + '</span></td>' +
+        '<td><button class="btn btn-secondary btn-sm" data-toggle-for="' + escapeHtml(u.Email) + '" data-active="' + u.Active + '" ' + (isMe ? 'disabled' : '') + '>' +
+        (u.Active ? 'Deactivate' : 'Reactivate') + '</button></td></tr>';
+    }).join('');
+    document.querySelectorAll('[data-role-for]').forEach(function (el) {
+      el.addEventListener('change', function () {
+        gsRun('setUserRole', el.dataset.roleFor, el.value).then(function () { flash('success', 'Role updated.'); loadUsers(); }).catch(showError);
+      });
+    });
+    document.querySelectorAll('[data-toggle-for]').forEach(function (el) {
+      el.addEventListener('click', function () {
+        var willActivate = el.dataset.active !== 'true';
+        gsRun('setUserActive', el.dataset.toggleFor, willActivate).then(function () { loadUsers(); }).catch(showError);
+      });
+    });
+  }).catch(showError);
+}
+
+document.getElementById('add-user-btn').addEventListener('click', function () {
+  var email = document.getElementById('u-email').value.trim();
+  var name = document.getElementById('u-name').value.trim();
+  var role = document.getElementById('u-role').value;
+  gsRun('addUser', email, name, role).then(function () {
+    flash('success', 'Account created for ' + email + '.');
+    document.getElementById('u-email').value = ''; document.getElementById('u-name').value = '';
+    loadUsers();
+  }).catch(showError);
+});
+
+function loadAuditLog() {
+  gsRun('getAuditLog').then(function (entries) {
+    document.getElementById('audit-tbody').innerHTML = entries.length ? entries.map(function (a) {
+      return '<tr><td class="small mono">' + fmtDateTime(a.Timestamp) + '</td><td>' + escapeHtml(a.ActorEmail) + '</td>' +
+        '<td>' + escapeHtml(String(a.Action).replace(/_/g, ' ')) + '</td>' +
+        '<td class="small">' + escapeHtml(a.EntityType) + (a.EntityID ? ' #' + escapeHtml(a.EntityID) : '') + '</td>' +
+        '<td class="small text-dim">' + escapeHtml(a.Details) + '</td></tr>';
+    }).join('') : '<tr><td colspan="5" class="text-dim">No entries yet.</td></tr>';
+  }).catch(showError);
+}
+
+init();
+</script>
+</body>
+</html>

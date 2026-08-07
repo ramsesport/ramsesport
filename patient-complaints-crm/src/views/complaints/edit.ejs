@@ -1,0 +1,69 @@
+<%- include('../partials/header', { title }) %>
+<h1>Edit <%= complaint.reference_no %></h1>
+
+<div class="card">
+  <% if (error) { %><div class="field-error"><%= error %></div><% } %>
+  <form method="post" action="/complaints/<%= complaint.id %>/edit">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+    <div class="form-row">
+      <div>
+        <label for="patient_name">Patient / complainant name *</label>
+        <input type="text" id="patient_name" name="patient_name" required value="<%= complaint.patient_name %>">
+      </div>
+      <div>
+        <label for="patient_contact">Contact (phone or email)</label>
+        <input type="text" id="patient_contact" name="patient_contact" value="<%= complaint.patient_contact || '' %>">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label for="source">Source *</label>
+        <select id="source" name="source" required>
+          <% SOURCES.forEach(function(s) { %>
+            <option value="<%= s %>" <%= complaint.source === s ? 'selected' : '' %>><%= s %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div>
+        <label for="category">Category *</label>
+        <select id="category" name="category" required>
+          <% CATEGORIES.forEach(function(c) { %>
+            <option value="<%= c %>" <%= complaint.category === c ? 'selected' : '' %>><%= c %></option>
+          <% }) %>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label for="severity">Severity *</label>
+        <select id="severity" name="severity" required>
+          <% SEVERITIES.forEach(function(s) { %>
+            <option value="<%= s %>" <%= complaint.severity === s ? 'selected' : '' %>><%= s %></option>
+          <% }) %>
+        </select>
+        <p class="hint">Changing severity recalculates the SLA due date from the original log time.</p>
+      </div>
+      <div>
+        <label for="assigned_to">Assign to</label>
+        <select id="assigned_to" name="assigned_to">
+          <option value="">Unassigned</option>
+          <% staff.forEach(function(u) { %>
+            <option value="<%= u.id %>" <%= String(complaint.assigned_to) === String(u.id) ? 'selected' : '' %>><%= u.name %></option>
+          <% }) %>
+        </select>
+      </div>
+    </div>
+
+    <label for="description">Description *</label>
+    <textarea id="description" name="description" required><%= complaint.description %></textarea>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Save changes</button>
+      <a class="btn btn-secondary" href="/complaints/<%= complaint.id %>">Cancel</a>
+    </div>
+  </form>
+</div>
+<%- include('../partials/footer') %>

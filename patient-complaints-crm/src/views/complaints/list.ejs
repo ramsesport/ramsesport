@@ -1,0 +1,90 @@
+<%- include('../partials/header', { title }) %>
+<div class="detail-header">
+  <div>
+    <h1>Complaints</h1>
+    <p class="text-dim"><%= complaints.length %> shown (most recent first, max 200)</p>
+  </div>
+  <a class="btn btn-primary" href="/complaints/new">+ New complaint</a>
+</div>
+
+<form method="get" action="/complaints" class="filter-bar">
+  <div class="field">
+    <label for="q">Search</label>
+    <input type="search" id="q" name="q" value="<%= filters.q %>" placeholder="Reference, name, description">
+  </div>
+  <div class="field">
+    <label for="status">Status</label>
+    <select id="status" name="status">
+      <option value="">All</option>
+      <% STATUSES.forEach(function(s) { %>
+        <option value="<%= s %>" <%= filters.status === s ? 'selected' : '' %>><%= s %></option>
+      <% }) %>
+    </select>
+  </div>
+  <div class="field">
+    <label for="category">Category</label>
+    <select id="category" name="category">
+      <option value="">All</option>
+      <% CATEGORIES.forEach(function(c) { %>
+        <option value="<%= c %>" <%= filters.category === c ? 'selected' : '' %>><%= c %></option>
+      <% }) %>
+    </select>
+  </div>
+  <div class="field">
+    <label for="severity">Severity</label>
+    <select id="severity" name="severity">
+      <option value="">All</option>
+      <% SEVERITIES.forEach(function(s) { %>
+        <option value="<%= s %>" <%= filters.severity === s ? 'selected' : '' %>><%= s %></option>
+      <% }) %>
+    </select>
+  </div>
+  <div class="field">
+    <label for="assignedTo">Assigned to</label>
+    <select id="assignedTo" name="assignedTo">
+      <option value="">Anyone</option>
+      <% staff.forEach(function(u) { %>
+        <option value="<%= u.id %>" <%= String(filters.assignedTo) === String(u.id) ? 'selected' : '' %>><%= u.name %></option>
+      <% }) %>
+    </select>
+  </div>
+  <div class="field">
+    <button type="submit" class="btn btn-secondary">Filter</button>
+  </div>
+</form>
+
+<div class="card table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Reference</th>
+        <th>Patient / complainant</th>
+        <th>Category</th>
+        <th>Severity</th>
+        <th>Status</th>
+        <th>Assigned to</th>
+        <th>Due</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% complaints.forEach(function(c) { %>
+        <tr>
+          <td><a href="/complaints/<%= c.id %>"><%= c.reference_no %></a></td>
+          <td><%= c.patient_name %></td>
+          <td><%= c.category %></td>
+          <td><span class="badge severity-<%= c.severity %>"><%= c.severity %></span></td>
+          <td><span class="badge status-<%= c.status.replace(/ /g,'-') %>"><%= c.status %></span></td>
+          <td><%= c.assigned_name || '—' %></td>
+          <td class="mono small">
+            <%= c.due_at.slice(0,10) %>
+            <% if (c.isOverdue) { %><br><span class="overdue-flag">Overdue</span><% } %>
+          </td>
+        </tr>
+      <% }) %>
+      <% if (!complaints.length) { %>
+        <tr><td colspan="7" class="text-dim">No complaints match these filters.</td></tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+<%- include('../partials/footer') %>

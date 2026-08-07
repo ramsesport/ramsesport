@@ -1,0 +1,80 @@
+<%- include('partials/header', { title }) %>
+<h1>Dashboard</h1>
+<p class="text-dim">Overview of patient complaint activity across SACH Corp.</p>
+
+<div class="stat-grid">
+  <div class="stat-tile">
+    <span class="n"><%= total %></span>
+    <span class="lbl">Total complaints</span>
+  </div>
+  <div class="stat-tile <%= overdue > 0 ? 'warn' : '' %>">
+    <span class="n"><%= overdue %></span>
+    <span class="lbl">Overdue (past SLA)</span>
+  </div>
+  <div class="stat-tile">
+    <span class="n"><%= statusMap['Open'] + statusMap['In Progress'] + statusMap['Escalated'] %></span>
+    <span class="lbl">Currently open</span>
+  </div>
+  <div class="stat-tile">
+    <span class="n"><%= avgResolutionDays !== null ? avgResolutionDays + 'd' : '—' %></span>
+    <span class="lbl">Avg. resolution time</span>
+  </div>
+</div>
+
+<div class="dash-grid">
+  <div class="card">
+    <h2>By status</h2>
+    <table>
+      <tbody>
+        <% Object.keys(statusMap).forEach(function(s) { %>
+          <tr>
+            <td><span class="badge status-<%= s.replace(/ /g,'-') %>"><%= s %></span></td>
+            <td class="mono"><%= statusMap[s] %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <p class="hint"><a href="/reports/export.csv">Export full complaint list as CSV →</a></p>
+  </div>
+
+  <div class="card">
+    <h2>By category</h2>
+    <table>
+      <tbody>
+        <% byCategory.forEach(function(r) { %>
+          <tr><td><%= r.category %></td><td class="mono"><%= r.n %></td></tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>By severity</h2>
+    <table>
+      <tbody>
+        <% bySeverity.forEach(function(r) { %>
+          <tr>
+            <td><span class="badge severity-<%= r.severity %>"><%= r.severity %></span></td>
+            <td class="mono"><%= r.n %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Recent activity</h2>
+    <ul class="timeline">
+      <% recentActivity.forEach(function(a) { %>
+        <li>
+          <div class="meta"><%= a.created_at %> · <%= a.actor_name || a.actor_label || 'system' %></div>
+          <div class="body">
+            <%= a.action.replace(/_/g, ' ') %><% if (a.reference_no) { %> — <a href="/complaints/<%= a.entity_id %>"><%= a.reference_no %></a><% } %>
+          </div>
+        </li>
+      <% }) %>
+      <% if (!recentActivity.length) { %><li class="text-dim">No activity yet.</li><% } %>
+    </ul>
+  </div>
+</div>
+<%- include('partials/footer') %>
