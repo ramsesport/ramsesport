@@ -1,0 +1,383 @@
+{
+  "schema_version": 2,
+  "as_of": "2026-09-21",
+  "status": "verified_from_user_portfolio_screenshots",
+  "source_of_truth": "Six portfolio screenshots supplied by the user in the current conversation. Values are transcribed in each account's displayed holding currency.",
+  "accounts": [
+    {
+      "id": "cdp_income",
+      "name": "CDP Income",
+      "currency": "SGD",
+      "cost_basis": 334485.02,
+      "current_value": 478055.02,
+      "dividends": 18871.75,
+      "positions": 15
+    },
+    {
+      "id": "fsm_income",
+      "name": "FSM Income",
+      "currency": "SGD",
+      "cost_basis": 334581.01,
+      "current_value": 336479.41,
+      "dividends": 47742.78,
+      "positions": 6
+    },
+    {
+      "id": "growth",
+      "name": "Growth (No income)",
+      "currency": "SGD",
+      "cost_basis": 42394.38,
+      "current_value": 49499.67,
+      "dividends": 148.75,
+      "positions": 6
+    },
+    {
+      "id": "cpfis_income",
+      "name": "CPFIS Income",
+      "currency": "SGD",
+      "cost_basis": 353296.44,
+      "current_value": 511767.6,
+      "dividends": 20924.83,
+      "positions": 12
+    },
+    {
+      "id": "srs_income",
+      "name": "SRS Income",
+      "currency": "SGD",
+      "cost_basis": 259666.16,
+      "current_value": 436257.93,
+      "dividends": 16002.04,
+      "positions": 16
+    },
+    {
+      "id": "dbsv_income",
+      "name": "DBSV Income",
+      "currency": "GBP",
+      "cost_basis": 50474.82,
+      "current_value": 71405.27,
+      "dividends": 4626.64,
+      "positions": 6
+    }
+  ],
+  "positions": [
+    {
+      "account": "cdp_income",
+      "symbol": "9A4U",
+      "quantity": 5220
+    },
+    {
+      "account": "cdp_income",
+      "symbol": "C2PU",
+      "quantity": 4500
+    },
+    {
+      "account": "cdp_income",
+      "symbol": "C38U",
+      "quantity": 8000
+    },
+    {
+      "account": "cdp_income",
+      "symbol": "C52",
+      "quantity": 10900
+    },
+    {
+      "account": "cdp_income",
+      "symbol": "CJLU",
+      "quantity": 30000
+    },
+    {
+      "account": "cdp_income",
+      "symbol": "D05",
+      "quantity": 2770
+    },
+    {
+      "account": "cdp_income",
+      "symbol": "DCRU",
+      "quantity": 15000
+    },
+    {
+      "account": "cdp_income",
+      "symbol": "J69U",
+      "quantity": 12243
+    },
+    {
+      "account": "cdp_income",
+      "symbol": "ME8U",
+      "quantity": 5000
+    },
+    {
+      "account": "cdp_income",
+      "symbol": "MXNU",
+      "quantity": 20000
+    },
+    {
+      "account": "cdp_income",
+      "symbol": "NTDU",
+      "quantity": 20000
+    },
+    {
+      "account": "cdp_income",
+      "symbol": "O39",
+      "quantity": 2000
+    },
+    {
+      "account": "cdp_income",
+      "symbol": "OV8",
+      "quantity": 2400
+    },
+    {
+      "account": "cdp_income",
+      "symbol": "OXMU",
+      "quantity": 71
+    },
+    {
+      "account": "cdp_income",
+      "symbol": "P8Z",
+      "quantity": 10000
+    },
+    {
+      "account": "fsm_income",
+      "symbol": "ADX",
+      "quantity": 1076
+    },
+    {
+      "account": "fsm_income",
+      "symbol": "IE000YTNTUN2",
+      "quantity": 2506.38
+    },
+    {
+      "account": "fsm_income",
+      "symbol": "JEPG",
+      "quantity": 600
+    },
+    {
+      "account": "fsm_income",
+      "symbol": "JEPQ",
+      "quantity": 1600
+    },
+    {
+      "account": "fsm_income",
+      "symbol": "PHP",
+      "quantity": 6000
+    },
+    {
+      "account": "fsm_income",
+      "symbol": "WINC",
+      "quantity": 25000
+    },
+    {
+      "account": "growth",
+      "symbol": "CNDX",
+      "quantity": 2
+    },
+    {
+      "account": "growth",
+      "symbol": "GOOG",
+      "quantity": 12
+    },
+    {
+      "account": "growth",
+      "symbol": "MSFT",
+      "quantity": 13
+    },
+    {
+      "account": "growth",
+      "symbol": "NVDA",
+      "quantity": 56
+    },
+    {
+      "account": "growth",
+      "symbol": "SMH",
+      "quantity": 30
+    },
+    {
+      "account": "growth",
+      "symbol": "VWRP",
+      "quantity": 50
+    },
+    {
+      "account": "cpfis_income",
+      "symbol": "0P0000Z1XG",
+      "quantity": 32830.52
+    },
+    {
+      "account": "cpfis_income",
+      "symbol": "9A4U",
+      "quantity": 800
+    },
+    {
+      "account": "cpfis_income",
+      "symbol": "AJBU",
+      "quantity": 10000
+    },
+    {
+      "account": "cpfis_income",
+      "symbol": "BUOU",
+      "quantity": 24900
+    },
+    {
+      "account": "cpfis_income",
+      "symbol": "C2PU",
+      "quantity": 4000
+    },
+    {
+      "account": "cpfis_income",
+      "symbol": "C38U",
+      "quantity": 4800
+    },
+    {
+      "account": "cpfis_income",
+      "symbol": "C52",
+      "quantity": 24000
+    },
+    {
+      "account": "cpfis_income",
+      "symbol": "CFA",
+      "quantity": 23000
+    },
+    {
+      "account": "cpfis_income",
+      "symbol": "D05",
+      "quantity": 2405
+    },
+    {
+      "account": "cpfis_income",
+      "symbol": "O39",
+      "quantity": 3300
+    },
+    {
+      "account": "cpfis_income",
+      "symbol": "P40U",
+      "quantity": 35076
+    },
+    {
+      "account": "cpfis_income",
+      "symbol": "P9D",
+      "quantity": 5000
+    },
+    {
+      "account": "srs_income",
+      "symbol": "9A4U",
+      "quantity": 3670
+    },
+    {
+      "account": "srs_income",
+      "symbol": "A7RU",
+      "quantity": 35300
+    },
+    {
+      "account": "srs_income",
+      "symbol": "AGS",
+      "quantity": 8000
+    },
+    {
+      "account": "srs_income",
+      "symbol": "C2PU",
+      "quantity": 1000
+    },
+    {
+      "account": "srs_income",
+      "symbol": "C38U",
+      "quantity": 19684
+    },
+    {
+      "account": "srs_income",
+      "symbol": "CJLU",
+      "quantity": 14000
+    },
+    {
+      "account": "srs_income",
+      "symbol": "D05",
+      "quantity": 1788
+    },
+    {
+      "account": "srs_income",
+      "symbol": "DCRU",
+      "quantity": 4500
+    },
+    {
+      "account": "srs_income",
+      "symbol": "DHLU",
+      "quantity": 15000
+    },
+    {
+      "account": "srs_income",
+      "symbol": "HMN",
+      "quantity": 10000
+    },
+    {
+      "account": "srs_income",
+      "symbol": "J69U",
+      "quantity": 3135
+    },
+    {
+      "account": "srs_income",
+      "symbol": "NTDU",
+      "quantity": 4000
+    },
+    {
+      "account": "srs_income",
+      "symbol": "O39",
+      "quantity": 4401
+    },
+    {
+      "account": "srs_income",
+      "symbol": "QL3",
+      "quantity": 2000
+    },
+    {
+      "account": "srs_income",
+      "symbol": "Y92",
+      "quantity": 6000
+    },
+    {
+      "account": "srs_income",
+      "symbol": "Z74",
+      "quantity": 105
+    },
+    {
+      "account": "dbsv_income",
+      "symbol": "HFEL",
+      "quantity": 2600
+    },
+    {
+      "account": "dbsv_income",
+      "symbol": "HSBA",
+      "quantity": 1019
+    },
+    {
+      "account": "dbsv_income",
+      "symbol": "ICG",
+      "quantity": 700
+    },
+    {
+      "account": "dbsv_income",
+      "symbol": "LGEN",
+      "quantity": 4027
+    },
+    {
+      "account": "dbsv_income",
+      "symbol": "MNG",
+      "quantity": 4030
+    },
+    {
+      "account": "dbsv_income",
+      "symbol": "TFIF",
+      "quantity": 10000
+    }
+  ],
+  "us_situs": {
+    "monitoring_ceiling_usd": 60000,
+    "positions": [
+      "ADX",
+      "GOOG",
+      "MSFT",
+      "NVDA"
+    ]
+  },
+  "notes": [
+    "Ticker labels follow the portfolio screenshots; market-data symbols may require exchange suffixes in prices.json.",
+    "DBSV account is displayed in GBP; all other screenshot account totals are displayed in SGD.",
+    "No cash balance is inferred from these screenshots."
+  ]
+}
