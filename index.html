@@ -293,12 +293,12 @@ function checkPin() {
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-label">Investment Portfolio — Verified SGD Sleeves</div>
-  <div class="hero-value"><span>SGD </span><span id="hero-portfolio-val">—</span></div>
-  <div class="hero-sub" id="hero-sub">Loading verified 20 Sep 2026 snapshot…</div>
+  <div class="hero-label">Investment Portfolio — Total Value</div>
+  <div class="hero-value"><span>SGD </span><span id="hero-portfolio-val">1,854,999</span></div>
+  <div class="hero-sub">Invested SGD 1,352,029 · Profit +SGD 670,875 (+49.6%) · IRR 25.59%</div>
   <div class="hero-grid">
-    <div class="hero-pill"><span class="val" id="hero-positions">—</span><span class="lbl">Positions</span></div>
-    <div class="hero-pill"><span class="val" id="hero-accounts">—</span><span class="lbl">Accounts</span></div>
+    <div class="hero-pill"><span class="val" id="hero-passive">8,091</span><span class="lbl">Passive Inc/mo</span></div>
+    <div class="hero-pill"><span class="val">5.23%</span><span class="lbl">Yield (mkt)</span></div>
     <div class="hero-pill"><span class="val" id="hero-updated">--</span><span class="lbl">Prices updated</span></div>
   </div>
 </div>
@@ -322,30 +322,71 @@ function checkPin() {
 <!-- TAB: INCOME -->
 <div id="tab-income" class="tab-content active">
   <div class="section">
-    <div class="section-title">Verified Portfolio Snapshot</div>
-    <div class="card">
-      <div class="row-kv"><span class="k">Snapshot date</span><span class="v" id="summary-date">—</span></div>
-      <div class="row-kv"><span class="k">SGD sleeves — current value</span><span class="v gold" id="summary-sgd-value">—</span></div>
-      <div class="row-kv"><span class="k">SGD sleeves — cost basis</span><span class="v" id="summary-sgd-cost">—</span></div>
-      <div class="row-kv"><span class="k">SGD sleeves — capital gain</span><span class="v green" id="summary-sgd-gain">—</span></div>
-      <div class="row-kv"><span class="k">DBSV Income — current value</span><span class="v gold" id="summary-gbp-value">—</span></div>
-      <div class="row-kv"><span class="k">DBSV Income — cost basis</span><span class="v" id="summary-gbp-cost">—</span></div>
-      <div class="row-kv"><span class="k">Positions / accounts</span><span class="v" id="summary-counts">—</span></div>
-      <div style="margin-top:7px;font-size:9px;color:var(--text-dim);line-height:1.6">Values above are transcribed from the portfolio screenshots supplied on 21 Sep 2026. GBP is kept separate rather than converted with an assumed FX rate. No forward-income or IRR figure is inferred from these screenshots.</div>
+    <div class="section-title">Passive Investment Income</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+      <span style="font-size:12px;color:var(--text-dim)">Monthly Passive Income</span>
+      <span class="mono" style="font-size:16px;color:var(--text-bright)">SGD <span id="inc-monthly">8,091</span></span>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+      <span style="font-size:11px;color:var(--text-dim)">Annual Passive Income</span>
+      <span class="mono" style="font-size:12px;color:var(--gold)">SGD <span id="inc-annual">97,086</span></span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" style="width:40.5%"></div></div>
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <span style="font-size:9px;color:var(--text-dim);font-family:'DM Mono',monospace">TARGET: SGD 20,000/mo passive</span>
+      <span class="mono" style="font-size:10px;color:var(--gold)">40.5%</span>
+    </div>
+    <div class="card" style="margin-top:10px;background:rgba(201,168,76,.05);border-color:var(--gold-dim)">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-bottom:6px;letter-spacing:1px">SNOWBALL ANALYTICS — Total Net Worth (Income &amp; Growth)</div>
+      <div class="row-kv"><span class="k">Portfolio value</span><span class="v">SGD 1,854,999</span></div>
+      <div class="row-kv"><span class="k">Amount invested</span><span class="v">SGD 1,352,029</span></div>
+      <div class="row-kv"><span class="k">Total profit</span><span class="v green">+SGD 670,875 (+49.6%)</span></div>
+      <div class="row-kv"><span class="k">IRR (all-time)</span><span class="v green">25.59%</span></div>
+      <div class="row-kv"><span class="k">IRR (current holdings)</span><span class="v green">23.37%</span></div>
+      <div class="row-kv"><span class="k">Passive income yield (mkt / cost)</span><span class="v green">5.23% / 7.18%</span></div>
+      <div class="row-kv"><span class="k">Annual passive income</span><span class="v gold">SGD 97,086</span></div>
+      <div style="margin-top:6px;font-size:9px;color:var(--text-dim)">Pulled directly from your live Snowball public portfolio link, cross-checked against the 6 individual account exports (which sum to the aggregate to the dollar: SGD 1,854,998.73). New this update: WINC top-up (+1,000 shares, Cash FSM), CNDX — iShares NASDAQ 100 UCITS ETF (new, Growth), NTDU — NTT DC REIT USD (new, Cash GBP). Also corrected a transcription error from the last update: SRS/D05 cost basis was entered as 81,840 but should have been 51,840 — fixed here (confirmed via account-total cross-check).</div>
     </div>
   </div>
 
+  <!-- LIVE PRICES — ALL HOLDINGS -->
   <div class="section">
     <div class="section-title">Live Prices — All Holdings <span id="price-status" style="font-size:9px;color:var(--text-dim);margin-left:4px;font-family:'DM Mono',monospace;letter-spacing:0">fetching…</span></div>
     <div id="live-prices-grid"></div>
     <div style="margin-top:8px;font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);text-align:right">
-      prices.json · auto-refresh 5 min · <span id="price-time">--</span>
+      Yahoo Finance (exchange) · Morningstar (funds) · auto-refresh 5 min · <span id="price-time">--</span>
     </div>
   </div>
 
   <div class="section">
-    <div class="section-title">Accounts</div>
-    <div id="verified-account-summary"></div>
+    <div class="section-title">Passive Income by Account</div>
+    <div class="income-source-row">
+      <div><div class="source-name">Cash SGD</div><div class="source-type">14 holdings · DBS, OCBC, NetLink, FCT…</div></div>
+      <div class="source-income">~21,227</div>
+    </div>
+    <div class="income-source-row">
+      <div><div class="source-name">Cash GBP</div><div class="source-type">7 holdings · TFIF, HSBA, ICG, HFEL, MNG, LGEN, NTDU</div></div>
+      <div class="source-income">~8,023</div>
+    </div>
+    <div class="income-source-row">
+      <div><div class="source-name">SRS</div><div class="source-type">15 holdings · Singtel, NetLink, DBS, OCBC…</div></div>
+      <div class="source-income">~23,322</div>
+    </div>
+    <div class="income-source-row">
+      <div><div class="source-name">CPFIS</div><div class="source-type">11 holdings · Keppel DC, DBS, OCBC…</div></div>
+      <div class="source-income">~24,290</div>
+    </div>
+    <div class="income-source-row">
+      <div><div class="source-name">Cash FSM</div><div class="source-type">PHP, JEPG, PIMCO, ADX, JEPQ, WINC</div></div>
+      <div class="source-income">~20,113</div>
+    </div>
+    <div class="income-source-row">
+      <div><div class="source-name">Growth</div><div class="source-type">NVDA, MSFT, GOOG, VWRP, SMH, CNDX — capital appreciation</div></div>
+      <div class="source-income">~113</div>
+    </div>
+    <div style="text-align:right;font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);margin-top:6px">
+      * Per-account figures are my earlier yield-based estimates rescaled to sum to Snowball's real total (SGD 97,086.39/yr, confirmed live) — not independently verified per account, since Snowball's own breakdown is per-holding, not per-account.
+    </div>
   </div>
 </div>
 
@@ -509,7 +550,7 @@ function checkPin() {
       <div class="h-val">45,738<span class="h-sub">(SG$13.86)</span></div><div class="h-yield">96,129<span class="h-sub">(SG$29.13)</span></div><div class="h-income h-day" data-sym="O39.SI" data-cur="SGD">—</div>
     </div>
     <div class="holding-row">
-      <div><div class="h-ticker">0P0000Z1XG</div><div class="h-name">Nikko AM Japan Div Eq Fund</div><div><span class="h-tag tag-sg">UT</span></div></div>
+      <div><div class="h-ticker">0P00Z1XG</div><div class="h-name">Nikko AM Japan Div Eq Fund</div><div><span class="h-tag tag-sg">UT</span></div></div>
       <div class="h-val">74,000<span class="h-sub">(SG$2.254)</span></div><div class="h-yield">77,062<span class="h-sub">(SG$2.348)</span></div><div class="h-income h-day" data-sym="0P0000Z1XG" data-cur="SGD">—</div>
     </div>
     <div class="holding-row">
@@ -693,13 +734,13 @@ function checkPin() {
     </div>
     <div class="card" style="background:rgba(248,113,113,.04);border-color:var(--red-dim)">
       <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--red);margin-bottom:5px">US ESTATE TAX MONITOR</div>
-      <div style="font-size:10px;color:var(--text-dim);line-height:1.6">Monitoring only direct US-incorporated holdings in this dashboard: NVDA, MSFT and GOOG. Ireland-domiciled UCITS ETFs are excluded from this monitor. Values below recalculate from the latest prices in prices.json and the verified share quantities encoded in the holdings table.</div>
+      <div style="font-size:10px;color:var(--text-dim);line-height:1.6">Not a formal sub-portfolio — used to monitor US situs exposure against USD 60K estate tax exemption. Only NVDA/MSFT/GOOG count as US situs (US-incorporated); VWRP, SMH and CNDX are Ireland-domiciled UCITS ETFs and are NOT US situs regardless of price currency. MSTY/YMAX/BTCI all exited May 2026.</div>
       <div style="margin-top:8px">
-        <div class="row-kv"><span class="k">Current US situs (USD)</span><span class="v green" id="us-situs-value">calculating…</span></div>
-        <div class="row-kv"><span class="k">Monitoring ceiling</span><span class="v">USD 60,000</span></div>
-        <div class="row-kv"><span class="k">Headroom remaining</span><span class="v green" id="us-situs-headroom">calculating…</span></div>
+        <div class="row-kv"><span class="k">Current US situs (USD est.)</span><span class="v green">~21,408</span></div>
+        <div class="row-kv"><span class="k">Estate tax threshold</span><span class="v">USD 60,000</span></div>
+        <div class="row-kv"><span class="k">Headroom remaining</span><span class="v green">~USD 38,592</span></div>
       </div>
-      <div style="margin-top:6px;font-size:9px;color:var(--text-dim)">Operational monitor only; not tax advice. Recheck domicile/tax treatment after corporate actions or instrument changes.</div>
+      <div style="margin-top:6px;font-size:9px;color:var(--text-dim)">USD est. uses SGD/USD ≈1.312 (same basis as prior note) — recheck FX rate when next updating.</div>
     </div>
   </div>
 </div>
@@ -1084,27 +1125,46 @@ function checkPin() {
 <!-- TAB: BUY LINES -->
 <div id="tab-buylines" class="tab-content">
   <div class="section">
-    <div class="section-title">Deployment Watchlist</div>
+    <div class="section-title">Buy Line Monitor</div>
     <div class="card" style="background:rgba(201,168,76,.04);border-color:var(--gold-dim);margin-bottom:10px">
-      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-bottom:4px">TARGET DISCIPLINE</div>
-      <div style="font-size:10px;color:var(--text-dim);line-height:1.6">No fixed buy targets are currently verified. This monitor therefore shows current price and daily move only; it does not manufacture moving −5%/−10%/−15% triggers or a BUY/HOLD signal.</div>
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-bottom:4px">HOW TO READ</div>
+      <div style="font-size:10px;color:var(--text-dim);line-height:1.6">Green bar = current price. Gold line = T1 buy trigger. Red line = T2/T3 trigger. If bar is below a line → deploy that tranche.</div>
     </div>
-    <div id="buylines-grid" style="display:flex;flex-direction:column;gap:8px"></div>
+    <div id="buylines-grid" style="display:flex;flex-direction:column;gap:10px"></div>
     <div style="text-align:right;font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);margin-top:8px" id="buylines-time">Fetching prices…</div>
+  </div>
+  <div class="section">
+    <div class="section-title">Tranche Summary</div>
+    <div class="card" style="background:rgba(74,222,128,.05);border-color:var(--green-dim)">
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--green);margin-bottom:6px">TRANCHE 1 — ACTIVE · −5% from today's price</div>
+      <div style="font-size:13px;color:var(--text-dim);line-height:1.9">JEPQ.L · WINC.L ✓ · ParkwayLife · NetLink · <span style="color:var(--text-dim);text-decoration:line-through">M44U stood down</span> · <span style="color:#4ade80">CSPX.L (S&amp;P 500)</span></div>
+    </div>
+    <div class="card" style="margin-top:6px;background:rgba(201,168,76,.05);border-color:var(--gold-dim)">
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);margin-bottom:6px">TRANCHE 2 — WAITING · −10% from today's price</div>
+      <div style="font-size:13px;color:var(--text-dim);line-height:1.9">DBS · OCBC · Keppel DC · FCT · <span style="color:#4ade80">CSPX.L</span> top-up</div>
+    </div>
+    <div class="card" style="margin-top:6px;background:rgba(74,85,104,.2);border-color:var(--muted)">
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim);margin-bottom:6px">TRANCHE 3 — STANDBY · −15% from today's price</div>
+      <div style="font-size:13px;color:var(--text-dim);line-height:1.9">DBS · OCBC · Sembcorp · JEPQ.L · <span style="color:#4ade80">CSPX.L</span> add</div>
+    </div>
+    <div class="card" style="margin-top:6px;background:rgba(248,113,113,.04);border-color:var(--red-dim)">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--red);margin-bottom:4px">DO NOT ADD — REGARDLESS OF PRICE</div>
+      <div style="font-size:10px;color:var(--text-dim)">Prime US REIT (OXMU) · CapitaLand China Trust (AU8U)</div>
+    </div>
   </div>
 </div>
 
 <!-- SHARE CARD -->
 <div class="share-section">
   <div class="share-card">
-    <div class="share-title">Verified Portfolio Snapshot</div>
+    <div class="share-title">Portfolio Snapshot</div>
     <div class="share-metrics">
-      <div class="share-metric"><div class="val" id="share-sgd">—</div><div class="lbl">SGD Sleeves</div></div>
-      <div class="share-metric"><div class="val" id="share-gbp">—</div><div class="lbl">DBSV GBP</div></div>
-      <div class="share-metric"><div class="val" id="share-positions">—</div><div class="lbl">Positions</div></div>
-      <div class="share-metric"><div class="val" id="share-accounts">—</div><div class="lbl">Accounts</div></div>
+      <div class="share-metric"><div class="val">1,854,999</div><div class="lbl">Portfolio (SGD)</div></div>
+      <div class="share-metric"><div class="val">8,091</div><div class="lbl">Passive Inc/mo</div></div>
+      <div class="share-metric"><div class="val">+49.6%</div><div class="lbl">Total Profit</div></div>
+      <div class="share-metric"><div class="val">25.59%</div><div class="lbl">IRR</div></div>
     </div>
-    <button class="share-btn" onclick="showSnapshot()">📤 View Snapshot Card</button>
+    <button class="share-btn" onclick="showSnapshot()">📤 Generate WhatsApp Card</button>
   </div>
 </div>
 
@@ -1114,12 +1174,16 @@ function checkPin() {
     <div class="snap-logo">Ramsesport</div>
     <div class="snap-date" id="snap-date"></div>
     <div class="snap-grid">
-      <div class="snap-box"><div class="sv" id="snap-sgd">—</div><div class="sl">SGD Sleeves</div></div>
-      <div class="snap-box"><div class="sv" id="snap-gbp">—</div><div class="sl">DBSV Income</div></div>
-      <div class="snap-box"><div class="sv" id="snap-positions">—</div><div class="sl">Positions</div></div>
-      <div class="snap-box"><div class="sv" id="snap-accounts">—</div><div class="sl">Accounts</div></div>
+      <div class="snap-box"><div class="sv">SGD 1,854,999</div><div class="sl">Portfolio Value</div></div>
+      <div class="snap-box"><div class="sv">SGD 8,091/mo</div><div class="sl">Passive Income</div></div>
+      <div class="snap-box"><div class="sv">+49.6%</div><div class="sl">Total Profit</div></div>
+      <div class="snap-box"><div class="sv">25.59%</div><div class="sl">IRR (all-time)</div></div>
     </div>
-    <div class="snap-footer" id="snap-footer">Verified portfolio snapshot</div>
+    <div class="snap-grid">
+      <div class="snap-box"><div class="sv">5.23%</div><div class="sl">Passive Yield</div></div>
+      <div class="snap-box"><div class="sv">SGD 97,086</div><div class="sl">Annual Income</div></div>
+    </div>
+    <div class="snap-footer">Source: Snowball · Screenshot &amp; share via WhatsApp<br>Passive income target SGD 20,000/mo · Progress: 40.5% · As at 01 Aug 2026</div>
     <button class="snap-close" onclick="hideSnapshot()">Close</button>
   </div>
 </div>
@@ -1190,7 +1254,7 @@ const PRICE_GROUPS = [
       { sym:'9A4U.SI', label:'ESR-REIT',          cur:'SGD', accts:'Cash SGD · CPFIS · SRS' },
       { sym:'C52.SI',  label:'ComfortDelGro',     cur:'SGD', accts:'Cash SGD · CPFIS' },
       { sym:'MXNU.SI', label:'Elite Comm REIT',   cur:'SGD', accts:'Cash SGD' },
-      { sym:'DCRU.SI', label:'Digital Core REIT', cur:'USD', accts:'Cash SGD · SRS' },
+      { sym:'DCRU.SI', label:'Digital Core REIT', cur:'SGD', accts:'Cash SGD · SRS' },
       { sym:'BUOU.SI', label:'Frasers L&C Trust', cur:'SGD', accts:'CPFIS' },
       { sym:'P40U.SI', label:'Starhill REIT',     cur:'SGD', accts:'CPFIS' },
       { sym:'P9D.SI',  label:'Civmec',            cur:'SGD', accts:'CPFIS' },
@@ -1204,7 +1268,7 @@ const PRICE_GROUPS = [
       { sym:'QL3.SI',  label:'iShares SE Asia',   cur:'SGD', accts:'SRS' },
       { sym:'A7RU.SI', label:'Keppel Infra Trust',cur:'SGD', accts:'SRS' },
       { sym:'Y92.SI',  label:'Thai Beverage',     cur:'SGD', accts:'SRS' },
-      { sym:'OXMU.SI', label:'Prime US REIT ⚠',  cur:'USD', accts:'Cash SGD' },
+      { sym:'OXMU.SI', label:'Prime US REIT ⚠',  cur:'SGD', accts:'Cash SGD' },
       { sym:'NTDU.SI', label:'NTT DC REIT',       cur:'USD', accts:'Cash GBP' },
     ]
   },
@@ -1225,10 +1289,10 @@ const PRICE_GROUPS = [
     tag: 'UCITS', tagBg: 'rgba(96,165,250,.12)', tagCol: '#60a5fa',
     tickers: [
       { sym:'PHP.L',  label:'Primary Health Prop',cur:'GBX', accts:'Cash FSM' },
-      { sym:'JEPG.L', label:'JPM Global Eq Prem', cur:'USD', accts:'Cash FSM' },
-      { sym:'JEPQ.L', label:'JPM Nasdaq Eq Prem', cur:'USD', accts:'Cash FSM' },
-      { sym:'WINC.L', label:'iShares World HI',   cur:'GBP', accts:'Cash FSM' },
-      { sym:'VWRP.L', label:'Vanguard All-World',  cur:'GBP', accts:'Growth' },
+      { sym:'JEPG.L', label:'JPM Global Eq Prem', cur:'GBX', accts:'Cash FSM' },
+      { sym:'JEPQ.L', label:'JPM Nasdaq Eq Prem', cur:'GBX', accts:'Cash FSM' },
+      { sym:'WINC.L', label:'iShares World HI',   cur:'GBX', accts:'Cash FSM' },
+      { sym:'VWRP.L', label:'Vanguard All-World',  cur:'GBX', accts:'Growth' },
       { sym:'SMH.L',  label:'VanEck Semiconductor UCITS', cur:'USD', accts:'Growth' },
       { sym:'CNDX.L', label:'iShares NASDAQ 100 UCITS',   cur:'USD', accts:'Growth' },
     ]
@@ -1248,7 +1312,7 @@ const PRICE_GROUPS = [
     tag: 'UT', tagBg: 'rgba(192,132,252,.12)', tagCol: '#c084fc',
     tickers: [
       { sym:'0P0000Z1XG',  label:'Nikko AM Japan Div', cur:'SGD', accts:'CPFIS',    type:'morningstar' },
-      { sym:'IE000YTNTUN2',label:'PIMCO Balanced Inc',  cur:'USD', accts:'Cash FSM', type:'static', nav:12.44, navDate:'31 May 26 · last verified' },
+      { sym:'IE000YTNTUN2',label:'PIMCO Balanced Inc',  cur:'USD', accts:'Cash FSM', type:'static', nav:12.44, navDate:'31 May 26' },
     ]
   },
 ];
@@ -1342,1294 +1406,6 @@ function priceRowHTML(label, accts, tagBg, tagCol, tag, priceStr, pctStr, pctCol
   </div>`;
 }
 
-let VERIFIED_PORTFOLIO = null;
-
-async function loadVerifiedPortfolio() {
-  try {
-    const r = await fetch('/ramsesport/portfolio-data.json?t=' + Date.now(), { cache:'no-cache' });
-    if (!r.ok) return null;
-    VERIFIED_PORTFOLIO = await r.json();
-    const sgdAccounts = VERIFIED_PORTFOLIO.accounts.filter(a => a.currency === 'SGD');
-    const sgdValue = sgdAccounts.reduce((x,a)=>x+a.current_value,0);
-    const sgdCost = sgdAccounts.reduce((x,a)=>x+a.cost_basis,0);
-    const valEl=document.getElementById('hero-portfolio-val');
-    const subEl=document.getElementById('hero-sub');
-    const posEl=document.getElementById('hero-positions');
-    const acctEl=document.getElementById('hero-accounts');
-    if(valEl) valEl.textContent=sgdValue.toLocaleString('en-SG',{maximumFractionDigits:0});
-    if(subEl) subEl.textContent='Snapshot '+VERIFIED_PORTFOLIO.as_of+' · Cost SGD '+sgdCost.toLocaleString('en-SG',{maximumFractionDigits:0})+' · DBSV GBP '+VERIFIED_PORTFOLIO.accounts.find(a=>a.id==='dbsv_income').current_value.toLocaleString('en-GB',{maximumFractionDigits:0})+' shown separately';
-    if(posEl) posEl.textContent=VERIFIED_PORTFOLIO.positions.length.toLocaleString('en-SG');
-    if(acctEl) acctEl.textContent=VERIFIED_PORTFOLIO.accounts.length.toLocaleString('en-SG');
-    return VERIFIED_PORTFOLIO;
-  } catch(e) { console.warn('portfolio-data.json unavailable:',e); return null; }
-}
-
-const ACCOUNT_TABS = {
-  cdp_income:'cdp1',
-  dbsv_income:'gbp',
-  srs_income:'cdp2',
-  cpfis_income:'srs',
-  fsm_income:'fsm',
-  growth:'growth'
-};
-const LSE_SYMBOLS = new Set(['HFEL','HSBA','ICG','LGEN','MNG','TFIF','PHP','JEPG','JEPQ','WINC','VWRP','SMH','CNDX']);
-const US_SYMBOLS = new Set(['ADX','GOOG','MSFT','NVDA']);
-const USD_QUOTED = new Set(['DCRU','NTDU','OXMU','JEPG','JEPQ','SMH','CNDX','ADX','GOOG','MSFT','NVDA','IE000YTNTUN2']);
-function marketSymbolFor(symbol) {
-  if (US_SYMBOLS.has(symbol) || symbol.startsWith('0P') || symbol.startsWith('IE')) return symbol;
-  if (LSE_SYMBOLS.has(symbol)) return symbol + '.L';
-  return symbol + '.SI';
-}
-function quoteCurrencyFor(symbol) {
-  if (USD_QUOTED.has(symbol)) return 'USD';
-  if (symbol === 'WINC' || symbol === 'VWRP') return 'GBP';
-  if (LSE_SYMBOLS.has(symbol)) return 'GBX';
-  return 'SGD';
-}
-function qtyFmt(q) {
-  return Number(q).toLocaleString('en-SG',{maximumFractionDigits:2});
-}
-function moneyFmt(v,c) {
-  const p=c==='GBP'?'£':c==='USD'?'US
-  const grid    = document.getElementById('live-prices-grid');
-  const statusEl= document.getElementById('price-status');
-  const timeEl  = document.getElementById('price-time');
-  if (!grid) return;
-  statusEl.textContent = 'fetching…'; statusEl.style.color = 'var(--text-dim)';
-  grid.innerHTML = `<div style="padding:12px;text-align:center;font-family:DM Mono,monospace;font-size:10px;color:var(--text-dim)">Loading all holdings…</div>`;
-
-  // Load prices from prices.json (updated every 15 min by GitHub Actions)
-  let priceMap = {};
-  try {
-    const r = await fetch('/ramsesport/prices.json?t=' + Date.now(), { cache: 'no-cache' });
-    if (r.ok) {
-      const data = await r.json();
-      priceMap = data.prices || {};
-      if (timeEl && data.updated) {
-        const d = new Date(data.updated);
-        timeEl.textContent = d.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'}) + ' UTC';
-      }
-    }
-  } catch(e) { console.warn('prices.json unavailable:', e); }
-
-  // Merge static NAV entries (PIMCO etc.)
-  PRICE_GROUPS.forEach(g => g.tickers.forEach(t => {
-    if (t.type === 'static') priceMap[t.sym] = { price: t.nav, pct: null, isNAV: true };
-  }));
-
-  renderVerifiedAccounts(priceMap);
-
-  // Render grouped
-  let totalOk = 0, totalTickers = 0;
-  let html = '';
-  for (const g of PRICE_GROUPS) {
-    html += `<div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:${g.tagCol};padding:10px 0 5px;border-bottom:1px solid var(--border);margin-bottom:5px">${g.group}</div>`;
-    html += '<div style="display:flex;flex-direction:column;gap:4px;margin-bottom:4px">';
-    for (const t of g.tickers) {
-      totalTickers++;
-      let priceStr = '…', pctStr = '', pctColor = 'var(--text-dim)', note = '';
-      if (t.type === 'static') {
-        priceStr = `US$${t.nav.toFixed(2)}`;
-        pctStr = `NAV ${t.navDate}`;
-        pctColor = 'var(--text-dim)';
-        note = '(static)';
-        totalOk++;
-      } else {
-        const d = priceMap[t.sym];
-        if (d && d.price != null) {
-          priceStr = fmtPrice(d.price, t.cur);
-          if (d.pct != null) {
-            pctStr = fmtChange(d.pct);
-            pctColor = d.pct >= 0 ? 'var(--green)' : 'var(--red)';
-          }
-          if (d.isNAV) note = '(NAV)';
-          totalOk++;
-        } else {
-          priceStr = 'n/a';
-        }
-      }
-      html += priceRowHTML(t.label, t.accts, g.tagBg, g.tagCol, g.tag, priceStr, pctStr, pctColor, note);
-    }
-    html += '</div>';
-  }
-  grid.innerHTML = html;
-
-  // ── Dynamic US-situs monitor from verified portfolio-data.json ───────────
-  if (!VERIFIED_PORTFOLIO) await loadVerifiedPortfolio();
-  const marketSymbol = sym => ({ADX:'ADX',GOOG:'GOOG',MSFT:'MSFT',NVDA:'NVDA'})[sym] || sym;
-  const usSitusHoldings = VERIFIED_PORTFOLIO
-    ? VERIFIED_PORTFOLIO.positions
-        .filter(p => VERIFIED_PORTFOLIO.us_situs.positions.includes(p.symbol))
-        .map(p => ({sym:marketSymbol(p.symbol), shares:p.quantity}))
-    : [];
-  const usSitusComplete = usSitusHoldings.every(h => priceMap[h.sym]?.price != null);
-  const usSitusValue = usSitusComplete
-    ? usSitusHoldings.reduce((sum,h) => sum + h.shares * priceMap[h.sym].price, 0)
-    : null;
-  const usValueEl = document.getElementById('us-situs-value');
-  const usHeadroomEl = document.getElementById('us-situs-headroom');
-  if (usValueEl && usHeadroomEl) {
-    if (usSitusValue == null) {
-      usValueEl.textContent = 'price unavailable';
-      usHeadroomEl.textContent = '—';
-    } else {
-      const headroom = 60000 - usSitusValue;
-      usValueEl.textContent = 'USD ' + usSitusValue.toLocaleString('en-US',{maximumFractionDigits:0});
-      usHeadroomEl.textContent = (headroom >= 0 ? 'USD ' : 'OVER by USD ') + Math.abs(headroom).toLocaleString('en-US',{maximumFractionDigits:0});
-      usValueEl.style.color = usSitusValue < 60000 ? 'var(--green)' : 'var(--red)';
-      usHeadroomEl.style.color = headroom >= 0 ? 'var(--green)' : 'var(--red)';
-    }
-  }
-
-  // ── Update per-holding Last Price cells ─────────────────────────────────
-  document.querySelectorAll('.h-day[data-sym]').forEach(el => {
-    const sym = el.dataset.sym;
-    const cur = el.dataset.cur || 'SGD';
-    const d   = priceMap[sym];
-    if (!d || d.price == null) { el.textContent = '—'; el.style.color = 'var(--text-dim)'; return; }
-    if (d.isNAV) {
-      el.textContent = 'US$' + d.price.toFixed(2);
-      el.style.color = 'var(--text-dim)';
-      return;
-    }
-    const priceStr = fmtPrice(d.price, cur);
-    const pctStr   = d.pct != null ? ' (' + fmtChange(d.pct) + ')' : '';
-    el.textContent = priceStr + pctStr;
-    el.style.color = d.pct != null
-      ? (d.pct >= 0 ? 'var(--green)' : 'var(--red)')
-      : 'var(--text-bright)';
-  });
-
-  const now = new Date();
-  const timeStr = now.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});
-  timeEl.textContent = timeStr;
-  if (totalOk > 0) {
-    statusEl.textContent = `● LIVE (${totalOk}/${totalTickers})`;
-    statusEl.style.color = 'var(--green)';
-    const hu = document.getElementById('hero-updated');
-    if (hu) hu.textContent = timeStr;
-  } else {
-    statusEl.textContent = '● offline';
-    statusEl.style.color = 'var(--red)';
-  }
-}
-loadVerifiedPortfolio().then(loadLivePrices);
-setInterval(loadLivePrices, 5 * 60 * 1000);
-Chart.defaults.color = '#718096';
-Chart.defaults.font.family = "'DM Mono', monospace";
-Chart.defaults.font.size = 10;
-
-// ── PORTFOLIO SNAPSHOT DATA ────────────────────────────────────────────────
-// Legacy display data remains below until every position has been reconciled.
-// New verified facts are being migrated into portfolio-data.json; do not add
-// new portfolio facts here unless they are also verified and represented there.
-// Estimated historical observations are retained only as legacy source data and
-// are filtered out of charts unless explicitly marked verified.
-
-const PORTFOLIO_HISTORY = [
-  { label: 'Jan 25', total: 1415000, income: 6800 }, // estimated
-  { label: 'Feb 25', total: 1445000, income: 6900 }, // estimated
-  { label: 'Mar 25', total: 1430000, income: 6900 }, // estimated
-  { label: 'Apr 25', total: 1460000, income: 7100 }, // estimated
-  { label: 'May 25', total: 1480000, income: 7200 }, // estimated
-  { label: 'Jun 25', total: 1465000, income: 7100 }, // estimated
-  { label: 'Jul 25', total: 1495000, income: 7300 }, // estimated
-  { label: 'Aug 25', total: 1510000, income: 7400 }, // estimated
-  { label: 'Sep 25', total: 1490000, income: 7200 }, // estimated
-  { label: 'Oct 25', total: 1520000, income: 7500 }, // estimated
-  { label: 'Nov 25', total: 1540000, income: 7600 }, // estimated
-  { label: 'Dec 25', total: 1525000, income: 7500 }, // estimated
-  { label: 'Jan 26', total: 1535000, income: 7700 }, // estimated
-  { label: 'Feb 26', total: 1545000, income: 7750 }, // estimated
-  { label: 'Mar 26', total: 1525000, income: 7600 }, // estimated
-  { label: 'Apr 26', total: 1550000, income: 7800 }, // estimated
-  { label: 'May 26', total: 1332481, income: 7861, verified: true }, // verified — 6 Jun 2026 Snowball (securities only)
-];
-
-// Account chart metadata. Values come from portfolio-data.json; GBP is not mixed into SGD totals.
-const ACCOUNT_CHART_META = {
-  cdp_income:  { label:'CDP Income', color:'#4ade80' },
-  fsm_income:  { label:'FSM Income', color:'#c9a84c' },
-  cpfis_income:{ label:'CPFIS Income', color:'#c084fc' },
-  srs_income:  { label:'SRS Income', color:'#60a5fa' },
-  growth:      { label:'Growth', color:'#fb923c' },
-};
-
-// ── BUY LINE CONFIG — tranche triggers ──
-// T1 = buy now/slight dip, T2 = 5-8% pullback, T3 = deep dislocation
-const BUY_LINES = [
-  { sym:'D05.SI',  label:'DBS',             cur:'SGD' },
-  { sym:'O39.SI',  label:'OCBC',            cur:'SGD' },
-  { sym:'AJBU.SI', label:'Keppel DC',       cur:'SGD' },
-  { sym:'J69U.SI', label:'FCT',             cur:'SGD' },
-  { sym:'C2PU.SI', label:'ParkwayLife',     cur:'SGD' },
-  { sym:'CJLU.SI', label:'NetLink',         cur:'SGD' },
-  { sym:'ME8U.SI', label:'Mapletree Ind',   cur:'SGD' },
-  { sym:'C38U.SI', label:'CICT',            cur:'SGD' },
-  { sym:'NVDA',    label:'NVDA',            cur:'USD' },
-  { sym:'MSFT',    label:'MSFT',            cur:'USD' },
-  { sym:'JEPQ.L',  label:'JEPQ.L (UCITS)',   cur:'USD' },
-  { sym:'CSPX.L',  label:'CSPX (S&P 500)', cur:'USD' },
-  { sym:'HSBA.L',  label:'HSBC',            cur:'GBP' },
-  { sym:'LGEN.L',  label:'L&G',             cur:'GBP' },
-];
-
-// ── CHART HELPERS ──
-const GRID = { color: 'rgba(30,35,48,0.8)', drawBorder: false };
-const TICK = { color: '#4a5568' };
-
-function makeLineChart(id, labels, datasets, yLabel) {
-  const ctx = document.getElementById(id);
-  if (!ctx) return;
-  new Chart(ctx, {
-    type: 'line',
-    data: { labels, datasets },
-    options: {
-      responsive: true,
-      plugins: { legend: { display: datasets.length > 1, labels: { boxWidth: 10, padding: 10 } }, tooltip: { mode: 'index', intersect: false } },
-      scales: {
-        x: { grid: GRID, ticks: { ...TICK, maxRotation: 0, maxTicksLimit: 6 } },
-        y: { grid: GRID, ticks: TICK, title: { display: !!yLabel, text: yLabel, color: '#4a5568' } }
-      }
-    }
-  });
-}
-
-// ── TOTAL PORTFOLIO CHART ──
-function buildTotalChart() {
-  const verifiedHistory = PORTFOLIO_HISTORY.filter(d => d.verified === true);
-  const labels = verifiedHistory.map(d => d.label);
-  const vals   = verifiedHistory.map(d => d.total / 1000); // in K
-  makeLineChart('chart-total', labels, [{
-    label: 'Portfolio SGD (K)',
-    data: vals,
-    borderColor: '#c9a84c',
-    backgroundColor: 'rgba(201,168,76,0.08)',
-    fill: true,
-    tension: 0.35,
-    pointRadius: 3,
-    pointBackgroundColor: '#c9a84c',
-  }], 'SGD (K)');
-}
-
-// ── SUB-PORTFOLIO BAR CHART ──
-function buildSubportChart() {
-  const ctx = document.getElementById('chart-subport');
-  if (!ctx) return;
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: (VERIFIED_PORTFOLIO ? VERIFIED_PORTFOLIO.accounts.filter(a=>a.currency==='SGD') : []).map(a => ACCOUNT_CHART_META[a.id]?.label || a.name),
-      datasets: [{
-        label: 'Snapshot value SGD',
-        data: (VERIFIED_PORTFOLIO ? VERIFIED_PORTFOLIO.accounts.filter(a=>a.currency==='SGD') : []).map(a => Math.round(a.current_value / 1000)),
-        backgroundColor: (VERIFIED_PORTFOLIO ? VERIFIED_PORTFOLIO.accounts.filter(a=>a.currency==='SGD') : []).map(a => (ACCOUNT_CHART_META[a.id]?.color || '#718096') + 'cc'),
-        borderColor:     (VERIFIED_PORTFOLIO ? VERIFIED_PORTFOLIO.accounts.filter(a=>a.currency==='SGD') : []).map(a => ACCOUNT_CHART_META[a.id]?.color || '#718096'),
-        borderWidth: 1,
-        borderRadius: 4,
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { grid: GRID, ticks: TICK },
-        y: { grid: GRID, ticks: TICK, title: { display: true, text: 'SGD (K)', color: '#4a5568' } }
-      }
-    }
-  });
-}
-
-// ── INCOME TREND CHART ──
-function buildIncomeChart() {
-  const verifiedHistory = PORTFOLIO_HISTORY.filter(d => d.verified === true);
-  const labels = verifiedHistory.map(d => d.label);
-  const vals   = verifiedHistory.map(d => d.income);
-  makeLineChart('chart-income', labels, [{
-    label: 'Passive Income SGD/mo',
-    data: vals,
-    borderColor: '#4ade80',
-    backgroundColor: 'rgba(74,222,128,0.08)',
-    fill: true,
-    tension: 0.35,
-    pointRadius: 3,
-    pointBackgroundColor: '#4ade80',
-  },
-  {
-    label: 'Target 20,000',
-    data: labels.map(() => 20000),
-    borderColor: 'rgba(248,113,113,0.5)',
-    borderDash: [6, 4],
-    borderWidth: 1.5,
-    pointRadius: 0,
-    fill: false,
-  }], 'SGD/mo');
-}
-
-// ── LIVE STOCK TREND CHART (30-day from Yahoo) ──
-async function buildStockTrendChart() {
-  const statusEl = document.getElementById('chart-stocks-status');
-  const stocks = [
-    { sym: 'D05.SI', label: 'DBS',  color: '#4ade80' },
-    { sym: 'O39.SI', label: 'OCBC', color: '#60a5fa' },
-    { sym: 'NVDA',   label: 'NVDA', color: '#c9a84c' },
-  ];
-
-  async function fetchHistory(sym) {
-    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=1d&range=1mo`;
-    const proxy = `https://corsproxy.io/?url=${encodeURIComponent(url)}`;
-    try {
-      const r = await fetch(proxy, { cache: 'no-cache' });
-      const j = await r.json();
-      const result = JSON.parse(j.contents)?.chart?.result?.[0];
-      if (!result) return null;
-      const ts = result.timestamp.map(t => {
-        const d = new Date(t * 1000);
-        return `${d.getDate()}/${d.getMonth()+1}`;
-      });
-      const closes = result.indicators.quote[0].close.map(v => v ? +v.toFixed(2) : null);
-      return { labels: ts, closes };
-    } catch { return null; }
-  }
-
-  const results = await Promise.all(stocks.map(s => fetchHistory(s.sym)));
-  const anyOk = results.some(r => r !== null);
-
-  if (!anyOk) {
-    statusEl.textContent = '● Price history unavailable — proxy offline';
-    return;
-  }
-
-  // Use first successful result's labels
-  const baseLabels = results.find(r => r !== null).labels;
-  const ctx = document.getElementById('chart-stocks');
-  if (!ctx) return;
-
-  const datasets = stocks.map((s, i) => ({
-    label: s.label,
-    data: results[i] ? results[i].closes : [],
-    borderColor: s.color,
-    backgroundColor: 'transparent',
-    tension: 0.3,
-    pointRadius: 2,
-    pointBackgroundColor: s.color,
-    yAxisID: s.sym === 'NVDA' ? 'y2' : 'y',
-  }));
-
-  new Chart(ctx, {
-    type: 'line',
-    data: { labels: baseLabels, datasets },
-    options: {
-      responsive: true,
-      plugins: { legend: { display: true, labels: { boxWidth: 8, padding: 8 } } },
-      scales: {
-        x: { grid: GRID, ticks: { ...TICK, maxRotation: 0, maxTicksLimit: 8 } },
-        y:  { grid: GRID, ticks: TICK, title: { display: true, text: 'SGD', color: '#4a5568' } },
-        y2: { position: 'right', grid: { display: false }, ticks: TICK, title: { display: true, text: 'USD', color: '#4a5568' } }
-      }
-    }
-  });
-  statusEl.textContent = '● Live · 30-day · ' + new Date().toLocaleTimeString('en-SG', {hour:'2-digit',minute:'2-digit'});
-}
-
-// ── BUY LINES CHART ──
-async function buildBuyLines() {
-  const grid = document.getElementById('buylines-grid');
-  const timeEl = document.getElementById('buylines-time');
-  if (!grid) return;
-
-  const prices = await Promise.all(BUY_LINES.map(async item => {
-    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${item.sym}?interval=1d&range=2d`;
-    const proxy = `https://corsproxy.io/?url=${encodeURIComponent(url)}`;
-    try {
-      const r = await fetch(proxy, { cache: 'no-cache' });
-      const j = await r.json();
-      const meta = JSON.parse(j.contents)?.chart?.result?.[0]?.meta;
-      return meta ? meta.regularMarketPrice : null;
-    } catch { return null; }
-  }));
-
-  grid.innerHTML = '';
-
-  BUY_LINES.forEach((item, i) => {
-    const price = prices[i];
-    const cur = item.cur === 'USD' ? 'US
-
-    // Compute tranche lines dynamically from live price
-    const t1 = price ? +(price * 0.95).toFixed(dp) : null;  // −5%
-    const t2 = price ? +(price * 0.90).toFixed(dp) : null;  // −10%
-    const t3 = price ? +(price * 0.85).toFixed(dp) : null;  // −15%
-
-    // Signal — always HOLD since price is at current level (lines are below)
-    // But show how close price is to each line
-    let signal = price !== null ? '⬜ HOLD' : '—';
-    let sigColor = 'var(--text-dim)', sigBg = 'rgba(74,85,104,.08)';
-
-    // Bar: show current price with lines at 5/10/15% below
-    // Scale: show from 15% below to 5% above current price
-    const scaleMin = price ? price * 0.83 : 0;
-    const scaleMax = price ? price * 1.05 : 1;
-    const scaleRange = scaleMax - scaleMin;
-
-    const pricePct = price ? ((price  - scaleMin) / scaleRange) * 100 : 85;
-    const t1Pct    = price ? ((t1     - scaleMin) / scaleRange) * 100 : 65;
-    const t2Pct    = price ? ((t2     - scaleMin) / scaleRange) * 100 : 45;
-    const t3Pct    = price ? ((t3     - scaleMin) / scaleRange) * 100 : 20;
-
-    const barColor = '#4ade80';
-
-    const el = document.createElement('div');
-    el.style.cssText = `background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:13px 14px;margin-bottom:8px`;
-    el.innerHTML = `
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
-        <div>
-          <div style="font-family:'DM Mono',monospace;font-size:15px;color:var(--text-bright);font-weight:500">${item.label}</div>
-          <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-dim);margin-top:2px">${item.sym}</div>
-        </div>
-        <div style="text-align:right">
-          <div style="font-family:'DM Serif Display',serif;font-size:26px;color:${barColor};line-height:1">${displayPrice !== null ? cur + displayPrice.toFixed(dp) : 'n/a'}</div>
-          <div style="font-size:10px;padding:2px 8px;border-radius:4px;background:${sigBg};color:${sigColor};font-family:'DM Mono',monospace;display:inline-block;margin-top:4px">${signal}</div>
-        </div>
-      </div>
-      <!-- Bar track -->
-      <div style="position:relative;height:24px;background:var(--surface2);border-radius:5px;overflow:visible;margin-bottom:6px">
-        <div style="position:absolute;top:0;height:100%;left:0;width:${pricePct}%;background:rgba(74,222,128,.12);border-radius:5px;border-right:2.5px solid #4ade80"></div>
-        <div style="position:absolute;top:-6px;bottom:-6px;left:${t1Pct}%;width:2px;background:#4ade80"></div>
-        <div style="position:absolute;top:-6px;bottom:-6px;left:${t2Pct}%;width:2px;background:#c9a84c"></div>
-        <div style="position:absolute;top:-6px;bottom:-6px;left:${t3Pct}%;width:2px;background:#f87171"></div>
-        <div style="position:absolute;top:-17px;left:${Math.max(t1Pct-1,0)}%;font-size:8px;color:#4ade80;font-family:'DM Mono',monospace">T1</div>
-        <div style="position:absolute;top:-17px;left:${Math.max(t2Pct-1,0)}%;font-size:8px;color:#c9a84c;font-family:'DM Mono',monospace">T2</div>
-        <div style="position:absolute;top:-17px;left:${Math.max(t3Pct-2,0)}%;font-size:8px;color:#f87171;font-family:'DM Mono',monospace">T3</div>
-      </div>
-      <!-- Buy price row -->
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:14px">
-        <div style="background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.2);border-radius:7px;padding:7px 6px;text-align:center">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#4ade80;margin-bottom:2px">T1 −5%</div>
-          <div style="font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);font-weight:500">${price ? cur+(t1*displayFactor).toFixed(dp) : '—'}</div>
-        </div>
-        <div style="background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);border-radius:7px;padding:7px 6px;text-align:center">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#c9a84c;margin-bottom:2px">T2 −10%</div>
-          <div style="font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);font-weight:500">${price ? cur+(t2*displayFactor).toFixed(dp) : '—'}</div>
-        </div>
-        <div style="background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.2);border-radius:7px;padding:7px 6px;text-align:center">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#f87171;margin-bottom:2px">T3 −15%</div>
-          <div style="font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);font-weight:500">${price ? cur+(t3*displayFactor).toFixed(dp) : '—'}</div>
-        </div>
-      </div>
-    `;
-    grid.appendChild(el);
-  });
-
-  const t = new Date().toLocaleTimeString('en-SG', {hour:'2-digit',minute:'2-digit'});
-  timeEl.textContent = `● Live prices · ${t} · auto-refresh every 5 min`;
-}
-
-// ── Charts initialised lazily via showTab above ──
-</script>
-</body>
-</html>
- : item.cur === 'GBP' || item.cur === 'GBX' ? '£' : 'S
-
-    // Compute tranche lines dynamically from live price
-    const t1 = price ? +(price * 0.95).toFixed(dp) : null;  // −5%
-    const t2 = price ? +(price * 0.90).toFixed(dp) : null;  // −10%
-    const t3 = price ? +(price * 0.85).toFixed(dp) : null;  // −15%
-
-    // Signal — always HOLD since price is at current level (lines are below)
-    // But show how close price is to each line
-    let signal = price !== null ? '⬜ HOLD' : '—';
-    let sigColor = 'var(--text-dim)', sigBg = 'rgba(74,85,104,.08)';
-
-    // Bar: show current price with lines at 5/10/15% below
-    // Scale: show from 15% below to 5% above current price
-    const scaleMin = price ? price * 0.83 : 0;
-    const scaleMax = price ? price * 1.05 : 1;
-    const scaleRange = scaleMax - scaleMin;
-
-    const pricePct = price ? ((price  - scaleMin) / scaleRange) * 100 : 85;
-    const t1Pct    = price ? ((t1     - scaleMin) / scaleRange) * 100 : 65;
-    const t2Pct    = price ? ((t2     - scaleMin) / scaleRange) * 100 : 45;
-    const t3Pct    = price ? ((t3     - scaleMin) / scaleRange) * 100 : 20;
-
-    const barColor = '#4ade80';
-
-    const el = document.createElement('div');
-    el.style.cssText = `background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:13px 14px;margin-bottom:8px`;
-    el.innerHTML = `
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
-        <div>
-          <div style="font-family:'DM Mono',monospace;font-size:15px;color:var(--text-bright);font-weight:500">${item.label}</div>
-          <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-dim);margin-top:2px">${item.sym}</div>
-        </div>
-        <div style="text-align:right">
-          <div style="font-family:'DM Serif Display',serif;font-size:26px;color:${barColor};line-height:1">${price !== null ? cur + price.toFixed(dp) : 'n/a'}</div>
-          <div style="font-size:10px;padding:2px 8px;border-radius:4px;background:${sigBg};color:${sigColor};font-family:'DM Mono',monospace;display:inline-block;margin-top:4px">${signal}</div>
-        </div>
-      </div>
-      <!-- Bar track -->
-      <div style="position:relative;height:24px;background:var(--surface2);border-radius:5px;overflow:visible;margin-bottom:6px">
-        <div style="position:absolute;top:0;height:100%;left:0;width:${pricePct}%;background:rgba(74,222,128,.12);border-radius:5px;border-right:2.5px solid #4ade80"></div>
-        <div style="position:absolute;top:-6px;bottom:-6px;left:${t1Pct}%;width:2px;background:#4ade80"></div>
-        <div style="position:absolute;top:-6px;bottom:-6px;left:${t2Pct}%;width:2px;background:#c9a84c"></div>
-        <div style="position:absolute;top:-6px;bottom:-6px;left:${t3Pct}%;width:2px;background:#f87171"></div>
-        <div style="position:absolute;top:-17px;left:${Math.max(t1Pct-1,0)}%;font-size:8px;color:#4ade80;font-family:'DM Mono',monospace">T1</div>
-        <div style="position:absolute;top:-17px;left:${Math.max(t2Pct-1,0)}%;font-size:8px;color:#c9a84c;font-family:'DM Mono',monospace">T2</div>
-        <div style="position:absolute;top:-17px;left:${Math.max(t3Pct-2,0)}%;font-size:8px;color:#f87171;font-family:'DM Mono',monospace">T3</div>
-      </div>
-      <!-- Buy price row -->
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:14px">
-        <div style="background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.2);border-radius:7px;padding:7px 6px;text-align:center">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#4ade80;margin-bottom:2px">T1 −5%</div>
-          <div style="font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);font-weight:500">${price ? cur+t1 : '—'}</div>
-        </div>
-        <div style="background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);border-radius:7px;padding:7px 6px;text-align:center">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#c9a84c;margin-bottom:2px">T2 −10%</div>
-          <div style="font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);font-weight:500">${price ? cur+t2 : '—'}</div>
-        </div>
-        <div style="background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.2);border-radius:7px;padding:7px 6px;text-align:center">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#f87171;margin-bottom:2px">T3 −15%</div>
-          <div style="font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);font-weight:500">${price ? cur+t3 : '—'}</div>
-        </div>
-      </div>
-    `;
-    grid.appendChild(el);
-  });
-
-  const t = new Date().toLocaleTimeString('en-SG', {hour:'2-digit',minute:'2-digit'});
-  timeEl.textContent = `● Live prices · ${t} · auto-refresh every 5 min`;
-}
-
-// ── Charts initialised lazily via showTab above ──
-</script>
-</body>
-</html>
-;
-    const displayFactor = item.cur === 'GBX' ? 0.01 : 1;
-    const displayPrice = price == null ? null : price * displayFactor;
-    const dp = displayPrice != null && displayPrice < 5 ? 3 : 2;
-
-    // Compute tranche lines dynamically from live price
-    const t1 = price ? +(price * 0.95).toFixed(dp) : null;  // −5%
-    const t2 = price ? +(price * 0.90).toFixed(dp) : null;  // −10%
-    const t3 = price ? +(price * 0.85).toFixed(dp) : null;  // −15%
-
-    // Signal — always HOLD since price is at current level (lines are below)
-    // But show how close price is to each line
-    let signal = price !== null ? '⬜ HOLD' : '—';
-    let sigColor = 'var(--text-dim)', sigBg = 'rgba(74,85,104,.08)';
-
-    // Bar: show current price with lines at 5/10/15% below
-    // Scale: show from 15% below to 5% above current price
-    const scaleMin = price ? price * 0.83 : 0;
-    const scaleMax = price ? price * 1.05 : 1;
-    const scaleRange = scaleMax - scaleMin;
-
-    const pricePct = price ? ((price  - scaleMin) / scaleRange) * 100 : 85;
-    const t1Pct    = price ? ((t1     - scaleMin) / scaleRange) * 100 : 65;
-    const t2Pct    = price ? ((t2     - scaleMin) / scaleRange) * 100 : 45;
-    const t3Pct    = price ? ((t3     - scaleMin) / scaleRange) * 100 : 20;
-
-    const barColor = '#4ade80';
-
-    const el = document.createElement('div');
-    el.style.cssText = `background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:13px 14px;margin-bottom:8px`;
-    el.innerHTML = `
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
-        <div>
-          <div style="font-family:'DM Mono',monospace;font-size:15px;color:var(--text-bright);font-weight:500">${item.label}</div>
-          <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-dim);margin-top:2px">${item.sym}</div>
-        </div>
-        <div style="text-align:right">
-          <div style="font-family:'DM Serif Display',serif;font-size:26px;color:${barColor};line-height:1">${price !== null ? cur + price.toFixed(dp) : 'n/a'}</div>
-          <div style="font-size:10px;padding:2px 8px;border-radius:4px;background:${sigBg};color:${sigColor};font-family:'DM Mono',monospace;display:inline-block;margin-top:4px">${signal}</div>
-        </div>
-      </div>
-      <!-- Bar track -->
-      <div style="position:relative;height:24px;background:var(--surface2);border-radius:5px;overflow:visible;margin-bottom:6px">
-        <div style="position:absolute;top:0;height:100%;left:0;width:${pricePct}%;background:rgba(74,222,128,.12);border-radius:5px;border-right:2.5px solid #4ade80"></div>
-        <div style="position:absolute;top:-6px;bottom:-6px;left:${t1Pct}%;width:2px;background:#4ade80"></div>
-        <div style="position:absolute;top:-6px;bottom:-6px;left:${t2Pct}%;width:2px;background:#c9a84c"></div>
-        <div style="position:absolute;top:-6px;bottom:-6px;left:${t3Pct}%;width:2px;background:#f87171"></div>
-        <div style="position:absolute;top:-17px;left:${Math.max(t1Pct-1,0)}%;font-size:8px;color:#4ade80;font-family:'DM Mono',monospace">T1</div>
-        <div style="position:absolute;top:-17px;left:${Math.max(t2Pct-1,0)}%;font-size:8px;color:#c9a84c;font-family:'DM Mono',monospace">T2</div>
-        <div style="position:absolute;top:-17px;left:${Math.max(t3Pct-2,0)}%;font-size:8px;color:#f87171;font-family:'DM Mono',monospace">T3</div>
-      </div>
-      <!-- Buy price row -->
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:14px">
-        <div style="background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.2);border-radius:7px;padding:7px 6px;text-align:center">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#4ade80;margin-bottom:2px">T1 −5%</div>
-          <div style="font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);font-weight:500">${price ? cur+t1 : '—'}</div>
-        </div>
-        <div style="background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);border-radius:7px;padding:7px 6px;text-align:center">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#c9a84c;margin-bottom:2px">T2 −10%</div>
-          <div style="font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);font-weight:500">${price ? cur+t2 : '—'}</div>
-        </div>
-        <div style="background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.2);border-radius:7px;padding:7px 6px;text-align:center">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#f87171;margin-bottom:2px">T3 −15%</div>
-          <div style="font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);font-weight:500">${price ? cur+t3 : '—'}</div>
-        </div>
-      </div>
-    `;
-    grid.appendChild(el);
-  });
-
-  const t = new Date().toLocaleTimeString('en-SG', {hour:'2-digit',minute:'2-digit'});
-  timeEl.textContent = `● Live prices · ${t} · auto-refresh every 5 min`;
-}
-
-// ── Charts initialised lazily via showTab above ──
-</script>
-</body>
-</html>
-:'S
-  const grid    = document.getElementById('live-prices-grid');
-  const statusEl= document.getElementById('price-status');
-  const timeEl  = document.getElementById('price-time');
-  if (!grid) return;
-  statusEl.textContent = 'fetching…'; statusEl.style.color = 'var(--text-dim)';
-  grid.innerHTML = `<div style="padding:12px;text-align:center;font-family:DM Mono,monospace;font-size:10px;color:var(--text-dim)">Loading all holdings…</div>`;
-
-  // Load prices from prices.json (updated every 15 min by GitHub Actions)
-  let priceMap = {};
-  try {
-    const r = await fetch('/ramsesport/prices.json?t=' + Date.now(), { cache: 'no-cache' });
-    if (r.ok) {
-      const data = await r.json();
-      priceMap = data.prices || {};
-      if (timeEl && data.updated) {
-        const d = new Date(data.updated);
-        timeEl.textContent = d.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'}) + ' UTC';
-      }
-    }
-  } catch(e) { console.warn('prices.json unavailable:', e); }
-
-  // Merge static NAV entries (PIMCO etc.)
-  PRICE_GROUPS.forEach(g => g.tickers.forEach(t => {
-    if (t.type === 'static') priceMap[t.sym] = { price: t.nav, pct: null, isNAV: true };
-  }));
-
-  // Render grouped
-  let totalOk = 0, totalTickers = 0;
-  let html = '';
-  for (const g of PRICE_GROUPS) {
-    html += `<div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:${g.tagCol};padding:10px 0 5px;border-bottom:1px solid var(--border);margin-bottom:5px">${g.group}</div>`;
-    html += '<div style="display:flex;flex-direction:column;gap:4px;margin-bottom:4px">';
-    for (const t of g.tickers) {
-      totalTickers++;
-      let priceStr = '…', pctStr = '', pctColor = 'var(--text-dim)', note = '';
-      if (t.type === 'static') {
-        priceStr = `US$${t.nav.toFixed(2)}`;
-        pctStr = `NAV ${t.navDate}`;
-        pctColor = 'var(--text-dim)';
-        note = '(static)';
-        totalOk++;
-      } else {
-        const d = priceMap[t.sym];
-        if (d && d.price != null) {
-          priceStr = fmtPrice(d.price, t.cur);
-          if (d.pct != null) {
-            pctStr = fmtChange(d.pct);
-            pctColor = d.pct >= 0 ? 'var(--green)' : 'var(--red)';
-          }
-          if (d.isNAV) note = '(NAV)';
-          totalOk++;
-        } else {
-          priceStr = 'n/a';
-        }
-      }
-      html += priceRowHTML(t.label, t.accts, g.tagBg, g.tagCol, g.tag, priceStr, pctStr, pctColor, note);
-    }
-    html += '</div>';
-  }
-  grid.innerHTML = html;
-
-  // ── Dynamic US-situs monitor from verified portfolio-data.json ───────────
-  if (!VERIFIED_PORTFOLIO) await loadVerifiedPortfolio();
-  const marketSymbol = sym => ({ADX:'ADX',GOOG:'GOOG',MSFT:'MSFT',NVDA:'NVDA'})[sym] || sym;
-  const usSitusHoldings = VERIFIED_PORTFOLIO
-    ? VERIFIED_PORTFOLIO.positions
-        .filter(p => VERIFIED_PORTFOLIO.us_situs.positions.includes(p.symbol))
-        .map(p => ({sym:marketSymbol(p.symbol), shares:p.quantity}))
-    : [];
-  const usSitusComplete = usSitusHoldings.every(h => priceMap[h.sym]?.price != null);
-  const usSitusValue = usSitusComplete
-    ? usSitusHoldings.reduce((sum,h) => sum + h.shares * priceMap[h.sym].price, 0)
-    : null;
-  const usValueEl = document.getElementById('us-situs-value');
-  const usHeadroomEl = document.getElementById('us-situs-headroom');
-  if (usValueEl && usHeadroomEl) {
-    if (usSitusValue == null) {
-      usValueEl.textContent = 'price unavailable';
-      usHeadroomEl.textContent = '—';
-    } else {
-      const headroom = 60000 - usSitusValue;
-      usValueEl.textContent = 'USD ' + usSitusValue.toLocaleString('en-US',{maximumFractionDigits:0});
-      usHeadroomEl.textContent = (headroom >= 0 ? 'USD ' : 'OVER by USD ') + Math.abs(headroom).toLocaleString('en-US',{maximumFractionDigits:0});
-      usValueEl.style.color = usSitusValue < 60000 ? 'var(--green)' : 'var(--red)';
-      usHeadroomEl.style.color = headroom >= 0 ? 'var(--green)' : 'var(--red)';
-    }
-  }
-
-  // ── Update per-holding Last Price cells ─────────────────────────────────
-  document.querySelectorAll('.h-day[data-sym]').forEach(el => {
-    const sym = el.dataset.sym;
-    const cur = el.dataset.cur || 'SGD';
-    const d   = priceMap[sym];
-    if (!d || d.price == null) { el.textContent = '—'; el.style.color = 'var(--text-dim)'; return; }
-    if (d.isNAV) {
-      el.textContent = 'US$' + d.price.toFixed(2);
-      el.style.color = 'var(--text-dim)';
-      return;
-    }
-    const priceStr = fmtPrice(d.price, cur);
-    const pctStr   = d.pct != null ? ' (' + fmtChange(d.pct) + ')' : '';
-    el.textContent = priceStr + pctStr;
-    el.style.color = d.pct != null
-      ? (d.pct >= 0 ? 'var(--green)' : 'var(--red)')
-      : 'var(--text-bright)';
-  });
-
-  const now = new Date();
-  const timeStr = now.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});
-  timeEl.textContent = timeStr;
-  if (totalOk > 0) {
-    statusEl.textContent = `● LIVE (${totalOk}/${totalTickers})`;
-    statusEl.style.color = 'var(--green)';
-    const hu = document.getElementById('hero-updated');
-    if (hu) hu.textContent = timeStr;
-  } else {
-    statusEl.textContent = '● offline';
-    statusEl.style.color = 'var(--red)';
-  }
-}
-loadVerifiedPortfolio().then(loadLivePrices);
-setInterval(loadLivePrices, 5 * 60 * 1000);
-Chart.defaults.color = '#718096';
-Chart.defaults.font.family = "'DM Mono', monospace";
-Chart.defaults.font.size = 10;
-
-// ── PORTFOLIO SNAPSHOT DATA ────────────────────────────────────────────────
-// Legacy display data remains below until every position has been reconciled.
-// New verified facts are being migrated into portfolio-data.json; do not add
-// new portfolio facts here unless they are also verified and represented there.
-// Estimated historical observations are retained only as legacy source data and
-// are filtered out of charts unless explicitly marked verified.
-
-const PORTFOLIO_HISTORY = [
-  { label: 'Jan 25', total: 1415000, income: 6800 }, // estimated
-  { label: 'Feb 25', total: 1445000, income: 6900 }, // estimated
-  { label: 'Mar 25', total: 1430000, income: 6900 }, // estimated
-  { label: 'Apr 25', total: 1460000, income: 7100 }, // estimated
-  { label: 'May 25', total: 1480000, income: 7200 }, // estimated
-  { label: 'Jun 25', total: 1465000, income: 7100 }, // estimated
-  { label: 'Jul 25', total: 1495000, income: 7300 }, // estimated
-  { label: 'Aug 25', total: 1510000, income: 7400 }, // estimated
-  { label: 'Sep 25', total: 1490000, income: 7200 }, // estimated
-  { label: 'Oct 25', total: 1520000, income: 7500 }, // estimated
-  { label: 'Nov 25', total: 1540000, income: 7600 }, // estimated
-  { label: 'Dec 25', total: 1525000, income: 7500 }, // estimated
-  { label: 'Jan 26', total: 1535000, income: 7700 }, // estimated
-  { label: 'Feb 26', total: 1545000, income: 7750 }, // estimated
-  { label: 'Mar 26', total: 1525000, income: 7600 }, // estimated
-  { label: 'Apr 26', total: 1550000, income: 7800 }, // estimated
-  { label: 'May 26', total: 1332481, income: 7861, verified: true }, // verified — 6 Jun 2026 Snowball (securities only)
-];
-
-// Account chart metadata. Values come from portfolio-data.json; GBP is not mixed into SGD totals.
-const ACCOUNT_CHART_META = {
-  cdp_income:  { label:'CDP Income', color:'#4ade80' },
-  fsm_income:  { label:'FSM Income', color:'#c9a84c' },
-  cpfis_income:{ label:'CPFIS Income', color:'#c084fc' },
-  srs_income:  { label:'SRS Income', color:'#60a5fa' },
-  growth:      { label:'Growth', color:'#fb923c' },
-};
-
-// ── BUY LINE CONFIG — tranche triggers ──
-// T1 = buy now/slight dip, T2 = 5-8% pullback, T3 = deep dislocation
-const BUY_LINES = [
-  { sym:'D05.SI',  label:'DBS',             cur:'SGD' },
-  { sym:'O39.SI',  label:'OCBC',            cur:'SGD' },
-  { sym:'AJBU.SI', label:'Keppel DC',       cur:'SGD' },
-  { sym:'J69U.SI', label:'FCT',             cur:'SGD' },
-  { sym:'C2PU.SI', label:'ParkwayLife',     cur:'SGD' },
-  { sym:'CJLU.SI', label:'NetLink',         cur:'SGD' },
-  { sym:'ME8U.SI', label:'Mapletree Ind',   cur:'SGD' },
-  { sym:'C38U.SI', label:'CICT',            cur:'SGD' },
-  { sym:'NVDA',    label:'NVDA',            cur:'USD' },
-  { sym:'MSFT',    label:'MSFT',            cur:'USD' },
-  { sym:'JEPQ.L',  label:'JEPQ.L (UCITS)',   cur:'GBX' },
-  { sym:'CSPX.L',  label:'CSPX (S&P 500)', cur:'USD' },
-  { sym:'HSBA.L',  label:'HSBC',            cur:'GBP' },
-  { sym:'LGEN.L',  label:'L&G',             cur:'GBP' },
-];
-
-// ── CHART HELPERS ──
-const GRID = { color: 'rgba(30,35,48,0.8)', drawBorder: false };
-const TICK = { color: '#4a5568' };
-
-function makeLineChart(id, labels, datasets, yLabel) {
-  const ctx = document.getElementById(id);
-  if (!ctx) return;
-  new Chart(ctx, {
-    type: 'line',
-    data: { labels, datasets },
-    options: {
-      responsive: true,
-      plugins: { legend: { display: datasets.length > 1, labels: { boxWidth: 10, padding: 10 } }, tooltip: { mode: 'index', intersect: false } },
-      scales: {
-        x: { grid: GRID, ticks: { ...TICK, maxRotation: 0, maxTicksLimit: 6 } },
-        y: { grid: GRID, ticks: TICK, title: { display: !!yLabel, text: yLabel, color: '#4a5568' } }
-      }
-    }
-  });
-}
-
-// ── TOTAL PORTFOLIO CHART ──
-function buildTotalChart() {
-  const verifiedHistory = PORTFOLIO_HISTORY.filter(d => d.verified === true);
-  const labels = verifiedHistory.map(d => d.label);
-  const vals   = verifiedHistory.map(d => d.total / 1000); // in K
-  makeLineChart('chart-total', labels, [{
-    label: 'Portfolio SGD (K)',
-    data: vals,
-    borderColor: '#c9a84c',
-    backgroundColor: 'rgba(201,168,76,0.08)',
-    fill: true,
-    tension: 0.35,
-    pointRadius: 3,
-    pointBackgroundColor: '#c9a84c',
-  }], 'SGD (K)');
-}
-
-// ── SUB-PORTFOLIO BAR CHART ──
-function buildSubportChart() {
-  const ctx = document.getElementById('chart-subport');
-  if (!ctx) return;
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: (VERIFIED_PORTFOLIO ? VERIFIED_PORTFOLIO.accounts.filter(a=>a.currency==='SGD') : []).map(a => ACCOUNT_CHART_META[a.id]?.label || a.name),
-      datasets: [{
-        label: 'Snapshot value SGD',
-        data: (VERIFIED_PORTFOLIO ? VERIFIED_PORTFOLIO.accounts.filter(a=>a.currency==='SGD') : []).map(a => Math.round(a.current_value / 1000)),
-        backgroundColor: (VERIFIED_PORTFOLIO ? VERIFIED_PORTFOLIO.accounts.filter(a=>a.currency==='SGD') : []).map(a => (ACCOUNT_CHART_META[a.id]?.color || '#718096') + 'cc'),
-        borderColor:     (VERIFIED_PORTFOLIO ? VERIFIED_PORTFOLIO.accounts.filter(a=>a.currency==='SGD') : []).map(a => ACCOUNT_CHART_META[a.id]?.color || '#718096'),
-        borderWidth: 1,
-        borderRadius: 4,
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { grid: GRID, ticks: TICK },
-        y: { grid: GRID, ticks: TICK, title: { display: true, text: 'SGD (K)', color: '#4a5568' } }
-      }
-    }
-  });
-}
-
-// ── INCOME TREND CHART ──
-function buildIncomeChart() {
-  const verifiedHistory = PORTFOLIO_HISTORY.filter(d => d.verified === true);
-  const labels = verifiedHistory.map(d => d.label);
-  const vals   = verifiedHistory.map(d => d.income);
-  makeLineChart('chart-income', labels, [{
-    label: 'Passive Income SGD/mo',
-    data: vals,
-    borderColor: '#4ade80',
-    backgroundColor: 'rgba(74,222,128,0.08)',
-    fill: true,
-    tension: 0.35,
-    pointRadius: 3,
-    pointBackgroundColor: '#4ade80',
-  },
-  {
-    label: 'Target 20,000',
-    data: labels.map(() => 20000),
-    borderColor: 'rgba(248,113,113,0.5)',
-    borderDash: [6, 4],
-    borderWidth: 1.5,
-    pointRadius: 0,
-    fill: false,
-  }], 'SGD/mo');
-}
-
-// ── LIVE STOCK TREND CHART (30-day from Yahoo) ──
-async function buildStockTrendChart() {
-  const statusEl = document.getElementById('chart-stocks-status');
-  const stocks = [
-    { sym: 'D05.SI', label: 'DBS',  color: '#4ade80' },
-    { sym: 'O39.SI', label: 'OCBC', color: '#60a5fa' },
-    { sym: 'NVDA',   label: 'NVDA', color: '#c9a84c' },
-  ];
-
-  async function fetchHistory(sym) {
-    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=1d&range=1mo`;
-    const proxy = `https://corsproxy.io/?url=${encodeURIComponent(url)}`;
-    try {
-      const r = await fetch(proxy, { cache: 'no-cache' });
-      const j = await r.json();
-      const result = JSON.parse(j.contents)?.chart?.result?.[0];
-      if (!result) return null;
-      const ts = result.timestamp.map(t => {
-        const d = new Date(t * 1000);
-        return `${d.getDate()}/${d.getMonth()+1}`;
-      });
-      const closes = result.indicators.quote[0].close.map(v => v ? +v.toFixed(2) : null);
-      return { labels: ts, closes };
-    } catch { return null; }
-  }
-
-  const results = await Promise.all(stocks.map(s => fetchHistory(s.sym)));
-  const anyOk = results.some(r => r !== null);
-
-  if (!anyOk) {
-    statusEl.textContent = '● Price history unavailable — proxy offline';
-    return;
-  }
-
-  // Use first successful result's labels
-  const baseLabels = results.find(r => r !== null).labels;
-  const ctx = document.getElementById('chart-stocks');
-  if (!ctx) return;
-
-  const datasets = stocks.map((s, i) => ({
-    label: s.label,
-    data: results[i] ? results[i].closes : [],
-    borderColor: s.color,
-    backgroundColor: 'transparent',
-    tension: 0.3,
-    pointRadius: 2,
-    pointBackgroundColor: s.color,
-    yAxisID: s.sym === 'NVDA' ? 'y2' : 'y',
-  }));
-
-  new Chart(ctx, {
-    type: 'line',
-    data: { labels: baseLabels, datasets },
-    options: {
-      responsive: true,
-      plugins: { legend: { display: true, labels: { boxWidth: 8, padding: 8 } } },
-      scales: {
-        x: { grid: GRID, ticks: { ...TICK, maxRotation: 0, maxTicksLimit: 8 } },
-        y:  { grid: GRID, ticks: TICK, title: { display: true, text: 'SGD', color: '#4a5568' } },
-        y2: { position: 'right', grid: { display: false }, ticks: TICK, title: { display: true, text: 'USD', color: '#4a5568' } }
-      }
-    }
-  });
-  statusEl.textContent = '● Live · 30-day · ' + new Date().toLocaleTimeString('en-SG', {hour:'2-digit',minute:'2-digit'});
-}
-
-// ── BUY LINES CHART ──
-async function buildBuyLines() {
-  const grid = document.getElementById('buylines-grid');
-  const timeEl = document.getElementById('buylines-time');
-  if (!grid) return;
-
-  const prices = await Promise.all(BUY_LINES.map(async item => {
-    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${item.sym}?interval=1d&range=2d`;
-    const proxy = `https://corsproxy.io/?url=${encodeURIComponent(url)}`;
-    try {
-      const r = await fetch(proxy, { cache: 'no-cache' });
-      const j = await r.json();
-      const meta = JSON.parse(j.contents)?.chart?.result?.[0]?.meta;
-      return meta ? meta.regularMarketPrice : null;
-    } catch { return null; }
-  }));
-
-  grid.innerHTML = '';
-
-  BUY_LINES.forEach((item, i) => {
-    const price = prices[i];
-    const cur = item.cur === 'USD' ? 'US
-
-    // Compute tranche lines dynamically from live price
-    const t1 = price ? +(price * 0.95).toFixed(dp) : null;  // −5%
-    const t2 = price ? +(price * 0.90).toFixed(dp) : null;  // −10%
-    const t3 = price ? +(price * 0.85).toFixed(dp) : null;  // −15%
-
-    // Signal — always HOLD since price is at current level (lines are below)
-    // But show how close price is to each line
-    let signal = price !== null ? '⬜ HOLD' : '—';
-    let sigColor = 'var(--text-dim)', sigBg = 'rgba(74,85,104,.08)';
-
-    // Bar: show current price with lines at 5/10/15% below
-    // Scale: show from 15% below to 5% above current price
-    const scaleMin = price ? price * 0.83 : 0;
-    const scaleMax = price ? price * 1.05 : 1;
-    const scaleRange = scaleMax - scaleMin;
-
-    const pricePct = price ? ((price  - scaleMin) / scaleRange) * 100 : 85;
-    const t1Pct    = price ? ((t1     - scaleMin) / scaleRange) * 100 : 65;
-    const t2Pct    = price ? ((t2     - scaleMin) / scaleRange) * 100 : 45;
-    const t3Pct    = price ? ((t3     - scaleMin) / scaleRange) * 100 : 20;
-
-    const barColor = '#4ade80';
-
-    const el = document.createElement('div');
-    el.style.cssText = `background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:13px 14px;margin-bottom:8px`;
-    el.innerHTML = `
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
-        <div>
-          <div style="font-family:'DM Mono',monospace;font-size:15px;color:var(--text-bright);font-weight:500">${item.label}</div>
-          <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-dim);margin-top:2px">${item.sym}</div>
-        </div>
-        <div style="text-align:right">
-          <div style="font-family:'DM Serif Display',serif;font-size:26px;color:${barColor};line-height:1">${displayPrice !== null ? cur + displayPrice.toFixed(dp) : 'n/a'}</div>
-          <div style="font-size:10px;padding:2px 8px;border-radius:4px;background:${sigBg};color:${sigColor};font-family:'DM Mono',monospace;display:inline-block;margin-top:4px">${signal}</div>
-        </div>
-      </div>
-      <!-- Bar track -->
-      <div style="position:relative;height:24px;background:var(--surface2);border-radius:5px;overflow:visible;margin-bottom:6px">
-        <div style="position:absolute;top:0;height:100%;left:0;width:${pricePct}%;background:rgba(74,222,128,.12);border-radius:5px;border-right:2.5px solid #4ade80"></div>
-        <div style="position:absolute;top:-6px;bottom:-6px;left:${t1Pct}%;width:2px;background:#4ade80"></div>
-        <div style="position:absolute;top:-6px;bottom:-6px;left:${t2Pct}%;width:2px;background:#c9a84c"></div>
-        <div style="position:absolute;top:-6px;bottom:-6px;left:${t3Pct}%;width:2px;background:#f87171"></div>
-        <div style="position:absolute;top:-17px;left:${Math.max(t1Pct-1,0)}%;font-size:8px;color:#4ade80;font-family:'DM Mono',monospace">T1</div>
-        <div style="position:absolute;top:-17px;left:${Math.max(t2Pct-1,0)}%;font-size:8px;color:#c9a84c;font-family:'DM Mono',monospace">T2</div>
-        <div style="position:absolute;top:-17px;left:${Math.max(t3Pct-2,0)}%;font-size:8px;color:#f87171;font-family:'DM Mono',monospace">T3</div>
-      </div>
-      <!-- Buy price row -->
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:14px">
-        <div style="background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.2);border-radius:7px;padding:7px 6px;text-align:center">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#4ade80;margin-bottom:2px">T1 −5%</div>
-          <div style="font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);font-weight:500">${price ? cur+(t1*displayFactor).toFixed(dp) : '—'}</div>
-        </div>
-        <div style="background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);border-radius:7px;padding:7px 6px;text-align:center">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#c9a84c;margin-bottom:2px">T2 −10%</div>
-          <div style="font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);font-weight:500">${price ? cur+(t2*displayFactor).toFixed(dp) : '—'}</div>
-        </div>
-        <div style="background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.2);border-radius:7px;padding:7px 6px;text-align:center">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#f87171;margin-bottom:2px">T3 −15%</div>
-          <div style="font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);font-weight:500">${price ? cur+(t3*displayFactor).toFixed(dp) : '—'}</div>
-        </div>
-      </div>
-    `;
-    grid.appendChild(el);
-  });
-
-  const t = new Date().toLocaleTimeString('en-SG', {hour:'2-digit',minute:'2-digit'});
-  timeEl.textContent = `● Live prices · ${t} · auto-refresh every 5 min`;
-}
-
-// ── Charts initialised lazily via showTab above ──
-</script>
-</body>
-</html>
- : item.cur === 'GBP' || item.cur === 'GBX' ? '£' : 'S
-
-    // Compute tranche lines dynamically from live price
-    const t1 = price ? +(price * 0.95).toFixed(dp) : null;  // −5%
-    const t2 = price ? +(price * 0.90).toFixed(dp) : null;  // −10%
-    const t3 = price ? +(price * 0.85).toFixed(dp) : null;  // −15%
-
-    // Signal — always HOLD since price is at current level (lines are below)
-    // But show how close price is to each line
-    let signal = price !== null ? '⬜ HOLD' : '—';
-    let sigColor = 'var(--text-dim)', sigBg = 'rgba(74,85,104,.08)';
-
-    // Bar: show current price with lines at 5/10/15% below
-    // Scale: show from 15% below to 5% above current price
-    const scaleMin = price ? price * 0.83 : 0;
-    const scaleMax = price ? price * 1.05 : 1;
-    const scaleRange = scaleMax - scaleMin;
-
-    const pricePct = price ? ((price  - scaleMin) / scaleRange) * 100 : 85;
-    const t1Pct    = price ? ((t1     - scaleMin) / scaleRange) * 100 : 65;
-    const t2Pct    = price ? ((t2     - scaleMin) / scaleRange) * 100 : 45;
-    const t3Pct    = price ? ((t3     - scaleMin) / scaleRange) * 100 : 20;
-
-    const barColor = '#4ade80';
-
-    const el = document.createElement('div');
-    el.style.cssText = `background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:13px 14px;margin-bottom:8px`;
-    el.innerHTML = `
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
-        <div>
-          <div style="font-family:'DM Mono',monospace;font-size:15px;color:var(--text-bright);font-weight:500">${item.label}</div>
-          <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-dim);margin-top:2px">${item.sym}</div>
-        </div>
-        <div style="text-align:right">
-          <div style="font-family:'DM Serif Display',serif;font-size:26px;color:${barColor};line-height:1">${price !== null ? cur + price.toFixed(dp) : 'n/a'}</div>
-          <div style="font-size:10px;padding:2px 8px;border-radius:4px;background:${sigBg};color:${sigColor};font-family:'DM Mono',monospace;display:inline-block;margin-top:4px">${signal}</div>
-        </div>
-      </div>
-      <!-- Bar track -->
-      <div style="position:relative;height:24px;background:var(--surface2);border-radius:5px;overflow:visible;margin-bottom:6px">
-        <div style="position:absolute;top:0;height:100%;left:0;width:${pricePct}%;background:rgba(74,222,128,.12);border-radius:5px;border-right:2.5px solid #4ade80"></div>
-        <div style="position:absolute;top:-6px;bottom:-6px;left:${t1Pct}%;width:2px;background:#4ade80"></div>
-        <div style="position:absolute;top:-6px;bottom:-6px;left:${t2Pct}%;width:2px;background:#c9a84c"></div>
-        <div style="position:absolute;top:-6px;bottom:-6px;left:${t3Pct}%;width:2px;background:#f87171"></div>
-        <div style="position:absolute;top:-17px;left:${Math.max(t1Pct-1,0)}%;font-size:8px;color:#4ade80;font-family:'DM Mono',monospace">T1</div>
-        <div style="position:absolute;top:-17px;left:${Math.max(t2Pct-1,0)}%;font-size:8px;color:#c9a84c;font-family:'DM Mono',monospace">T2</div>
-        <div style="position:absolute;top:-17px;left:${Math.max(t3Pct-2,0)}%;font-size:8px;color:#f87171;font-family:'DM Mono',monospace">T3</div>
-      </div>
-      <!-- Buy price row -->
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:14px">
-        <div style="background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.2);border-radius:7px;padding:7px 6px;text-align:center">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#4ade80;margin-bottom:2px">T1 −5%</div>
-          <div style="font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);font-weight:500">${price ? cur+t1 : '—'}</div>
-        </div>
-        <div style="background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);border-radius:7px;padding:7px 6px;text-align:center">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#c9a84c;margin-bottom:2px">T2 −10%</div>
-          <div style="font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);font-weight:500">${price ? cur+t2 : '—'}</div>
-        </div>
-        <div style="background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.2);border-radius:7px;padding:7px 6px;text-align:center">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#f87171;margin-bottom:2px">T3 −15%</div>
-          <div style="font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);font-weight:500">${price ? cur+t3 : '—'}</div>
-        </div>
-      </div>
-    `;
-    grid.appendChild(el);
-  });
-
-  const t = new Date().toLocaleTimeString('en-SG', {hour:'2-digit',minute:'2-digit'});
-  timeEl.textContent = `● Live prices · ${t} · auto-refresh every 5 min`;
-}
-
-// ── Charts initialised lazily via showTab above ──
-</script>
-</body>
-</html>
-;
-    const displayFactor = item.cur === 'GBX' ? 0.01 : 1;
-    const displayPrice = price == null ? null : price * displayFactor;
-    const dp = displayPrice != null && displayPrice < 5 ? 3 : 2;
-
-    // Compute tranche lines dynamically from live price
-    const t1 = price ? +(price * 0.95).toFixed(dp) : null;  // −5%
-    const t2 = price ? +(price * 0.90).toFixed(dp) : null;  // −10%
-    const t3 = price ? +(price * 0.85).toFixed(dp) : null;  // −15%
-
-    // Signal — always HOLD since price is at current level (lines are below)
-    // But show how close price is to each line
-    let signal = price !== null ? '⬜ HOLD' : '—';
-    let sigColor = 'var(--text-dim)', sigBg = 'rgba(74,85,104,.08)';
-
-    // Bar: show current price with lines at 5/10/15% below
-    // Scale: show from 15% below to 5% above current price
-    const scaleMin = price ? price * 0.83 : 0;
-    const scaleMax = price ? price * 1.05 : 1;
-    const scaleRange = scaleMax - scaleMin;
-
-    const pricePct = price ? ((price  - scaleMin) / scaleRange) * 100 : 85;
-    const t1Pct    = price ? ((t1     - scaleMin) / scaleRange) * 100 : 65;
-    const t2Pct    = price ? ((t2     - scaleMin) / scaleRange) * 100 : 45;
-    const t3Pct    = price ? ((t3     - scaleMin) / scaleRange) * 100 : 20;
-
-    const barColor = '#4ade80';
-
-    const el = document.createElement('div');
-    el.style.cssText = `background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:13px 14px;margin-bottom:8px`;
-    el.innerHTML = `
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
-        <div>
-          <div style="font-family:'DM Mono',monospace;font-size:15px;color:var(--text-bright);font-weight:500">${item.label}</div>
-          <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-dim);margin-top:2px">${item.sym}</div>
-        </div>
-        <div style="text-align:right">
-          <div style="font-family:'DM Serif Display',serif;font-size:26px;color:${barColor};line-height:1">${price !== null ? cur + price.toFixed(dp) : 'n/a'}</div>
-          <div style="font-size:10px;padding:2px 8px;border-radius:4px;background:${sigBg};color:${sigColor};font-family:'DM Mono',monospace;display:inline-block;margin-top:4px">${signal}</div>
-        </div>
-      </div>
-      <!-- Bar track -->
-      <div style="position:relative;height:24px;background:var(--surface2);border-radius:5px;overflow:visible;margin-bottom:6px">
-        <div style="position:absolute;top:0;height:100%;left:0;width:${pricePct}%;background:rgba(74,222,128,.12);border-radius:5px;border-right:2.5px solid #4ade80"></div>
-        <div style="position:absolute;top:-6px;bottom:-6px;left:${t1Pct}%;width:2px;background:#4ade80"></div>
-        <div style="position:absolute;top:-6px;bottom:-6px;left:${t2Pct}%;width:2px;background:#c9a84c"></div>
-        <div style="position:absolute;top:-6px;bottom:-6px;left:${t3Pct}%;width:2px;background:#f87171"></div>
-        <div style="position:absolute;top:-17px;left:${Math.max(t1Pct-1,0)}%;font-size:8px;color:#4ade80;font-family:'DM Mono',monospace">T1</div>
-        <div style="position:absolute;top:-17px;left:${Math.max(t2Pct-1,0)}%;font-size:8px;color:#c9a84c;font-family:'DM Mono',monospace">T2</div>
-        <div style="position:absolute;top:-17px;left:${Math.max(t3Pct-2,0)}%;font-size:8px;color:#f87171;font-family:'DM Mono',monospace">T3</div>
-      </div>
-      <!-- Buy price row -->
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:14px">
-        <div style="background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.2);border-radius:7px;padding:7px 6px;text-align:center">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#4ade80;margin-bottom:2px">T1 −5%</div>
-          <div style="font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);font-weight:500">${price ? cur+t1 : '—'}</div>
-        </div>
-        <div style="background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);border-radius:7px;padding:7px 6px;text-align:center">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#c9a84c;margin-bottom:2px">T2 −10%</div>
-          <div style="font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);font-weight:500">${price ? cur+t2 : '—'}</div>
-        </div>
-        <div style="background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.2);border-radius:7px;padding:7px 6px;text-align:center">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#f87171;margin-bottom:2px">T3 −15%</div>
-          <div style="font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);font-weight:500">${price ? cur+t3 : '—'}</div>
-        </div>
-      </div>
-    `;
-    grid.appendChild(el);
-  });
-
-  const t = new Date().toLocaleTimeString('en-SG', {hour:'2-digit',minute:'2-digit'});
-  timeEl.textContent = `● Live prices · ${t} · auto-refresh every 5 min`;
-}
-
-// ── Charts initialised lazily via showTab above ──
-</script>
-</body>
-</html>
-;
-  return p+Number(v).toLocaleString(c==='GBP'?'en-GB':'en-SG',{minimumFractionDigits:2,maximumFractionDigits:2});
-}
-function symbolLabel(symbol) {
-  for (const g of PRICE_GROUPS) {
-    const hit=g.tickers.find(t=>t.sym===marketSymbolFor(symbol) || t.sym===symbol);
-    if(hit) return hit.label;
-  }
-  return symbol;
-}
-function renderVerifiedAccounts(priceMap={}) {
-  if(!VERIFIED_PORTFOLIO) return;
-  for(const account of VERIFIED_PORTFOLIO.accounts) {
-    const tabId=ACCOUNT_TABS[account.id];
-    const tab=document.getElementById('tab-'+tabId);
-    if(!tab) continue;
-    const positions=VERIFIED_PORTFOLIO.positions.filter(p=>p.account===account.id);
-    const rows=positions.map(p=>{
-      const ms=marketSymbolFor(p.symbol), cur=quoteCurrencyFor(p.symbol), d=priceMap[ms];
-      const price=d?.price!=null?fmtPrice(d.price,cur):'—';
-      const pct=d?.pct!=null?fmtChange(d.pct):'';
-      const pc=d?.pct==null?'var(--text-dim)':(d.pct>=0?'var(--green)':'var(--red)');
-      return `<div class="holding-row">
-        <div><div class="h-ticker">${p.symbol}</div><div class="h-name">${symbolLabel(p.symbol)}</div></div>
-        <div class="h-val">${qtyFmt(p.quantity)}<span class="h-sub">shares / units</span></div>
-        <div class="h-yield">${price}<span class="h-sub">native quote</span></div>
-        <div class="h-income h-day" style="color:${pc}">${pct||'—'}</div>
-      </div>`;
-    }).join('');
-    const gain=account.current_value-account.cost_basis;
-    const gainPct=account.cost_basis?gain/account.cost_basis*100:0;
-    const gainClass=gain>=0?'green':'red';
-    const situs=account.id==='growth' ? `
-      <div class="card" style="background:rgba(248,113,113,.04);border-color:var(--red-dim)">
-        <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--red);margin-bottom:5px">US ESTATE TAX MONITOR</div>
-        <div style="font-size:10px;color:var(--text-dim);line-height:1.6">Direct US-incorporated holdings monitored across the portfolio: ADX, GOOG, MSFT and NVDA. Quantities come from portfolio-data.json and values recalculate from prices.json.</div>
-        <div style="margin-top:8px">
-          <div class="row-kv"><span class="k">Current US situs (USD)</span><span class="v green" id="us-situs-value">calculating…</span></div>
-          <div class="row-kv"><span class="k">Monitoring ceiling</span><span class="v">USD 60,000</span></div>
-          <div class="row-kv"><span class="k">Headroom remaining</span><span class="v green" id="us-situs-headroom">calculating…</span></div>
-        </div>
-      </div>` : '';
-    tab.innerHTML=`<div class="section">
-      <div class="acct-header">
-        <div><div class="acct-name">${account.name}</div><div class="acct-yield">Verified snapshot · ${VERIFIED_PORTFOLIO.as_of}</div></div>
-        <div class="acct-total">${moneyFmt(account.current_value,account.currency)}</div>
-      </div>
-      <div class="holdings-header"><span>Holding</span><span>Qty</span><span>Last Price</span><span>Day</span></div>
-      ${rows}
-      <div class="card" style="margin-top:8px">
-        <div class="row-kv"><span class="k">Snapshot cost basis</span><span class="v">${moneyFmt(account.cost_basis,account.currency)}</span></div>
-        <div class="row-kv"><span class="k">Snapshot current value</span><span class="v">${moneyFmt(account.current_value,account.currency)}</span></div>
-        <div class="row-kv"><span class="k">Snapshot capital gain</span><span class="v ${gainClass}">${gain>=0?'+':''}${moneyFmt(gain,account.currency)} (${gainPct>=0?'+':''}${gainPct.toFixed(2)}%)</span></div>
-        <div class="row-kv"><span class="k">Dividends shown in snapshot</span><span class="v gold">${moneyFmt(account.dividends,account.currency)}</span></div>
-      </div>
-      ${situs}
-    </div>`;
-  }
-}
-
 // Main loader
 async function loadLivePrices() {
   const grid    = document.getElementById('live-prices-grid');
@@ -2693,33 +1469,6 @@ async function loadLivePrices() {
   }
   grid.innerHTML = html;
 
-  // ── Dynamic US-situs monitor from verified portfolio-data.json ───────────
-  if (!VERIFIED_PORTFOLIO) await loadVerifiedPortfolio();
-  const marketSymbol = sym => ({ADX:'ADX',GOOG:'GOOG',MSFT:'MSFT',NVDA:'NVDA'})[sym] || sym;
-  const usSitusHoldings = VERIFIED_PORTFOLIO
-    ? VERIFIED_PORTFOLIO.positions
-        .filter(p => VERIFIED_PORTFOLIO.us_situs.positions.includes(p.symbol))
-        .map(p => ({sym:marketSymbol(p.symbol), shares:p.quantity}))
-    : [];
-  const usSitusComplete = usSitusHoldings.every(h => priceMap[h.sym]?.price != null);
-  const usSitusValue = usSitusComplete
-    ? usSitusHoldings.reduce((sum,h) => sum + h.shares * priceMap[h.sym].price, 0)
-    : null;
-  const usValueEl = document.getElementById('us-situs-value');
-  const usHeadroomEl = document.getElementById('us-situs-headroom');
-  if (usValueEl && usHeadroomEl) {
-    if (usSitusValue == null) {
-      usValueEl.textContent = 'price unavailable';
-      usHeadroomEl.textContent = '—';
-    } else {
-      const headroom = 60000 - usSitusValue;
-      usValueEl.textContent = 'USD ' + usSitusValue.toLocaleString('en-US',{maximumFractionDigits:0});
-      usHeadroomEl.textContent = (headroom >= 0 ? 'USD ' : 'OVER by USD ') + Math.abs(headroom).toLocaleString('en-US',{maximumFractionDigits:0});
-      usValueEl.style.color = usSitusValue < 60000 ? 'var(--green)' : 'var(--red)';
-      usHeadroomEl.style.color = headroom >= 0 ? 'var(--green)' : 'var(--red)';
-    }
-  }
-
   // ── Update per-holding Last Price cells ─────────────────────────────────
   document.querySelectorAll('.h-day[data-sym]').forEach(el => {
     const sym = el.dataset.sym;
@@ -2752,19 +1501,13 @@ async function loadLivePrices() {
     statusEl.style.color = 'var(--red)';
   }
 }
-loadVerifiedPortfolio().then(loadLivePrices);
+loadLivePrices();
 setInterval(loadLivePrices, 5 * 60 * 1000);
 Chart.defaults.color = '#718096';
 Chart.defaults.font.family = "'DM Mono', monospace";
 Chart.defaults.font.size = 10;
 
-// ── PORTFOLIO SNAPSHOT DATA ────────────────────────────────────────────────
-// Legacy display data remains below until every position has been reconciled.
-// New verified facts are being migrated into portfolio-data.json; do not add
-// new portfolio facts here unless they are also verified and represented there.
-// Estimated historical observations are retained only as legacy source data and
-// are filtered out of charts unless explicitly marked verified.
-
+// ── PORTFOLIO SNAPSHOT DATA (update when you send new Snowball screenshots) ──
 const PORTFOLIO_HISTORY = [
   { label: 'Jan 25', total: 1415000, income: 6800 }, // estimated
   { label: 'Feb 25', total: 1445000, income: 6900 }, // estimated
@@ -2782,17 +1525,18 @@ const PORTFOLIO_HISTORY = [
   { label: 'Feb 26', total: 1545000, income: 7750 }, // estimated
   { label: 'Mar 26', total: 1525000, income: 7600 }, // estimated
   { label: 'Apr 26', total: 1550000, income: 7800 }, // estimated
-  { label: 'May 26', total: 1332481, income: 7861, verified: true }, // verified — 6 Jun 2026 Snowball (securities only)
+  { label: 'May 26', total: 1332481, income: 7861 }, // REAL — 6 Jun 2026 Snowball (securities only)
 ];
 
-// Account chart metadata. Values come from portfolio-data.json; GBP is not mixed into SGD totals.
-const ACCOUNT_CHART_META = {
-  cdp_income:  { label:'CDP Income', color:'#4ade80' },
-  fsm_income:  { label:'FSM Income', color:'#c9a84c' },
-  cpfis_income:{ label:'CPFIS Income', color:'#c084fc' },
-  srs_income:  { label:'SRS Income', color:'#60a5fa' },
-  growth:      { label:'Growth', color:'#fb923c' },
-};
+// Sub-portfolio snapshots (SGD equiv, Jul 2026 actuals)
+const SUBPORT_DATA = [
+  { label: 'Cash SGD', value: 442796, color: '#4ade80' },
+  { label: 'Cash GBP', value: 140808, color: '#f87171' },
+  { label: 'SRS',      value: 425572, color: '#60a5fa' },
+  { label: 'CPFIS',    value: 490120, color: '#c084fc' },
+  { label: 'Cash FSM', value: 307986, color: '#c9a84c' },
+  { label: 'Growth',   value: 47716,  color: '#fb923c' },
+];
 
 // ── BUY LINE CONFIG — tranche triggers ──
 // T1 = buy now/slight dip, T2 = 5-8% pullback, T3 = deep dislocation
@@ -2803,11 +1547,12 @@ const BUY_LINES = [
   { sym:'J69U.SI', label:'FCT',             cur:'SGD' },
   { sym:'C2PU.SI', label:'ParkwayLife',     cur:'SGD' },
   { sym:'CJLU.SI', label:'NetLink',         cur:'SGD' },
+  { sym:'M44U.SI', label:'Mapletree Log',   cur:'SGD' },
   { sym:'ME8U.SI', label:'Mapletree Ind',   cur:'SGD' },
   { sym:'C38U.SI', label:'CICT',            cur:'SGD' },
   { sym:'NVDA',    label:'NVDA',            cur:'USD' },
   { sym:'MSFT',    label:'MSFT',            cur:'USD' },
-  { sym:'JEPQ.L',  label:'JEPQ.L (UCITS)',   cur:'GBX' },
+  { sym:'JEPQ',    label:'JEPQ (US)',       cur:'USD' },
   { sym:'CSPX.L',  label:'CSPX (S&P 500)', cur:'USD' },
   { sym:'HSBA.L',  label:'HSBC',            cur:'GBP' },
   { sym:'LGEN.L',  label:'L&G',             cur:'GBP' },
@@ -2836,9 +1581,8 @@ function makeLineChart(id, labels, datasets, yLabel) {
 
 // ── TOTAL PORTFOLIO CHART ──
 function buildTotalChart() {
-  const verifiedHistory = PORTFOLIO_HISTORY.filter(d => d.verified === true);
-  const labels = verifiedHistory.map(d => d.label);
-  const vals   = verifiedHistory.map(d => d.total / 1000); // in K
+  const labels = PORTFOLIO_HISTORY.map(d => d.label);
+  const vals   = PORTFOLIO_HISTORY.map(d => d.total / 1000); // in K
   makeLineChart('chart-total', labels, [{
     label: 'Portfolio SGD (K)',
     data: vals,
@@ -2858,12 +1602,12 @@ function buildSubportChart() {
   new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: (VERIFIED_PORTFOLIO ? VERIFIED_PORTFOLIO.accounts.filter(a=>a.currency==='SGD') : []).map(a => ACCOUNT_CHART_META[a.id]?.label || a.name),
+      labels: SUBPORT_DATA.map(d => d.label),
       datasets: [{
-        label: 'Snapshot value SGD',
-        data: (VERIFIED_PORTFOLIO ? VERIFIED_PORTFOLIO.accounts.filter(a=>a.currency==='SGD') : []).map(a => Math.round(a.current_value / 1000)),
-        backgroundColor: (VERIFIED_PORTFOLIO ? VERIFIED_PORTFOLIO.accounts.filter(a=>a.currency==='SGD') : []).map(a => (ACCOUNT_CHART_META[a.id]?.color || '#718096') + 'cc'),
-        borderColor:     (VERIFIED_PORTFOLIO ? VERIFIED_PORTFOLIO.accounts.filter(a=>a.currency==='SGD') : []).map(a => ACCOUNT_CHART_META[a.id]?.color || '#718096'),
+        label: 'Value SGD',
+        data: SUBPORT_DATA.map(d => Math.round(d.value / 1000)),
+        backgroundColor: SUBPORT_DATA.map(d => d.color + 'cc'),
+        borderColor:     SUBPORT_DATA.map(d => d.color),
         borderWidth: 1,
         borderRadius: 4,
       }]
@@ -2881,9 +1625,8 @@ function buildSubportChart() {
 
 // ── INCOME TREND CHART ──
 function buildIncomeChart() {
-  const verifiedHistory = PORTFOLIO_HISTORY.filter(d => d.verified === true);
-  const labels = verifiedHistory.map(d => d.label);
-  const vals   = verifiedHistory.map(d => d.income);
+  const labels = PORTFOLIO_HISTORY.map(d => d.label);
+  const vals   = PORTFOLIO_HISTORY.map(d => d.income);
   makeLineChart('chart-income', labels, [{
     label: 'Passive Income SGD/mo',
     data: vals,
@@ -2992,82 +1735,8 @@ async function buildBuyLines() {
 
   BUY_LINES.forEach((item, i) => {
     const price = prices[i];
-    const cur = item.cur === 'USD' ? 'US
-
-    // Compute tranche lines dynamically from live price
-    const t1 = price ? +(price * 0.95).toFixed(dp) : null;  // −5%
-    const t2 = price ? +(price * 0.90).toFixed(dp) : null;  // −10%
-    const t3 = price ? +(price * 0.85).toFixed(dp) : null;  // −15%
-
-    // Signal — always HOLD since price is at current level (lines are below)
-    // But show how close price is to each line
-    let signal = price !== null ? '⬜ HOLD' : '—';
-    let sigColor = 'var(--text-dim)', sigBg = 'rgba(74,85,104,.08)';
-
-    // Bar: show current price with lines at 5/10/15% below
-    // Scale: show from 15% below to 5% above current price
-    const scaleMin = price ? price * 0.83 : 0;
-    const scaleMax = price ? price * 1.05 : 1;
-    const scaleRange = scaleMax - scaleMin;
-
-    const pricePct = price ? ((price  - scaleMin) / scaleRange) * 100 : 85;
-    const t1Pct    = price ? ((t1     - scaleMin) / scaleRange) * 100 : 65;
-    const t2Pct    = price ? ((t2     - scaleMin) / scaleRange) * 100 : 45;
-    const t3Pct    = price ? ((t3     - scaleMin) / scaleRange) * 100 : 20;
-
-    const barColor = '#4ade80';
-
-    const el = document.createElement('div');
-    el.style.cssText = `background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:13px 14px;margin-bottom:8px`;
-    el.innerHTML = `
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
-        <div>
-          <div style="font-family:'DM Mono',monospace;font-size:15px;color:var(--text-bright);font-weight:500">${item.label}</div>
-          <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-dim);margin-top:2px">${item.sym}</div>
-        </div>
-        <div style="text-align:right">
-          <div style="font-family:'DM Serif Display',serif;font-size:26px;color:${barColor};line-height:1">${displayPrice !== null ? cur + displayPrice.toFixed(dp) : 'n/a'}</div>
-          <div style="font-size:10px;padding:2px 8px;border-radius:4px;background:${sigBg};color:${sigColor};font-family:'DM Mono',monospace;display:inline-block;margin-top:4px">${signal}</div>
-        </div>
-      </div>
-      <!-- Bar track -->
-      <div style="position:relative;height:24px;background:var(--surface2);border-radius:5px;overflow:visible;margin-bottom:6px">
-        <div style="position:absolute;top:0;height:100%;left:0;width:${pricePct}%;background:rgba(74,222,128,.12);border-radius:5px;border-right:2.5px solid #4ade80"></div>
-        <div style="position:absolute;top:-6px;bottom:-6px;left:${t1Pct}%;width:2px;background:#4ade80"></div>
-        <div style="position:absolute;top:-6px;bottom:-6px;left:${t2Pct}%;width:2px;background:#c9a84c"></div>
-        <div style="position:absolute;top:-6px;bottom:-6px;left:${t3Pct}%;width:2px;background:#f87171"></div>
-        <div style="position:absolute;top:-17px;left:${Math.max(t1Pct-1,0)}%;font-size:8px;color:#4ade80;font-family:'DM Mono',monospace">T1</div>
-        <div style="position:absolute;top:-17px;left:${Math.max(t2Pct-1,0)}%;font-size:8px;color:#c9a84c;font-family:'DM Mono',monospace">T2</div>
-        <div style="position:absolute;top:-17px;left:${Math.max(t3Pct-2,0)}%;font-size:8px;color:#f87171;font-family:'DM Mono',monospace">T3</div>
-      </div>
-      <!-- Buy price row -->
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:14px">
-        <div style="background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.2);border-radius:7px;padding:7px 6px;text-align:center">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#4ade80;margin-bottom:2px">T1 −5%</div>
-          <div style="font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);font-weight:500">${price ? cur+(t1*displayFactor).toFixed(dp) : '—'}</div>
-        </div>
-        <div style="background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);border-radius:7px;padding:7px 6px;text-align:center">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#c9a84c;margin-bottom:2px">T2 −10%</div>
-          <div style="font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);font-weight:500">${price ? cur+(t2*displayFactor).toFixed(dp) : '—'}</div>
-        </div>
-        <div style="background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.2);border-radius:7px;padding:7px 6px;text-align:center">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#f87171;margin-bottom:2px">T3 −15%</div>
-          <div style="font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);font-weight:500">${price ? cur+(t3*displayFactor).toFixed(dp) : '—'}</div>
-        </div>
-      </div>
-    `;
-    grid.appendChild(el);
-  });
-
-  const t = new Date().toLocaleTimeString('en-SG', {hour:'2-digit',minute:'2-digit'});
-  timeEl.textContent = `● Live prices · ${t} · auto-refresh every 5 min`;
-}
-
-// ── Charts initialised lazily via showTab above ──
-</script>
-</body>
-</html>
- : item.cur === 'GBP' || item.cur === 'GBX' ? '£' : 'S
+    const cur = item.cur === 'USD' ? 'US$' : item.cur === 'GBP' ? '£' : 'S$';
+    const dp = price < 5 ? 3 : 2;
 
     // Compute tranche lines dynamically from live price
     const t1 = price ? +(price * 0.95).toFixed(dp) : null;  // −5%
@@ -3140,83 +1809,6 @@ async function buildBuyLines() {
 
 // ── Charts initialised lazily via showTab above ──
 </script>
-</body>
-</html>
-;
-    const displayFactor = item.cur === 'GBX' ? 0.01 : 1;
-    const displayPrice = price == null ? null : price * displayFactor;
-    const dp = displayPrice != null && displayPrice < 5 ? 3 : 2;
-
-    // Compute tranche lines dynamically from live price
-    const t1 = price ? +(price * 0.95).toFixed(dp) : null;  // −5%
-    const t2 = price ? +(price * 0.90).toFixed(dp) : null;  // −10%
-    const t3 = price ? +(price * 0.85).toFixed(dp) : null;  // −15%
-
-    // Signal — always HOLD since price is at current level (lines are below)
-    // But show how close price is to each line
-    let signal = price !== null ? '⬜ HOLD' : '—';
-    let sigColor = 'var(--text-dim)', sigBg = 'rgba(74,85,104,.08)';
-
-    // Bar: show current price with lines at 5/10/15% below
-    // Scale: show from 15% below to 5% above current price
-    const scaleMin = price ? price * 0.83 : 0;
-    const scaleMax = price ? price * 1.05 : 1;
-    const scaleRange = scaleMax - scaleMin;
-
-    const pricePct = price ? ((price  - scaleMin) / scaleRange) * 100 : 85;
-    const t1Pct    = price ? ((t1     - scaleMin) / scaleRange) * 100 : 65;
-    const t2Pct    = price ? ((t2     - scaleMin) / scaleRange) * 100 : 45;
-    const t3Pct    = price ? ((t3     - scaleMin) / scaleRange) * 100 : 20;
-
-    const barColor = '#4ade80';
-
-    const el = document.createElement('div');
-    el.style.cssText = `background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:13px 14px;margin-bottom:8px`;
-    el.innerHTML = `
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
-        <div>
-          <div style="font-family:'DM Mono',monospace;font-size:15px;color:var(--text-bright);font-weight:500">${item.label}</div>
-          <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-dim);margin-top:2px">${item.sym}</div>
-        </div>
-        <div style="text-align:right">
-          <div style="font-family:'DM Serif Display',serif;font-size:26px;color:${barColor};line-height:1">${price !== null ? cur + price.toFixed(dp) : 'n/a'}</div>
-          <div style="font-size:10px;padding:2px 8px;border-radius:4px;background:${sigBg};color:${sigColor};font-family:'DM Mono',monospace;display:inline-block;margin-top:4px">${signal}</div>
-        </div>
-      </div>
-      <!-- Bar track -->
-      <div style="position:relative;height:24px;background:var(--surface2);border-radius:5px;overflow:visible;margin-bottom:6px">
-        <div style="position:absolute;top:0;height:100%;left:0;width:${pricePct}%;background:rgba(74,222,128,.12);border-radius:5px;border-right:2.5px solid #4ade80"></div>
-        <div style="position:absolute;top:-6px;bottom:-6px;left:${t1Pct}%;width:2px;background:#4ade80"></div>
-        <div style="position:absolute;top:-6px;bottom:-6px;left:${t2Pct}%;width:2px;background:#c9a84c"></div>
-        <div style="position:absolute;top:-6px;bottom:-6px;left:${t3Pct}%;width:2px;background:#f87171"></div>
-        <div style="position:absolute;top:-17px;left:${Math.max(t1Pct-1,0)}%;font-size:8px;color:#4ade80;font-family:'DM Mono',monospace">T1</div>
-        <div style="position:absolute;top:-17px;left:${Math.max(t2Pct-1,0)}%;font-size:8px;color:#c9a84c;font-family:'DM Mono',monospace">T2</div>
-        <div style="position:absolute;top:-17px;left:${Math.max(t3Pct-2,0)}%;font-size:8px;color:#f87171;font-family:'DM Mono',monospace">T3</div>
-      </div>
-      <!-- Buy price row -->
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:14px">
-        <div style="background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.2);border-radius:7px;padding:7px 6px;text-align:center">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#4ade80;margin-bottom:2px">T1 −5%</div>
-          <div style="font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);font-weight:500">${price ? cur+t1 : '—'}</div>
-        </div>
-        <div style="background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);border-radius:7px;padding:7px 6px;text-align:center">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#c9a84c;margin-bottom:2px">T2 −10%</div>
-          <div style="font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);font-weight:500">${price ? cur+t2 : '—'}</div>
-        </div>
-        <div style="background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.2);border-radius:7px;padding:7px 6px;text-align:center">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#f87171;margin-bottom:2px">T3 −15%</div>
-          <div style="font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);font-weight:500">${price ? cur+t3 : '—'}</div>
-        </div>
-      </div>
-    `;
-    grid.appendChild(el);
-  });
-
-  const t = new Date().toLocaleTimeString('en-SG', {hour:'2-digit',minute:'2-digit'});
-  timeEl.textContent = `● Live prices · ${t} · auto-refresh every 5 min`;
-}
-
-// ── Charts initialised lazily via showTab above ──
-</script>
+<script src="/ramsesport/dashboard-v2.js"></script>
 </body>
 </html>
