@@ -294,11 +294,11 @@ function checkPin() {
 <!-- HERO -->
 <div class="hero">
   <div class="hero-label">Investment Portfolio — Total Value</div>
-  <div class="hero-value"><span>SGD </span><span id="hero-portfolio-val">1,854,999</span></div>
-  <div class="hero-sub">Invested SGD 1,352,029 · Profit +SGD 670,875 (+49.6%) · IRR 25.59%</div>
+  <div class="hero-value"><span>SGD </span><span id="hero-portfolio-val">—</span></div>
+  <div class="hero-sub" id="hero-sub">Loading verified 20 Sep 2026 snapshot…</div>
   <div class="hero-grid">
-    <div class="hero-pill"><span class="val" id="hero-passive">8,091</span><span class="lbl">Passive Inc/mo</span></div>
-    <div class="hero-pill"><span class="val">5.23%</span><span class="lbl">Yield (mkt)</span></div>
+    <div class="hero-pill"><span class="val" id="hero-passive">—</span><span class="lbl">Dividends/mo*</span></div>
+    <div class="hero-pill"><span class="val" id="hero-yield">—</span><span class="lbl">Yield*</span></div>
     <div class="hero-pill"><span class="val" id="hero-updated">--</span><span class="lbl">Prices updated</span></div>
   </div>
 </div>
@@ -1406,6 +1406,29 @@ function priceRowHTML(label, accts, tagBg, tagCol, tag, priceStr, pctStr, pctCol
   </div>`;
 }
 
+let VERIFIED_PORTFOLIO = null;
+
+async function loadVerifiedPortfolio() {
+  try {
+    const r = await fetch('/ramsesport/portfolio-data.json?t=' + Date.now(), { cache:'no-cache' });
+    if (!r.ok) return null;
+    VERIFIED_PORTFOLIO = await r.json();
+    const sgdAccounts = VERIFIED_PORTFOLIO.accounts.filter(a => a.currency === 'SGD');
+    const sgdValue = sgdAccounts.reduce((x,a)=>x+a.current_value,0);
+    const sgdCost = sgdAccounts.reduce((x,a)=>x+a.cost_basis,0);
+    const sgdDiv = sgdAccounts.reduce((x,a)=>x+a.dividends,0);
+    const valEl=document.getElementById('hero-portfolio-val');
+    const subEl=document.getElementById('hero-sub');
+    const passEl=document.getElementById('hero-passive');
+    const yieldEl=document.getElementById('hero-yield');
+    if(valEl) valEl.textContent=sgdValue.toLocaleString('en-SG',{maximumFractionDigits:0});
+    if(subEl) subEl.textContent='Verified SGD sleeves · Cost SGD '+sgdCost.toLocaleString('en-SG',{maximumFractionDigits:0})+' · DBSV GBP sleeve shown separately';
+    if(passEl) passEl.textContent=(sgdDiv/12).toLocaleString('en-SG',{maximumFractionDigits:0});
+    if(yieldEl) yieldEl.textContent=(sgdDiv/sgdValue*100).toFixed(2)+'%';
+    return VERIFIED_PORTFOLIO;
+  } catch(e) { console.warn('portfolio-data.json unavailable:',e); return null; }
+}
+
 // Main loader
 async function loadLivePrices() {
   const grid    = document.getElementById('live-prices-grid');
@@ -1469,13 +1492,14 @@ async function loadLivePrices() {
   }
   grid.innerHTML = html;
 
-  // ── Dynamic US-situs monitor: direct US-incorporated holdings only ───────
-  const usSitusHoldings = [
-    { sym:'NVDA', shares:56 },
-    { sym:'MSFT', shares:13 },
-    { sym:'GOOG', shares:12 },
-    { sym:'ADX',  shares:1076 },
-  ];
+  // ── Dynamic US-situs monitor from verified portfolio-data.json ───────────
+  if (!VERIFIED_PORTFOLIO) await loadVerifiedPortfolio();
+  const marketSymbol = sym => ({ADX:'ADX',GOOG:'GOOG',MSFT:'MSFT',NVDA:'NVDA'})[sym] || sym;
+  const usSitusHoldings = VERIFIED_PORTFOLIO
+    ? VERIFIED_PORTFOLIO.positions
+        .filter(p => VERIFIED_PORTFOLIO.us_situs.positions.includes(p.symbol))
+        .map(p => ({sym:marketSymbol(p.symbol), shares:p.quantity}))
+    : [];
   const usSitusComplete = usSitusHoldings.every(h => priceMap[h.sym]?.price != null);
   const usSitusValue = usSitusComplete
     ? usSitusHoldings.reduce((sum,h) => sum + h.shares * priceMap[h.sym].price, 0)
@@ -1527,7 +1551,7 @@ async function loadLivePrices() {
     statusEl.style.color = 'var(--red)';
   }
 }
-loadLivePrices();
+loadVerifiedPortfolio().then(loadLivePrices);
 setInterval(loadLivePrices, 5 * 60 * 1000);
 Chart.defaults.color = '#718096';
 Chart.defaults.font.family = "'DM Mono', monospace";
