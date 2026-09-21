@@ -322,71 +322,30 @@ function checkPin() {
 <!-- TAB: INCOME -->
 <div id="tab-income" class="tab-content active">
   <div class="section">
-    <div class="section-title">Passive Investment Income</div>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-      <span style="font-size:12px;color:var(--text-dim)">Monthly Passive Income</span>
-      <span class="mono" style="font-size:16px;color:var(--text-bright)">SGD <span id="inc-monthly">8,091</span></span>
-    </div>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-      <span style="font-size:11px;color:var(--text-dim)">Annual Passive Income</span>
-      <span class="mono" style="font-size:12px;color:var(--gold)">SGD <span id="inc-annual">97,086</span></span>
-    </div>
-    <div class="progress-track"><div class="progress-fill" style="width:40.5%"></div></div>
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <span style="font-size:9px;color:var(--text-dim);font-family:'DM Mono',monospace">TARGET: SGD 20,000/mo passive</span>
-      <span class="mono" style="font-size:10px;color:var(--gold)">40.5%</span>
-    </div>
-    <div class="card" style="margin-top:10px;background:rgba(201,168,76,.05);border-color:var(--gold-dim)">
-      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-bottom:6px;letter-spacing:1px">SNOWBALL ANALYTICS — Total Net Worth (Income &amp; Growth)</div>
-      <div class="row-kv"><span class="k">Portfolio value</span><span class="v">SGD 1,854,999</span></div>
-      <div class="row-kv"><span class="k">Amount invested</span><span class="v">SGD 1,352,029</span></div>
-      <div class="row-kv"><span class="k">Total profit</span><span class="v green">+SGD 670,875 (+49.6%)</span></div>
-      <div class="row-kv"><span class="k">IRR (all-time)</span><span class="v green">25.59%</span></div>
-      <div class="row-kv"><span class="k">IRR (current holdings)</span><span class="v green">23.37%</span></div>
-      <div class="row-kv"><span class="k">Passive income yield (mkt / cost)</span><span class="v green">5.23% / 7.18%</span></div>
-      <div class="row-kv"><span class="k">Annual passive income</span><span class="v gold">SGD 97,086</span></div>
-      <div style="margin-top:6px;font-size:9px;color:var(--text-dim)">Pulled directly from your live Snowball public portfolio link, cross-checked against the 6 individual account exports (which sum to the aggregate to the dollar: SGD 1,854,998.73). New this update: WINC top-up (+1,000 shares, Cash FSM), CNDX — iShares NASDAQ 100 UCITS ETF (new, Growth), NTDU — NTT DC REIT USD (new, Cash GBP). Also corrected a transcription error from the last update: SRS/D05 cost basis was entered as 81,840 but should have been 51,840 — fixed here (confirmed via account-total cross-check).</div>
+    <div class="section-title">Verified Portfolio Snapshot</div>
+    <div class="card">
+      <div class="row-kv"><span class="k">Snapshot date</span><span class="v" id="summary-date">—</span></div>
+      <div class="row-kv"><span class="k">SGD sleeves — current value</span><span class="v gold" id="summary-sgd-value">—</span></div>
+      <div class="row-kv"><span class="k">SGD sleeves — cost basis</span><span class="v" id="summary-sgd-cost">—</span></div>
+      <div class="row-kv"><span class="k">SGD sleeves — capital gain</span><span class="v green" id="summary-sgd-gain">—</span></div>
+      <div class="row-kv"><span class="k">DBSV Income — current value</span><span class="v gold" id="summary-gbp-value">—</span></div>
+      <div class="row-kv"><span class="k">DBSV Income — cost basis</span><span class="v" id="summary-gbp-cost">—</span></div>
+      <div class="row-kv"><span class="k">Positions / accounts</span><span class="v" id="summary-counts">—</span></div>
+      <div style="margin-top:7px;font-size:9px;color:var(--text-dim);line-height:1.6">Values above are transcribed from the portfolio screenshots supplied on 21 Sep 2026. GBP is kept separate rather than converted with an assumed FX rate. No forward-income or IRR figure is inferred from these screenshots.</div>
     </div>
   </div>
 
-  <!-- LIVE PRICES — ALL HOLDINGS -->
   <div class="section">
     <div class="section-title">Live Prices — All Holdings <span id="price-status" style="font-size:9px;color:var(--text-dim);margin-left:4px;font-family:'DM Mono',monospace;letter-spacing:0">fetching…</span></div>
     <div id="live-prices-grid"></div>
     <div style="margin-top:8px;font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);text-align:right">
-      Yahoo Finance (exchange) · Morningstar (funds) · auto-refresh 5 min · <span id="price-time">--</span>
+      prices.json · auto-refresh 5 min · <span id="price-time">--</span>
     </div>
   </div>
 
   <div class="section">
-    <div class="section-title">Passive Income by Account</div>
-    <div class="income-source-row">
-      <div><div class="source-name">Cash SGD</div><div class="source-type">14 holdings · DBS, OCBC, NetLink, FCT…</div></div>
-      <div class="source-income">~21,227</div>
-    </div>
-    <div class="income-source-row">
-      <div><div class="source-name">Cash GBP</div><div class="source-type">7 holdings · TFIF, HSBA, ICG, HFEL, MNG, LGEN, NTDU</div></div>
-      <div class="source-income">~8,023</div>
-    </div>
-    <div class="income-source-row">
-      <div><div class="source-name">SRS</div><div class="source-type">15 holdings · Singtel, NetLink, DBS, OCBC…</div></div>
-      <div class="source-income">~23,322</div>
-    </div>
-    <div class="income-source-row">
-      <div><div class="source-name">CPFIS</div><div class="source-type">11 holdings · Keppel DC, DBS, OCBC…</div></div>
-      <div class="source-income">~24,290</div>
-    </div>
-    <div class="income-source-row">
-      <div><div class="source-name">Cash FSM</div><div class="source-type">PHP, JEPG, PIMCO, ADX, JEPQ, WINC</div></div>
-      <div class="source-income">~20,113</div>
-    </div>
-    <div class="income-source-row">
-      <div><div class="source-name">Growth</div><div class="source-type">NVDA, MSFT, GOOG, VWRP, SMH, CNDX — capital appreciation</div></div>
-      <div class="source-income">~113</div>
-    </div>
-    <div style="text-align:right;font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);margin-top:6px">
-      * Per-account figures are my earlier yield-based estimates rescaled to sum to Snowball's real total (SGD 97,086.39/yr, confirmed live) — not independently verified per account, since Snowball's own breakdown is per-holding, not per-account.
-    </div>
+    <div class="section-title">Accounts</div>
+    <div id="verified-account-summary"></div>
   </div>
 </div>
 
@@ -1125,46 +1084,27 @@ function checkPin() {
 <!-- TAB: BUY LINES -->
 <div id="tab-buylines" class="tab-content">
   <div class="section">
-    <div class="section-title">Buy Line Monitor</div>
+    <div class="section-title">Deployment Watchlist</div>
     <div class="card" style="background:rgba(201,168,76,.04);border-color:var(--gold-dim);margin-bottom:10px">
-      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-bottom:4px">HOW TO READ</div>
-      <div style="font-size:10px;color:var(--text-dim);line-height:1.6">Green bar = current price. Gold line = T1 buy trigger. Red line = T2/T3 trigger. If bar is below a line → deploy that tranche.</div>
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-bottom:4px">TARGET DISCIPLINE</div>
+      <div style="font-size:10px;color:var(--text-dim);line-height:1.6">No fixed buy targets are currently verified. This monitor therefore shows current price and daily move only; it does not manufacture moving −5%/−10%/−15% triggers or a BUY/HOLD signal.</div>
     </div>
-    <div id="buylines-grid" style="display:flex;flex-direction:column;gap:10px"></div>
+    <div id="buylines-grid" style="display:flex;flex-direction:column;gap:8px"></div>
     <div style="text-align:right;font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);margin-top:8px" id="buylines-time">Fetching prices…</div>
-  </div>
-  <div class="section">
-    <div class="section-title">Tranche Summary</div>
-    <div class="card" style="background:rgba(74,222,128,.05);border-color:var(--green-dim)">
-      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--green);margin-bottom:6px">TRANCHE 1 — ACTIVE · −5% from today's price</div>
-      <div style="font-size:13px;color:var(--text-dim);line-height:1.9">JEPQ.L · WINC.L ✓ · ParkwayLife · NetLink · <span style="color:var(--text-dim);text-decoration:line-through">M44U stood down</span> · <span style="color:#4ade80">CSPX.L (S&amp;P 500)</span></div>
-    </div>
-    <div class="card" style="margin-top:6px;background:rgba(201,168,76,.05);border-color:var(--gold-dim)">
-      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);margin-bottom:6px">TRANCHE 2 — WAITING · −10% from today's price</div>
-      <div style="font-size:13px;color:var(--text-dim);line-height:1.9">DBS · OCBC · Keppel DC · FCT · <span style="color:#4ade80">CSPX.L</span> top-up</div>
-    </div>
-    <div class="card" style="margin-top:6px;background:rgba(74,85,104,.2);border-color:var(--muted)">
-      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim);margin-bottom:6px">TRANCHE 3 — STANDBY · −15% from today's price</div>
-      <div style="font-size:13px;color:var(--text-dim);line-height:1.9">DBS · OCBC · Sembcorp · JEPQ.L · <span style="color:#4ade80">CSPX.L</span> add</div>
-    </div>
-    <div class="card" style="margin-top:6px;background:rgba(248,113,113,.04);border-color:var(--red-dim)">
-      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--red);margin-bottom:4px">DO NOT ADD — REGARDLESS OF PRICE</div>
-      <div style="font-size:10px;color:var(--text-dim)">Prime US REIT (OXMU) · CapitaLand China Trust (AU8U)</div>
-    </div>
   </div>
 </div>
 
 <!-- SHARE CARD -->
 <div class="share-section">
   <div class="share-card">
-    <div class="share-title">Portfolio Snapshot</div>
+    <div class="share-title">Verified Portfolio Snapshot</div>
     <div class="share-metrics">
-      <div class="share-metric"><div class="val">1,854,999</div><div class="lbl">Portfolio (SGD)</div></div>
-      <div class="share-metric"><div class="val">8,091</div><div class="lbl">Passive Inc/mo</div></div>
-      <div class="share-metric"><div class="val">+49.6%</div><div class="lbl">Total Profit</div></div>
-      <div class="share-metric"><div class="val">25.59%</div><div class="lbl">IRR</div></div>
+      <div class="share-metric"><div class="val" id="share-sgd">—</div><div class="lbl">SGD Sleeves</div></div>
+      <div class="share-metric"><div class="val" id="share-gbp">—</div><div class="lbl">DBSV GBP</div></div>
+      <div class="share-metric"><div class="val" id="share-positions">—</div><div class="lbl">Positions</div></div>
+      <div class="share-metric"><div class="val" id="share-accounts">—</div><div class="lbl">Accounts</div></div>
     </div>
-    <button class="share-btn" onclick="showSnapshot()">📤 Generate WhatsApp Card</button>
+    <button class="share-btn" onclick="showSnapshot()">📤 View Snapshot Card</button>
   </div>
 </div>
 
@@ -1174,16 +1114,12 @@ function checkPin() {
     <div class="snap-logo">Ramsesport</div>
     <div class="snap-date" id="snap-date"></div>
     <div class="snap-grid">
-      <div class="snap-box"><div class="sv">SGD 1,854,999</div><div class="sl">Portfolio Value</div></div>
-      <div class="snap-box"><div class="sv">SGD 8,091/mo</div><div class="sl">Passive Income</div></div>
-      <div class="snap-box"><div class="sv">+49.6%</div><div class="sl">Total Profit</div></div>
-      <div class="snap-box"><div class="sv">25.59%</div><div class="sl">IRR (all-time)</div></div>
+      <div class="snap-box"><div class="sv" id="snap-sgd">—</div><div class="sl">SGD Sleeves</div></div>
+      <div class="snap-box"><div class="sv" id="snap-gbp">—</div><div class="sl">DBSV Income</div></div>
+      <div class="snap-box"><div class="sv" id="snap-positions">—</div><div class="sl">Positions</div></div>
+      <div class="snap-box"><div class="sv" id="snap-accounts">—</div><div class="sl">Accounts</div></div>
     </div>
-    <div class="snap-grid">
-      <div class="snap-box"><div class="sv">5.23%</div><div class="sl">Passive Yield</div></div>
-      <div class="snap-box"><div class="sv">SGD 97,086</div><div class="sl">Annual Income</div></div>
-    </div>
-    <div class="snap-footer">Source: Snowball · Screenshot &amp; share via WhatsApp<br>Passive income target SGD 20,000/mo · Progress: 40.5% · As at 01 Aug 2026</div>
+    <div class="snap-footer" id="snap-footer">Verified portfolio snapshot</div>
     <button class="snap-close" onclick="hideSnapshot()">Close</button>
   </div>
 </div>
