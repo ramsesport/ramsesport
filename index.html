@@ -1474,6 +1474,7 @@ async function loadLivePrices() {
     { sym:'NVDA', shares:56 },
     { sym:'MSFT', shares:13 },
     { sym:'GOOG', shares:12 },
+    { sym:'ADX',  shares:1076 },
   ];
   const usSitusComplete = usSitusHoldings.every(h => priceMap[h.sym]?.price != null);
   const usSitusValue = usSitusComplete
