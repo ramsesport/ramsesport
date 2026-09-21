@@ -1254,7 +1254,7 @@ const PRICE_GROUPS = [
       { sym:'9A4U.SI', label:'ESR-REIT',          cur:'SGD', accts:'Cash SGD · CPFIS · SRS' },
       { sym:'C52.SI',  label:'ComfortDelGro',     cur:'SGD', accts:'Cash SGD · CPFIS' },
       { sym:'MXNU.SI', label:'Elite Comm REIT',   cur:'SGD', accts:'Cash SGD' },
-      { sym:'DCRU.SI', label:'Digital Core REIT', cur:'SGD', accts:'Cash SGD · SRS' },
+      { sym:'DCRU.SI', label:'Digital Core REIT', cur:'USD', accts:'Cash SGD · SRS' },
       { sym:'BUOU.SI', label:'Frasers L&C Trust', cur:'SGD', accts:'CPFIS' },
       { sym:'P40U.SI', label:'Starhill REIT',     cur:'SGD', accts:'CPFIS' },
       { sym:'P9D.SI',  label:'Civmec',            cur:'SGD', accts:'CPFIS' },
@@ -1268,7 +1268,7 @@ const PRICE_GROUPS = [
       { sym:'QL3.SI',  label:'iShares SE Asia',   cur:'SGD', accts:'SRS' },
       { sym:'A7RU.SI', label:'Keppel Infra Trust',cur:'SGD', accts:'SRS' },
       { sym:'Y92.SI',  label:'Thai Beverage',     cur:'SGD', accts:'SRS' },
-      { sym:'OXMU.SI', label:'Prime US REIT ⚠',  cur:'SGD', accts:'Cash SGD' },
+      { sym:'OXMU.SI', label:'Prime US REIT ⚠',  cur:'USD', accts:'Cash SGD' },
       { sym:'NTDU.SI', label:'NTT DC REIT',       cur:'USD', accts:'Cash GBP' },
     ]
   },
@@ -1289,10 +1289,10 @@ const PRICE_GROUPS = [
     tag: 'UCITS', tagBg: 'rgba(96,165,250,.12)', tagCol: '#60a5fa',
     tickers: [
       { sym:'PHP.L',  label:'Primary Health Prop',cur:'GBX', accts:'Cash FSM' },
-      { sym:'JEPG.L', label:'JPM Global Eq Prem', cur:'GBX', accts:'Cash FSM' },
-      { sym:'JEPQ.L', label:'JPM Nasdaq Eq Prem', cur:'GBX', accts:'Cash FSM' },
-      { sym:'WINC.L', label:'iShares World HI',   cur:'GBX', accts:'Cash FSM' },
-      { sym:'VWRP.L', label:'Vanguard All-World',  cur:'GBX', accts:'Growth' },
+      { sym:'JEPG.L', label:'JPM Global Eq Prem', cur:'USD', accts:'Cash FSM' },
+      { sym:'JEPQ.L', label:'JPM Nasdaq Eq Prem', cur:'USD', accts:'Cash FSM' },
+      { sym:'WINC.L', label:'iShares World HI',   cur:'GBP', accts:'Cash FSM' },
+      { sym:'VWRP.L', label:'Vanguard All-World',  cur:'GBP', accts:'Growth' },
       { sym:'SMH.L',  label:'VanEck Semiconductor UCITS', cur:'USD', accts:'Growth' },
       { sym:'CNDX.L', label:'iShares NASDAQ 100 UCITS',   cur:'USD', accts:'Growth' },
     ]
@@ -1438,7 +1438,7 @@ const ACCOUNT_TABS = {
 };
 const LSE_SYMBOLS = new Set(['HFEL','HSBA','ICG','LGEN','MNG','TFIF','PHP','JEPG','JEPQ','WINC','VWRP','SMH','CNDX']);
 const US_SYMBOLS = new Set(['ADX','GOOG','MSFT','NVDA']);
-const USD_QUOTED = new Set(['DCRU','NTDU','SMH','CNDX','ADX','GOOG','MSFT','NVDA','IE000YTNTUN2']);
+const USD_QUOTED = new Set(['DCRU','NTDU','OXMU','JEPG','JEPQ','SMH','CNDX','ADX','GOOG','MSFT','NVDA','IE000YTNTUN2']);
 function marketSymbolFor(symbol) {
   if (US_SYMBOLS.has(symbol) || symbol.startsWith('0P') || symbol.startsWith('IE')) return symbol;
   if (LSE_SYMBOLS.has(symbol)) return symbol + '.L';
@@ -1446,6 +1446,7 @@ function marketSymbolFor(symbol) {
 }
 function quoteCurrencyFor(symbol) {
   if (USD_QUOTED.has(symbol)) return 'USD';
+  if (symbol === 'WINC' || symbol === 'VWRP') return 'GBP';
   if (LSE_SYMBOLS.has(symbol)) return 'GBX';
   return 'SGD';
 }
@@ -1631,7 +1632,7 @@ const BUY_LINES = [
   { sym:'C38U.SI', label:'CICT',            cur:'SGD' },
   { sym:'NVDA',    label:'NVDA',            cur:'USD' },
   { sym:'MSFT',    label:'MSFT',            cur:'USD' },
-  { sym:'JEPQ.L',  label:'JEPQ.L (UCITS)',   cur:'GBX' },
+  { sym:'JEPQ.L',  label:'JEPQ.L (UCITS)',   cur:'USD' },
   { sym:'CSPX.L',  label:'CSPX (S&P 500)', cur:'USD' },
   { sym:'HSBA.L',  label:'HSBC',            cur:'GBP' },
   { sym:'LGEN.L',  label:'L&G',             cur:'GBP' },
