@@ -1533,7 +1533,13 @@ Chart.defaults.color = '#718096';
 Chart.defaults.font.family = "'DM Mono', monospace";
 Chart.defaults.font.size = 10;
 
-// ── PORTFOLIO SNAPSHOT DATA (update when you send new Snowball screenshots) ──
+// ── PORTFOLIO SNAPSHOT DATA ────────────────────────────────────────────────
+// Legacy display data remains below until every position has been reconciled.
+// New verified facts are being migrated into portfolio-data.json; do not add
+// new portfolio facts here unless they are also verified and represented there.
+// Estimated historical observations are retained only as legacy source data and
+// are filtered out of charts unless explicitly marked verified.
+
 const PORTFOLIO_HISTORY = [
   { label: 'Jan 25', total: 1415000, income: 6800 }, // estimated
   { label: 'Feb 25', total: 1445000, income: 6900 }, // estimated
