@@ -114,8 +114,19 @@
       if (tab) tab.innerHTML = '<div class="section"><div class="card"><div style="font-family:DM Mono,monospace;font-size:11px;color:var(--text-dim)">Loading verified account data…</div></div></div>';
     });
 
+    var grid = document.querySelector('.hero-grid');
+    if (grid) grid.innerHTML = '<div class="hero-pill"><span class="val">—</span><span class="lbl">Positions</span></div><div class="hero-pill"><span class="val">—</span><span class="lbl">Accounts</span></div><div class="hero-pill"><span class="val">—</span><span class="lbl">Prices updated</span></div>';
+
     var income = document.getElementById('tab-income');
     if (income) income.innerHTML = '<div class="section"><div class="card"><div style="font-family:DM Mono,monospace;font-size:11px;color:var(--text-dim)">Loading verified portfolio data…</div></div></div>';
+
+    ['trends','buylines'].forEach(function (id) {
+      var tab = document.getElementById('tab-' + id);
+      if (tab) tab.innerHTML = '<div class="section"><div class="card"><div style="font-family:DM Mono,monospace;font-size:11px;color:var(--text-dim)">Loading verified dashboard data…</div></div></div>';
+    });
+
+    var share = document.querySelector('.share-section');
+    if (share) share.innerHTML = '<div class="share-card"><div class="share-title">Verified Portfolio Snapshot</div><div style="font-family:DM Mono,monospace;font-size:11px;color:var(--text-dim)">Loading…</div></div>';
   }
 
   function updateTabLabels() {
@@ -349,6 +360,18 @@
     state.prices = j.prices || {};
     state.pricesUpdated = j.updated || null;
   }
+
+  window.showSnapshot = function () {
+    var date = document.getElementById('snap-date');
+    if (date && state.portfolio) date.textContent = state.portfolio.as_of;
+    var overlay = document.getElementById('snapshot-overlay');
+    if (overlay) overlay.classList.add('show');
+  };
+
+  window.hideSnapshot = function () {
+    var overlay = document.getElementById('snapshot-overlay');
+    if (overlay) overlay.classList.remove('show');
+  };
 
   async function start() {
     maskLegacyPortfolio();
